@@ -15,7 +15,12 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   //MARK: Variables
 
-  List<String> get platformKeys => gamePlatforms[selectedGameKey] ?? [];
+  List<String> get platformKeys {
+    if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
+      return ['playstation']; // Force PlayStation only
+    }
+    return gamePlatforms[selectedGameKey] ?? [];
+  }
 
   Map<String, String> get localizedPlatforms => {
     'playstation': AppLocalizations.of(context)!.playstation,
@@ -81,12 +86,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('selectedPlatform', platformKey);
   }
 
+  late List<String> allowedGames = [];
+
+  Future<void> _loadSelectedGames() async {
+    final prefs = await SharedPreferences.getInstance();
+    allowedGames = prefs.getStringList('selectedGames') ?? gameKeys;
+
+    setState(() {
+      if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
+        selectedGameKey = 'libertycity';
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadSavedPlatform();
       _loadSelectedLangCode();
+
+      _loadSelectedGames();
     });
   }
 
@@ -104,6 +124,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     String defaultPlatform = 'xbox';
 
+    if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
+      defaultPlatform = 'playstation';
+    }
+
     if (saved == null || !platformKeys.contains(saved)) {
       setState(() {
         selectedPlatformKey = defaultPlatform;
@@ -117,6 +141,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showPlatformDropdown(BuildContext context) async {
+    if (platformKeys.length == 1) {
+      // Do nothing if only one option
+      return;
+    }
     final RenderBox renderBox =
         _trailingKey.currentContext!.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
