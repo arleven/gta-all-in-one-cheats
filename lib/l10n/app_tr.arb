@@ -1,0 +1,66 @@
+{
+    "@@locale": "tr",
+    "howWeDoingMessage": "Şu ana kadar bu uygulamayı beğendiniz mi?",
+    "yesGreat": "Evet, harika",
+    "noCouldBeBetter": "Hayır, daha iyi olabilir",
+    "reviewTitle": "Küçük bir ricamız var 🙏",
+    "reviewMessage": "Sevgili kullanıcı,\n\nBiz, tüm değerli kullanıcılarımız için harika bir uygulama geliştirmeye çalışan küçük bir ekibiz ♥️.\n\nBüyümemize yardımcı olmak için uygulama mağazasında dürüst bir yorum bırakır mısınız? Bu, harika güncellemeler sunmamıza ve uygulamayı reklamsız tutmamıza yardımcı olur!",
+    "reviewAccept": "Elbette, yorum yaparım ☺️",
+    "reviewDecline": "Hayır, üzgünüm",
+    "feedbackTitle": "Geri bildiriminiz için teşekkürler!",
+    "feedbackMessage": "Gelişmemize yardımcı olmak için bize geri bildirim gönderir misiniz? 😊",
+    "sendFeedback": "Geri Bildirim Gönder",
+    "close": "Kapat",
+  
+    "searchHint": "Herhangi bir hile ara",
+    "cancel": "İptal",
+    "favoritesTitle": "❤️ Favoriler",
+    "loading": "Yükleniyor...",
+    "sectionIconLabel": "Bölüm",
+  
+    "userSettings": "Kullanıcı Ayarları",
+    "platformTitle": "Platform",
+    "platformSubtitle": "Platformunuzu seçin.",
+    "contactSection": "İletişim",
+  "contactMeTitle": "Bizimle İletişime Geçin",
+"contactMeSubtitle": "Sorularınız veya destek için bizimle iletişime geçin.",
+
+    "couldNotOpenMailApp": "Posta uygulaması açılamadı",
+    "informationSection": "Bilgi",
+    "privacyPolicyTitle": "Gizlilik Politikası",
+    "privacyPolicySubtitle": "Uygulamanın gizlilik uygulamaları hakkında daha fazla bilgi edinin.",
+    "termsOfServiceTitle": "Hizmet Şartları",
+    "termsOfServiceSubtitle": "Kurallarımızı öğrenin.",
+    "languageSection": "Dil",
+    "changeLanguageTitle": "Dili Değiştir",
+    "changeLanguageSubtitle": "Dili değiştirin.",
+    "languageChangedMessage": "Dil {language} olarak değiştirildi",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Türkçe"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Ayarlar",
+
+
+
+    "cheatHelpTitle": "iPhone hileleri nasıl kullanılır?",
+    "cheatStep1": "Ekranın sol üst köşesindeki haritaya dokunarak oyunu duraklatın.",
+    "cheatStep2": "Soldaki seçeneklerden \"Ayarlar\"ı seçin.",
+    "cheatStep3": "Üstteki seçeneklerden \"Erişilebilirlik\"i seçin.",
+    "cheatStep4": "Aşağı kaydırın ve \"Hile kodu gir\" seçeneğini seçin.",
+    "cheatStep5": "Çıkan klavyeyi kullanarak kullanmak istediğiniz hile kodunu yazın.",
+    "cheatHelpNote": "Eğer Definitive Edition sürümüne sahip değilseniz, oyunda hile kodu kullanmanın tek yolu harici bir klavye bağlamaktır."
+  
+  }
+  

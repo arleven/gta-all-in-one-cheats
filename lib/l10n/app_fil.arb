@@ -1,0 +1,66 @@
+{
+    "@@locale": "fil",
+    "howWeDoingMessage": "Nagugustuhan mo ba ang app na ito sa ngayon?",
+    "yesGreat": "Oo, ang galing!",
+    "noCouldBeBetter": "Hindi, puwedeng mas pagbutihin",
+    "reviewTitle": "Isang munting pabor 🙏",
+    "reviewMessage": "Mahal naming gumagamit,\n\nKami ay isang maliit na koponan na nagsisikap gumawa ng mahusay na app para sa lahat ng aming mga mahal na user ♥️.\n\nPuwede mo ba kaming bigyan ng tapat na review sa app store para matulungan kaming lumago? Malaki ang maitutulong nito para makapagbigay kami ng magagandang update at mapanatiling walang ads ang app na ito!",
+    "reviewAccept": "Sige, magre-review ako ☺️",
+    "reviewDecline": "Hindi, pasensya na",
+    "feedbackTitle": "Salamat sa iyong opinyon!",
+    "feedbackMessage": "Puwede mo ba kaming padalhan ng feedback para mas mapaganda pa namin? 😊",
+    "sendFeedback": "Magpadala ng Feedback",
+    "close": "Isara",
+  
+    "searchHint": "Maghanap ng cheat",
+    "cancel": "Kanselahin",
+    "favoritesTitle": "❤️ Mga Paborito",
+    "loading": "Naglo-load...",
+    "sectionIconLabel": "Seksyon",
+  
+    "userSettings": "Mga Setting ng User",
+    "platformTitle": "Plataporma",
+    "platformSubtitle": "Pumili ng iyong plataporma.",
+    "contactSection": "Makipag-ugnayan",
+   "contactMeTitle": "Makipag-ugnayan sa Amin",
+"contactMeSubtitle": "Makipag-ugnayan sa amin para sa katanungan o suporta.",
+
+    "couldNotOpenMailApp": "Hindi ma-access ang mail app",
+    "informationSection": "Impormasyon",
+    "privacyPolicyTitle": "Patakaran sa Privacy",
+    "privacyPolicySubtitle": "Alamin ang tungkol sa privacy ng app.",
+    "termsOfServiceTitle": "Mga Tuntunin ng Serbisyo",
+    "termsOfServiceSubtitle": "Kilalanin ang aming mga alituntunin.",
+    "languageSection": "Wika",
+    "changeLanguageTitle": "Palitan ang Wika",
+    "changeLanguageSubtitle": "Baguhin ang mga wika.",
+  "languageChangedMessage": "Ang wika ay pinalitan sa {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Filipino"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Mga Setting",
+
+
+
+    "cheatHelpTitle": "Paano gamitin ang mga cheat sa iPhone?",
+    "cheatStep1": "I-pause ang laro sa pamamagitan ng pag-tap sa mapa sa itaas na kaliwang bahagi ng screen.",
+    "cheatStep2": "Mula sa mga pagpipilian sa kaliwa, piliin ang \"Mga Opsyon\".",
+    "cheatStep3": "Mula sa mga pagpipilian sa itaas, piliin ang \"Accessibility\".",
+    "cheatStep4": "Mag-scroll pababa at piliin ang \"Ilagay ang cheat code\".",
+    "cheatStep5": "Gamit ang keyboard na lalabas, i-type ang cheat code na gusto mong gamitin.",
+    "cheatHelpNote": "Kung wala kang Definitive Edition, ang tanging paraan para gumamit ng cheat code ay sa pamamagitan ng pagkonekta ng external keyboard sa iyong device."
+  
+  }
+  

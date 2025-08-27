@@ -1,0 +1,67 @@
+{
+    "@@locale": "pl",
+    "howWeDoingMessage": "Czy podoba Ci się ta aplikacja?",
+    "yesGreat": "Tak, jest świetna",
+    "noCouldBeBetter": "Nie, mogłaby być lepsza",
+    "reviewTitle": "Mała prośba 🙏",
+    "reviewMessage": "Drogi użytkowniku,\n\nJesteśmy małym zespołem, który stara się stworzyć świetną aplikację dla wszystkich naszych ukochanych użytkowników ♥️.\n\nCzy mógłbyś zostawić nam szczerą opinię w sklepie z aplikacjami, aby pomóc nam się rozwijać? Dzięki temu będziemy mogli dostarczać świetne aktualizacje i utrzymywać aplikację bez reklam!",
+    "reviewAccept": "Pewnie, zostawię opinię ☺️",
+    "reviewDecline": "Nie, przepraszam",
+    "feedbackTitle": "Dziękujemy za Twoją opinię!",
+    "feedbackMessage": "Czy możesz wysłać nam swoją opinię, abyśmy mogli się poprawić? 😊",
+    "sendFeedback": "Wyślij opinię",
+    "close": "Zamknij",
+  
+    "searchHint": "Wyszukaj kod",
+    "cancel": "Anuluj",
+    "favoritesTitle": "❤️ Ulubione",
+    "loading": "Ładowanie...",
+    "sectionIconLabel": "Sekcja",
+  
+    "userSettings": "Ustawienia użytkownika",
+    "platformTitle": "Platforma",
+    "platformSubtitle": "Wybierz swoją platformę.",
+    "contactSection": "Kontakt",
+   "contactMeTitle": "Skontaktuj się z nami",
+"contactMeSubtitle": "Skontaktuj się z nami w sprawie zapytań lub pomocy technicznej.",
+
+    "couldNotOpenMailApp": "Nie można otworzyć aplikacji pocztowej",
+    "informationSection": "Informacje",
+    "privacyPolicyTitle": "Polityka prywatności",
+    "privacyPolicySubtitle": "Dowiedz się więcej o polityce prywatności aplikacji.",
+    "termsOfServiceTitle": "Regulamin",
+    "termsOfServiceSubtitle": "Zapoznaj się z naszymi zasadami.",
+    "languageSection": "Język",
+    "changeLanguageTitle": "Zmień język",
+    "changeLanguageSubtitle": "Zmień język aplikacji.",
+"languageChangedMessage": "Język został zmieniony na {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Polski"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Ustawienia",
+
+
+
+
+    "cheatHelpTitle": "Jak używać cheatów na iPhone?",
+    "cheatStep1": "Wstrzymaj grę, naciskając mapę w lewym górnym rogu ekranu.",
+    "cheatStep2": "Z dostępnych opcji po lewej wybierz „Opcje”.",
+    "cheatStep3": "Z opcji na górze wybierz „Dostępność”.",
+    "cheatStep4": "Przewiń w dół i wybierz „Wprowadź kod cheat”.",
+    "cheatStep5": "Użyj wyświetlonej klawiatury, aby wpisać kod cheat, którego chcesz użyć.",
+    "cheatHelpNote": "Jeśli NIE masz Wersji Ostatecznej, jedynym sposobem na użycie cheatów w grze jest podłączenie zewnętrznej klawiatury do urządzenia."
+  
+  }
+  

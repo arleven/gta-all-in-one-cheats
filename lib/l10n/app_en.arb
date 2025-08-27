@@ -1,0 +1,72 @@
+{
+    "@@locale": "en",
+    "howWeDoingMessage": "Are you liking this app so far?",
+    "yesGreat": "Yes, it's great",
+    "noCouldBeBetter": "No, it could be better",
+    "reviewTitle": "A small favor 🙏",
+    "reviewMessage": "Dear beloved user,\n\nWe are a small team trying to build a great app for all our beloved users ♥️.\n\nWould you mind leaving us an honest review on the app store to help us grow? It will help us bring you awesome updates and keep this app ad free!",
+    "reviewAccept": "Sure, I'll review ☺️",
+    "reviewDecline": "No, sorry",
+    "feedbackTitle": "Thanks for letting us know!",
+    "feedbackMessage": "Would you mind sending us feedback to help us improve? 😊",
+    "sendFeedback": "Send Feedback",
+    "close": "Close",
+
+
+
+    "searchHint": "Search any cheat",
+    "cancel": "Cancel",
+    "favoritesTitle": "❤️ Favorites",
+    "loading": "Loading...",
+    "sectionIconLabel": "Section",
+
+
+
+    "userSettings": "User Settings",
+    "platformTitle": "Platform",
+    "platformSubtitle": "Choose your platform.",
+    "contactSection": "Contact",
+    "contactMeTitle": "Contact Us",
+    "contactMeSubtitle": "Get in touch with us for inquiries or support.",
+    "couldNotOpenMailApp": "Could not open mail app",
+    "informationSection": "Information",
+    "privacyPolicyTitle": "Privacy Policy",
+    "privacyPolicySubtitle": "Learn more about the app's privacy practices.",
+    "termsOfServiceTitle": "Terms Of Service",
+    "termsOfServiceSubtitle": "Familiarize yourself with our guidelines.",
+    "languageSection": "Language",
+    "changeLanguageTitle": "Change Language",
+    "changeLanguageSubtitle": "Change Languages.",
+   "languageChangedMessage": "Language changed to {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "English"
+    }
+  }
+},
+
+
+
+
+
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Settings",
+
+
+
+  "cheatHelpTitle": "How to use iPhone cheats?",
+  "cheatStep1": "Pause the game by pressing on the map at the top-left of the screen.",
+  "cheatStep2": "From the choices on the left, select \"Options\".",
+  "cheatStep3": "From the choices at the top, select \"Accessibility\".",
+  "cheatStep4": "Scroll down and select \"Enter cheat code\".",
+  "cheatStep5": "Using the keyboard that pops up, type in the cheat code you want to use.",
+  "cheatHelpNote": "If you do NOT have the Definitive Edition, the only way to use cheat codes in the game is by plugging an external keyboard into your device."
+   
+  }
+  

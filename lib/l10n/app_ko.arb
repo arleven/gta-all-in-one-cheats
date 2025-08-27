@@ -1,0 +1,66 @@
+{
+    "@@locale": "ko",
+    "howWeDoingMessage": "지금까지 이 앱이 마음에 드시나요?",
+    "yesGreat": "네, 정말 좋아요",
+    "noCouldBeBetter": "아니요, 더 나아질 수 있어요",
+    "reviewTitle": "작은 부탁 🙏",
+    "reviewMessage": "소중한 사용자님께,\n\n우리는 모든 사용자분들을 위해 멋진 앱을 만들기 위해 노력하는 소규모 팀입니다 ♥️.\n\n앱 스토어에 솔직한 리뷰를 남겨 저희가 성장할 수 있도록 도와주시겠어요? 여러분의 도움이 있다면 멋진 업데이트를 제공하고 광고 없이 앱을 유지할 수 있습니다!",
+    "reviewAccept": "좋아요, 리뷰할게요 ☺️",
+    "reviewDecline": "죄송해요, 안 할래요",
+    "feedbackTitle": "알려주셔서 감사합니다!",
+    "feedbackMessage": "더 나은 앱을 만들 수 있도록 피드백을 보내주시겠어요? 😊",
+    "sendFeedback": "피드백 보내기",
+    "close": "닫기",
+  
+    "searchHint": "치트 검색",
+    "cancel": "취소",
+    "favoritesTitle": "❤️ 즐겨찾기",
+    "loading": "로딩 중...",
+    "sectionIconLabel": "섹션",
+  
+    "userSettings": "사용자 설정",
+    "platformTitle": "플랫폼",
+    "platformSubtitle": "사용 중인 플랫폼을 선택하세요.",
+    "contactSection": "문의",
+   "contactMeTitle": "문의하기",
+"contactMeSubtitle": "문의나 지원이 필요하시면 저희에게 연락주세요.",
+
+    "couldNotOpenMailApp": "메일 앱을 열 수 없습니다",
+    "informationSection": "정보",
+    "privacyPolicyTitle": "개인정보 처리방침",
+    "privacyPolicySubtitle": "앱의 개인정보 보호 정책에 대해 알아보세요.",
+    "termsOfServiceTitle": "서비스 이용약관",
+    "termsOfServiceSubtitle": "저희의 가이드라인을 확인하세요.",
+    "languageSection": "언어",
+    "changeLanguageTitle": "언어 변경",
+    "changeLanguageSubtitle": "언어를 변경하세요.",
+  "languageChangedMessage": "언어가 {language}(으)로 변경되었습니다",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "한국어"
+    }
+  }
+},
+
+  
+    "playstation": "플레이스테이션",
+    "pc": "PC",
+    "xbox": "엑스박스",
+    "iphone": "아이폰",
+    "settings": "설정",
+
+
+
+    "cheatHelpTitle": "iPhone 치트 사용하는 방법?",
+  "cheatStep1": "화면 왼쪽 상단의 지도를 눌러 게임을 일시 정지합니다.",
+  "cheatStep2": "왼쪽에서 '옵션'을 선택합니다.",
+  "cheatStep3": "상단의 선택지 중에서 '접근성'을 선택합니다.",
+  "cheatStep4": "아래로 스크롤하여 '치트 코드 입력'을 선택합니다.",
+  "cheatStep5": "표시되는 키보드를 사용하여 원하는 치트 코드를 입력합니다.",
+  "cheatHelpNote": "디피니티브 에디션이 없는 경우, 치트 코드를 사용하는 유일한 방법은 외부 키보드를 장치에 연결하는 것입니다."
+
+  }
+  

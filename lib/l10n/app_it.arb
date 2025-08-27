@@ -1,0 +1,67 @@
+{
+    "@@locale": "it",
+    "howWeDoingMessage": "Ti sta piacendo questa app finora?",
+    "yesGreat": "Sì, è fantastica",
+    "noCouldBeBetter": "No, potrebbe essere migliore",
+    "reviewTitle": "Un piccolo favore 🙏",
+    "reviewMessage": "Caro utente,\n\nSiamo un piccolo team che cerca di costruire un'app fantastica per tutti i nostri amati utenti ♥️.\n\nTi andrebbe di lasciarci una recensione onesta sull'app store per aiutarci a crescere? Ci aiuterà a portarti aggiornamenti straordinari e a mantenere l'app senza pubblicità!",
+    "reviewAccept": "Certo, lascerò una recensione ☺️",
+    "reviewDecline": "No, mi dispiace",
+    "feedbackTitle": "Grazie per avercelo fatto sapere!",
+    "feedbackMessage": "Ti andrebbe di inviarci un feedback per aiutarci a migliorare? 😊",
+    "sendFeedback": "Invia feedback",
+    "close": "Chiudi",
+  
+    "searchHint": "Cerca un trucco",
+    "cancel": "Annulla",
+    "favoritesTitle": "❤️ Preferiti",
+    "loading": "Caricamento in corso...",
+    "sectionIconLabel": "Sezione",
+  
+    "userSettings": "Impostazioni utente",
+    "platformTitle": "Piattaforma",
+    "platformSubtitle": "Scegli la tua piattaforma.",
+    "contactSection": "Contatto",
+    "contactMeTitle": "Contattaci",
+"contactMeSubtitle": "Contattaci per domande o supporto.",
+
+    "couldNotOpenMailApp": "Impossibile aprire l'app di posta",
+    "informationSection": "Informazioni",
+    "privacyPolicyTitle": "Informativa sulla privacy",
+    "privacyPolicySubtitle": "Scopri di più sulle pratiche sulla privacy dell'app.",
+    "termsOfServiceTitle": "Termini di servizio",
+    "termsOfServiceSubtitle": "Familiarizza con le nostre linee guida.",
+    "languageSection": "Lingua",
+    "changeLanguageTitle": "Cambia lingua",
+    "changeLanguageSubtitle": "Cambia le lingue.",
+  "languageChangedMessage": "Lingua cambiata in {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Italiano"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Impostazioni",
+
+
+
+
+    "cheatHelpTitle": "Come usare i trucchi su iPhone?",
+    "cheatStep1": "Metti in pausa il gioco toccando la mappa in alto a sinistra dello schermo.",
+    "cheatStep2": "Dalle opzioni a sinistra, seleziona \"Opzioni\".",
+    "cheatStep3": "Dalle opzioni in alto, seleziona \"Accessibilità\".",
+    "cheatStep4": "Scorri verso il basso e seleziona \"Inserisci codice trucco\".",
+    "cheatStep5": "Utilizzando la tastiera che appare, digita il codice trucco che vuoi usare.",
+    "cheatHelpNote": "Se NON hai la Definitive Edition, l'unico modo per usare i codici trucco nel gioco è collegare una tastiera esterna al tuo dispositivo."
+  
+  }
+  

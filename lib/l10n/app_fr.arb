@@ -1,0 +1,66 @@
+{
+    "@@locale": "fr",
+    "howWeDoingMessage": "Vous aimez cette application jusqu'à présent ?",
+    "yesGreat": "Oui, elle est géniale",
+    "noCouldBeBetter": "Non, cela pourrait être mieux",
+    "reviewTitle": "Un petit service 🙏",
+    "reviewMessage": "Cher utilisateur,\n\nNous sommes une petite équipe qui essaie de créer une super application pour tous nos utilisateurs adorés ♥️.\n\nPourriez-vous nous laisser un avis honnête sur l’App Store pour nous aider à grandir ? Cela nous aidera à vous proposer des mises à jour géniales et à garder cette application sans publicité !",
+    "reviewAccept": "Bien sûr, je vais laisser un avis ☺️",
+    "reviewDecline": "Non, désolé",
+    "feedbackTitle": "Merci pour votre retour !",
+    "feedbackMessage": "Accepteriez-vous de nous envoyer vos commentaires pour nous aider à nous améliorer ? 😊",
+    "sendFeedback": "Envoyer un retour",
+    "close": "Fermer",
+  
+    "searchHint": "Rechercher un code de triche",
+    "cancel": "Annuler",
+    "favoritesTitle": "❤️ Favoris",
+    "loading": "Chargement...",
+    "sectionIconLabel": "Section",
+  
+    "userSettings": "Paramètres utilisateur",
+    "platformTitle": "Plateforme",
+    "platformSubtitle": "Choisissez votre plateforme.",
+    "contactSection": "Contact",
+  "contactMeTitle": "Nous contacter",
+"contactMeSubtitle": "Contactez-nous pour des questions ou du support.",
+
+    "couldNotOpenMailApp": "Impossible d’ouvrir l’application mail",
+    "informationSection": "Informations",
+    "privacyPolicyTitle": "Politique de confidentialité",
+    "privacyPolicySubtitle": "En savoir plus sur la confidentialité de l’application.",
+    "termsOfServiceTitle": "Conditions d’utilisation",
+    "termsOfServiceSubtitle": "Familiarisez-vous avec nos règles.",
+    "languageSection": "Langue",
+    "changeLanguageTitle": "Changer de langue",
+    "changeLanguageSubtitle": "Changer la langue.",
+   "languageChangedMessage": "Langue changée en {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Français"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Paramètres",
+
+
+
+    "cheatHelpTitle": "Comment utiliser les codes de triche sur iPhone ?",
+    "cheatStep1": "Mettez le jeu en pause en appuyant sur la carte en haut à gauche de l'écran.",
+    "cheatStep2": "Dans le menu de gauche, sélectionnez \"Options\".",
+    "cheatStep3": "Dans le menu du haut, sélectionnez \"Accessibilité\".",
+    "cheatStep4": "Faites défiler vers le bas et sélectionnez \"Entrer un code de triche\".",
+    "cheatStep5": "À l'aide du clavier qui s'affiche, tapez le code de triche que vous souhaitez utiliser.",
+    "cheatHelpNote": "Si vous n'avez PAS l'Édition Définitive, la seule façon d'utiliser des codes de triche est de connecter un clavier externe à votre appareil."
+  
+  }
+  

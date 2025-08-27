@@ -1,0 +1,66 @@
+{
+    "@@locale": "ms",
+    "howWeDoingMessage": "Adakah anda suka aplikasi ini setakat ini?",
+    "yesGreat": "Ya, sangat bagus",
+    "noCouldBeBetter": "Tidak, boleh jadi lebih baik",
+    "reviewTitle": "Satu permintaan kecil 🙏",
+    "reviewMessage": "Pengguna yang dihargai,\n\nKami adalah pasukan kecil yang berusaha membina aplikasi hebat untuk semua pengguna tersayang kami ♥️.\n\nBoleh tak anda tinggalkan ulasan jujur di gedung aplikasi untuk membantu kami berkembang? Ia akan bantu kami menyediakan kemas kini menarik dan mengekalkan aplikasi ini bebas iklan!",
+    "reviewAccept": "Baiklah, saya akan ulas ☺️",
+    "reviewDecline": "Tidak, maaf",
+    "feedbackTitle": "Terima kasih atas maklum balas anda!",
+    "feedbackMessage": "Sudi tak anda hantarkan maklum balas untuk bantu kami menambah baik? 😊",
+    "sendFeedback": "Hantar Maklum Balas",
+    "close": "Tutup",
+  
+    "searchHint": "Cari sebarang cheat",
+    "cancel": "Batal",
+    "favoritesTitle": "❤️ Kegemaran",
+    "loading": "Memuatkan...",
+    "sectionIconLabel": "Seksyen",
+  
+    "userSettings": "Tetapan Pengguna",
+    "platformTitle": "Platform",
+    "platformSubtitle": "Pilih platform anda.",
+    "contactSection": "Hubungi",
+   "contactMeTitle": "Hubungi Kami",
+"contactMeSubtitle": "Hubungi kami untuk pertanyaan atau sokongan.",
+
+    "couldNotOpenMailApp": "Tidak dapat buka aplikasi mel",
+    "informationSection": "Maklumat",
+    "privacyPolicyTitle": "Dasar Privasi",
+    "privacyPolicySubtitle": "Ketahui lebih lanjut tentang amalan privasi aplikasi ini.",
+    "termsOfServiceTitle": "Terma Perkhidmatan",
+    "termsOfServiceSubtitle": "Kenali garis panduan kami.",
+    "languageSection": "Bahasa",
+    "changeLanguageTitle": "Tukar Bahasa",
+    "changeLanguageSubtitle": "Tukar bahasa.",
+ "languageChangedMessage": "Bahasa telah ditukar kepada {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "Bahasa Melayu"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "PC",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "Tetapan",
+
+
+
+    "cheatHelpTitle": "Cara guna cheat iPhone?",
+  "cheatStep1": "Jeda permainan dengan menekan peta di bahagian kiri atas skrin.",
+  "cheatStep2": "Daripada pilihan di sebelah kiri, pilih \"Pilihan\".",
+  "cheatStep3": "Daripada pilihan di atas, pilih \"Kebolehcapaian\".",
+  "cheatStep4": "Skrol ke bawah dan pilih \"Masukkan kod cheat\".",
+  "cheatStep5": "Gunakan papan kekunci yang muncul untuk menaip kod cheat yang anda mahu gunakan.",
+  "cheatHelpNote": "Jika anda TIDAK mempunyai Edisi Definitif, satu-satunya cara untuk menggunakan kod cheat dalam permainan adalah dengan menyambungkan papan kekunci luaran ke peranti anda."
+
+  }
+  

@@ -1,0 +1,66 @@
+{
+    "@@locale": "zh",
+    "howWeDoingMessage": "你目前喜欢这个应用吗？",
+    "yesGreat": "是的，很棒",
+    "noCouldBeBetter": "不，还可以更好",
+    "reviewTitle": "一个小小的请求 🙏",
+    "reviewMessage": "亲爱的用户，\n\n我们是一个小团队，致力于为所有亲爱的用户打造一个优秀的应用 ♥️。\n\n您愿意在应用商店留下真实的评价来帮助我们成长吗？这将有助于我们带来精彩的更新，并保持应用无广告！",
+    "reviewAccept": "好的，我去评价 ☺️",
+    "reviewDecline": "不，谢谢",
+    "feedbackTitle": "感谢您的反馈！",
+    "feedbackMessage": "您愿意发送反馈，帮助我们改进吗？😊",
+    "sendFeedback": "发送反馈",
+    "close": "关闭",
+  
+    "searchHint": "搜索任何秘籍",
+    "cancel": "取消",
+    "favoritesTitle": "❤️ 收藏夹",
+    "loading": "加载中...",
+    "sectionIconLabel": "分类",
+  
+    "userSettings": "用户设置",
+    "platformTitle": "平台",
+    "platformSubtitle": "请选择您的平台。",
+    "contactSection": "联系",
+    "contactMeTitle": "联系我们",
+"contactMeSubtitle": "如有疑问或需要支持，请与我们联系。",
+
+    "couldNotOpenMailApp": "无法打开邮件应用",
+    "informationSection": "信息",
+    "privacyPolicyTitle": "隐私政策",
+    "privacyPolicySubtitle": "了解有关应用隐私的更多信息。",
+    "termsOfServiceTitle": "服务条款",
+    "termsOfServiceSubtitle": "了解我们的使用规范。",
+    "languageSection": "语言",
+    "changeLanguageTitle": "更改语言",
+    "changeLanguageSubtitle": "更换应用语言。",
+  "languageChangedMessage": "语言已更改为 {language}",
+"@languageChangedMessage": {
+  "description": "Message shown after the user changes the language.",
+  "placeholders": {
+    "language": {
+      "type": "String",
+      "example": "中文"
+    }
+  }
+},
+
+  
+    "playstation": "PlayStation",
+    "pc": "电脑",
+    "xbox": "Xbox",
+    "iphone": "iPhone",
+    "settings": "设置",
+
+
+
+    "cheatHelpTitle": "如何使用 iPhone 作弊码？",
+    "cheatStep1": "点击屏幕左上角的地图暂停游戏。",
+    "cheatStep2": "在左侧选项中选择“选项”。",
+    "cheatStep3": "在顶部菜单中选择“辅助功能”。",
+    "cheatStep4": "向下滚动并选择“输入作弊码”。",
+    "cheatStep5": "使用弹出的键盘输入你想使用的作弊码。",
+    "cheatHelpNote": "如果你没有终极版，唯一可以在游戏中使用作弊码的方法是将外接键盘插入你的设备。"
+  
+  }
+  
