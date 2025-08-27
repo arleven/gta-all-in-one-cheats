@@ -3,6 +3,7 @@ import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseAdventureScreen extends StatefulWidget {
   const ChooseAdventureScreen({super.key});
@@ -199,13 +200,51 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            if (_selectedIndexes.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please select at least one game to continue',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+
+                            // Convert selected indexes to game keys
+                            final selectedGames = _selectedIndexes
+                                .map((index) {
+                                  final gameTitle = _games[index]['title']!;
+                                  switch (gameTitle) {
+                                    case 'GTA V':
+                                      return 'gtav';
+                                    case 'San Andreas':
+                                      return 'sanandreas';
+                                    case 'Vice City':
+                                      return 'vicecity';
+                                    case 'Liberty City':
+                                      return 'libertycity';
+                                    default:
+                                      return '';
+                                  }
+                                })
+                                .where((key) => key.isNotEmpty)
+                                .toList();
+
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setStringList(
+                              'selectedGames',
+                              selectedGames,
+                            );
+
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (ctx) => ReviewOnboard(),
                               ),
                             );
                           },
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryButton,
                             foregroundColor: Colors.black,
