@@ -175,7 +175,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> {
                                   ..onTap = () {
                                     openWebView(
                                       context,
-                                      'https://arleven.com/projects/San%20Andreas/tnc',
+                                      'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
                                     );
                                   },
                               ),
@@ -190,7 +190,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> {
                                   ..onTap = () {
                                     openWebView(
                                       context,
-                                      'https://arleven.com/projects/San%20Andreas/privacy',
+                                      'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
                                     );
                                   },
                               ),
