@@ -53,10 +53,10 @@ class ARAnalyticsConstants {
   static const String APP_ID = "6748644645";
   static const String USER_ID = "userId12345";
 
-  static const String EMAIL_PREFIX = "SA Cheats";
+  static const String EMAIL_PREFIX = "ALl GTA Cheats";
   static const String SUPPORT_EMAIL = "info@arleven.com";
 
-  static const APP_NAME = "SA Cheats";
+  static const APP_NAME = "ALl GTA Cheats";
 
   static const String REVENUE_CAT_API_KEY_IOS =
       "appl_MaGFVjAzyrPOwjQKpdLeYondNwH";
