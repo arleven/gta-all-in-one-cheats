@@ -133,6 +133,7 @@ flutter:
     - assets/data/gtav/
     - assets/data/libertycity/
     - assets/data/vicecity/
+    - assets/ARConfig/ARConfig.plist
 
 
 flutter_gen:

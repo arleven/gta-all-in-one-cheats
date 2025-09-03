@@ -463,43 +463,29 @@ class ARAnalytics {
 
   Future<Map<String, dynamic>> getGlobalTrackingParameters() async {
     final Map<String, dynamic> params = {
-      'numCheckins': ARAnalytics.getNumCheckIns(),
-      'numSessions': ARAnalytics.getNumSessions(),
-      'numGoal1': ARAnalytics.getNumGoal1(),
-      'numPurchases': ARAnalytics.getNumPurchases(),
-      'hasPurchased': ARAnalytics.hasUserPurchased(),
-      // 'isJailbroken': ARAnalytics.isJailbroken(),
-      // 'isJailbroken2': ARAnalytics.isJailbroken2(),
-      'isJailbrokenAny': ARAnalytics.isJailbrokenAny(),
-      'isUserEngaged': ARAnalytics.getUserEngagedState(),
-      'purchaseVCMode': ARConfig.shared.purchaseVCMode,
-      'proFeaturesMode': ARConfig.shared.getproFeaturesMode(),
-      'userType': ARConfig.shared.getCurrentUserTypeAsString(),
+      'numCheckins': await ARAnalytics.getNumCheckIns(),
+      'numSessions': await ARAnalytics.getNumSessions(),
+      'numGoal1': await ARAnalytics.getNumGoal1(),
+      'numPurchases': await ARAnalytics.getNumPurchases(),
+      'hasPurchased': await ARAnalytics.hasUserPurchased(),
+      'isJailbrokenAny': await ARAnalytics.isJailbrokenAny(),
+      'isUserEngaged': await ARAnalytics.getUserEngagedState(),
+      'purchaseVCMode': (await ARConfig.shared.purchaseVCMode()).index,
+      'proFeaturesMode': (await ARConfig.shared.getproFeaturesMode())?.index,
+      'userType': await ARConfig.shared.getCurrentUserTypeAsString(),
       'abTestName': ARConfig.shared.configABTestConfigName(),
-      'abTestValue': ARConfig.shared.getCurrentAbTestValue(),
+      'abTestValue': await ARConfig.shared.getCurrentAbTestValue(),
       'configMarker': ARConfig.shared.config_configMarker(),
-      // 'sessionSource': getCurrentAppSessionSourceString(),
     };
 
-    // New params added for Repost2
-    // params['isLegacyUser'] = ARAppKit.shared.isLegacyRepostUser();
     params['isRepost2'] = true;
-    // params['proDetermMode'] = ARProductManager.shared.userSubscriptionDeterminationModeAsString();
-    params['isProUser'] = ARProductManager().isProUser();
-    // params['numPosts'] = ARAnalytics.getNumPostsInFeed();
-    // params['legacyUpgradeVersion'] = ARAnalytics.shared.legacyUpgradeVersion();
-    // params['legacyUpgradeBuild'] = ARAnalytics.shared.legacyUpgradeBuild();
-    // params['isProUser_cached'] = ARProductManager.shared.cached_isProUser;
-    // params['isGoldUser_cached'] = ARProductManager.shared.cached_isGoldUser;
+    params['isProUser'] = await ARProductManager().isProUser();
 
     String plan = 'free';
-    if (await ARProductManager().cached_isProUser()) {
-      plan = 'pro';
-    }
-    if (await ARProductManager().cached_isGoldUser()) {
-      plan = 'gold';
-    }
+    if (await ARProductManager().cached_isProUser()) plan = 'pro';
+    if (await ARProductManager().cached_isGoldUser()) plan = 'gold';
     params['subscriptionPlan'] = plan;
+
     params['sessionSource'] = getCurrentAppSessionSourceString();
 
     final DateTime? lastUpdate =
@@ -511,22 +497,14 @@ class ARAnalytics {
       params['sessionSourceLastUpdate'] = lastUpdateString;
     }
 
-    final String appSessionSourceParam = _appSessionSourceParam;
-    params['sessionSourceParam'] = appSessionSourceParam;
+    params['sessionSourceParam'] = _appSessionSourceParam;
     params['timestamp'] = formattedISO8601NowDate();
-
-    // Track ASA conversion details (currently commented)
-    // params['af_installType'] = ARAttribution.getAppsFlyerInstallType();
-    // params['af_mediaSource'] = ARAttribution.getAppsFlyerInstallMediaSource();
-    // params['af_campaign'] = ARAttribution.getAppsFlyerInstallCampaign();
 
     final String country = await ARAnalytics.currentLocaleCountry();
     params['localeDevice'] = country;
-    params['localeLang'] = ARAnalytics.currentLocaleCountry();
+    params['localeLang'] = await ARAnalytics.currentLocaleCountry();
 
-    // Simulate push notification status
-    final bool pushAuthorized = true;
-    params['pushAuthorized'] = pushAuthorized;
+    params['pushAuthorized'] = true;
 
     final Map<String, dynamic> installParams =
         await ARAnalytics.getInstallMetadata();

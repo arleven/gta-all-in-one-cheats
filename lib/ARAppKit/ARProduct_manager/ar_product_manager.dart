@@ -162,7 +162,7 @@ class ARProductManager {
     String? instanceId = await ARCrashTracking.shared
         .getFirebaseAppInstanceId();
 
-    if (instanceId != null && instanceId.isNotEmpty) {
+    if (instanceId!.isNotEmpty) {
       await rc.Purchases.setFirebaseAppInstanceId(instanceId);
     }
   }
@@ -597,7 +597,7 @@ class ARProductManager {
 
     try {
       final String configContent = await rootBundle.loadString(
-        'assets/${ARAnalyticsConstants.ARCONFIG_FILENAME}.plist',
+        'assets/ARConfig/${ARAnalyticsConstants.ARCONFIG_FILENAME}.plist',
       );
 
       final xml = XmlDocument.parse(configContent);

@@ -48,7 +48,7 @@ class ARAnalyticsConstants {
       "USERPARAM_PHOTOGRAPHER_TYPE";
   static const String USERDEFAULTS_USER_PHOTO_TYPE = "USERPARAM_PHOTO_TYPE";
 
-  static const String ARCONFIG_FILENAME = "ARConfig.plist";
+  static const String ARCONFIG_FILENAME = "ARConfig";
 
   static const String APP_ID = "6748644645";
   static const String USER_ID = "userId12345";

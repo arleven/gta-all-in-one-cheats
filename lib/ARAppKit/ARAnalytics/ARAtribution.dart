@@ -316,7 +316,9 @@ class ARAttribution {
   }
 
   Future<Map<String, dynamic>> loadPlistConfig() async {
-    final plistContent = await rootBundle.loadString('assets/Config.plist');
+    final plistContent = await rootBundle.loadString(
+      'ARAppKit/ARConfig/ARConfig.plist',
+    );
 
     // Create an instance of PlistParser
     final parser = PlistParser();
