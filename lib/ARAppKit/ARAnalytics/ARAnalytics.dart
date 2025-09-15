@@ -479,7 +479,7 @@ class ARAnalytics {
     };
 
     params['isRepost2'] = true;
-    params['isProUser'] = await ARProductManager().isProUser();
+    params['isProUser'] = ARProductManager().isProUser();
 
     String plan = 'free';
     if (await ARProductManager().cached_isProUser()) plan = 'pro';

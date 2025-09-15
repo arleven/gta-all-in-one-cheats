@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
 import 'package:all_gta/Models/image_swiper.dart';
@@ -149,17 +150,10 @@ class _XboxScreenState extends State<XboxScreen> {
         _loadCheats();
       }
     });
-    final favoriteCheats = _allCheats
-        .where((cheat) => _favorites.contains(cheat.title))
-        .toList();
-
-    final otherCheats = _allCheats
-        .where((cheat) => !_favorites.contains(cheat.title))
-        .toList();
 
     final groupedCheats = <String, List<CheatCode>>{};
 
-    for (var cheat in otherCheats) {
+    for (var cheat in _allCheats) {
       if (_searchQuery.isNotEmpty &&
           !cheat.title.toLowerCase().contains(_searchQuery)) {
         continue;
@@ -189,15 +183,36 @@ class _XboxScreenState extends State<XboxScreen> {
                     controller: _searchController,
                     focusNode: _searchFocusNode,
                     decoration: InputDecoration(
+                      hintText: "Search cheats by keyword or effect",
+                      hintStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(200, 196, 196, 1),
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Color.fromRGBO(200, 196, 196, 1),
+                        size: 35,
+                      ),
                       filled: true,
-                      fillColor: Colors.grey[900],
-                      prefixIcon: const Icon(Icons.search, color: Colors.white),
-                      hintText: AppLocalizations.of(context)!.searchHint,
-
-                      hintStyle: const TextStyle(color: Colors.white70),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+                      fillColor: AppColors.notSelectedbg,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 20,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(255, 255, 255, 0.1),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(255, 255, 255, 0.1),
+                          width: 2,
+                        ),
                       ),
                     ),
                     style: const TextStyle(color: Colors.white),
@@ -239,10 +254,16 @@ class _XboxScreenState extends State<XboxScreen> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.4,
+                          color: isSelected
+                              ? AppColors.shadowBorder
+                              : Color.fromRGBO(255, 255, 255, 0.1),
+                        ),
                         color: isSelected
-                            ? Colors.greenAccent
-                            : Colors.grey[850],
-                        borderRadius: BorderRadius.circular(20),
+                            ? AppColors.primaryButton
+                            : AppColors.notSelectedbg,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         _localized(
@@ -260,8 +281,11 @@ class _XboxScreenState extends State<XboxScreen> {
                           'section',
                         ),
                         style: TextStyle(
-                          color: isSelected ? Colors.black : Colors.white70,
-                          fontWeight: FontWeight.w500,
+                          color: isSelected
+                              ? Color.fromRGBO(4, 4, 4, 1)
+                              : Color.fromRGBO(200, 196, 196, 1),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
                         ),
                       ),
                     ),
@@ -280,55 +304,6 @@ class _XboxScreenState extends State<XboxScreen> {
                     )
                   : ListView(
                       children: [
-                        if (_searchQuery.isEmpty ||
-                            'favorites'.contains(_searchQuery)) ...[
-                          if (favoriteCheats.isNotEmpty) ...[
-                            Text(
-                              AppLocalizations.of(context)!.favoritesTitle,
-                              style: TextStyle(
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            ...favoriteCheats
-                                .where(
-                                  (cheat) => cheat.title.toLowerCase().contains(
-                                    _searchQuery,
-                                  ),
-                                )
-                                .map(
-                                  (cheat) => CheatCard(
-                                    title: _localized(
-                                      cheat.title,
-                                      cheat,
-                                      'title',
-                                    ),
-                                    desc: _localized(
-                                      cheat.description,
-                                      cheat,
-                                      'description',
-                                    ),
-
-                                    buttons: cheat.codes
-                                        .split(',')
-                                        .map((b) => b.trim())
-                                        .toList(),
-                                    isFavorite: _favorites.contains(
-                                      cheat.title,
-                                    ),
-                                    onFavoriteToggle: (_) =>
-                                        toggleFavorite(cheat.title),
-
-                                    useImages: true,
-                                    imageMapper: getXboxImagePath,
-                                    onTap: () =>
-                                        _showBottomSheetWithImages(cheat),
-                                  ),
-                                ),
-                            const SizedBox(height: 24),
-                          ],
-                        ],
                         ...groupedCheats.entries.map((entry) {
                           final sectionName = _localized(
                             entry.key,
@@ -341,37 +316,15 @@ class _XboxScreenState extends State<XboxScreen> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.label_important,
-                                    color: Colors.greenAccent,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    sectionName,
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
                               const SizedBox(height: 12),
                               ...cheats.map(
                                 (cheat) => CheatCard(
-                                  title: _localized(
-                                    cheat.title,
-                                    cheat,
-                                    'title',
-                                  ),
+                                  title: sectionName,
                                   desc: _localized(
                                     cheat.description,
                                     cheat,
                                     'description',
                                   ),
-
                                   buttons: cheat.codes
                                       .split(',')
                                       .map((b) => b.trim())
@@ -379,7 +332,6 @@ class _XboxScreenState extends State<XboxScreen> {
                                   isFavorite: _favorites.contains(cheat.title),
                                   onFavoriteToggle: (_) =>
                                       toggleFavorite(cheat.title),
-
                                   useImages: true,
                                   imageMapper: getXboxImagePath,
                                   onTap: () =>
@@ -393,6 +345,8 @@ class _XboxScreenState extends State<XboxScreen> {
                       ],
                     ),
             ),
+            const SizedBox(height: 20),
+
             SizedBox(height: 20),
           ],
         ),
