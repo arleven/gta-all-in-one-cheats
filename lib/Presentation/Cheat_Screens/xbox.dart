@@ -345,9 +345,8 @@ class _XboxScreenState extends State<XboxScreen> {
                       ],
                     ),
             ),
-            const SizedBox(height: 20),
 
-            SizedBox(height: 20),
+            SizedBox(height: 8),
           ],
         ),
       ),

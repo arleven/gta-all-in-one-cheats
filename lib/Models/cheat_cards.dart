@@ -28,8 +28,11 @@ class CheatCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.grey[900],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: Color.fromRGBO(42, 40, 40, 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(width: 1, color: Color.fromRGBO(76, 72, 72, 1)),
+        ),
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -46,17 +49,17 @@ class CheatCard extends StatelessWidget {
                         Text(
                           title,
                           style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromRGBO(255, 255, 255, 1),
                           ),
                         ),
                         Text(
                           desc,
                           style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(167, 167, 167, 1),
                           ),
                         ),
                       ],
@@ -64,8 +67,12 @@ class CheatCard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: Icon(
-                      isFavorite ? Icons.thumb_up : Icons.thumb_up_alt_outlined,
-                      color: Colors.greenAccent,
+                      isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: isFavorite
+                          ? Colors.red
+                          : Color.fromRGBO(255, 255, 255, 1),
                     ),
                     onPressed: () => onFavoriteToggle(title),
                   ),
