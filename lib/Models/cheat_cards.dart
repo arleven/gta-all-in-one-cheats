@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CheatCard extends StatelessWidget {
+class CheatCard extends StatefulWidget {
   final String title;
   final String desc;
   final List<String> buttons;
@@ -24,14 +24,47 @@ class CheatCard extends StatelessWidget {
   });
 
   @override
+  State<CheatCard> createState() => _CheatCardState();
+}
+
+class _CheatCardState extends State<CheatCard> {
+  final Map<String, bool> _copiedMap = {};
+
+  void _copyCode(String code) async {
+    Clipboard.setData(ClipboardData(text: code));
+
+    setState(() {
+      _copiedMap[code] = true;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Copied "$code" to clipboard'),
+        backgroundColor: const Color.fromRGBO(0, 169, 115, 1),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) {
+      setState(() {
+        _copiedMap[code] = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Card(
-        color: Color.fromRGBO(42, 40, 40, 1),
+        color: const Color.fromRGBO(42, 40, 40, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(width: 1, color: Color.fromRGBO(76, 72, 72, 1)),
+          side: const BorderSide(
+            width: 1,
+            color: Color.fromRGBO(76, 72, 72, 1),
+          ),
         ),
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: Padding(
@@ -47,16 +80,16 @@ class CheatCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          widget.title,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(255, 255, 255, 1),
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          desc,
+                          widget.desc,
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -68,25 +101,24 @@ class CheatCard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: Icon(
-                      isFavorite
+                      widget.isFavorite
                           ? Icons.favorite
                           : Icons.favorite_border_outlined,
-                      color: isFavorite
-                          ? Colors.red
-                          : Color.fromRGBO(255, 255, 255, 1),
+                      color: widget.isFavorite ? Colors.red : Colors.white,
                     ),
-                    onPressed: () => onFavoriteToggle(title),
+                    onPressed: () => widget.onFavoriteToggle(widget.title),
                   ),
                 ],
               ),
 
               const SizedBox(height: 10),
-              useImages && imageMapper != null
+
+              widget.useImages && widget.imageMapper != null
                   ? Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: buttons.map((code) {
-                        final imgPath = imageMapper!(code);
+                      children: widget.buttons.map((code) {
+                        final imgPath = widget.imageMapper!(code);
                         return Image.asset(
                           imgPath,
                           height: 40,
@@ -112,7 +144,8 @@ class CheatCard extends StatelessWidget {
                   : Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: buttons.map((code) {
+                      children: widget.buttons.map((code) {
+                        final copied = _copiedMap[code] ?? false;
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -122,10 +155,10 @@ class CheatCard extends StatelessWidget {
                                 vertical: 8,
                               ),
                               decoration: BoxDecoration(
-                                color: Color.fromRGBO(31, 69, 50, 1),
+                                color: const Color.fromRGBO(31, 69, 50, 1),
                                 border: Border.all(
                                   width: 1.8,
-                                  color: Color.fromRGBO(31, 164, 106, 1),
+                                  color: const Color.fromRGBO(31, 164, 106, 1),
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -138,7 +171,8 @@ class CheatCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 12),
+                            const SizedBox(width: 12),
+
                             Container(
                               width: 33,
                               height: 33,
@@ -151,25 +185,16 @@ class CheatCard extends StatelessWidget {
                                 ),
                               ),
                               child: IconButton(
-                                padding: const EdgeInsets.all(0),
+                                padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
-                                icon: const Icon(
-                                  Icons.copy,
-                                  color: Colors.white,
+                                icon: Icon(
+                                  copied ? Icons.check : Icons.copy,
+                                  color: copied
+                                      ? Color.fromRGBO(0, 255, 144, 1)
+                                      : Colors.white,
                                   size: 16,
                                 ),
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: code));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Copied "$code" to clipboard',
-                                      ),
-                                      backgroundColor: Colors.green[800],
-                                      duration: const Duration(seconds: 1),
-                                    ),
-                                  );
-                                },
+                                onPressed: () => _copyCode(code),
                               ),
                             ),
                           ],

@@ -75,7 +75,12 @@ class _IphoneState extends State<Iphone> {
     setState(() {
       _allCheats = fresh;
       _isLoading = false;
-      _allSections = ['All', ...fresh.map((e) => e.section)];
+
+      final uniqueSections = fresh.map((e) => e.section).toSet().toList();
+
+      uniqueSections.sort();
+
+      _allSections = ['All', ...uniqueSections];
     });
   }
 

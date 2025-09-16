@@ -66,13 +66,18 @@ class _PcState extends State<Pc> {
   void _loadCheats() async {
     setState(() => _isLoading = true);
 
-    final fresh = await CheatService.fetchPcCheats(useCacheFirst: false);
+    final fresh = await CheatService.fetchIphoneCheats(useCacheFirst: false);
 
     if (!mounted) return;
     setState(() {
       _allCheats = fresh;
       _isLoading = false;
-      _allSections = ['All', ...fresh.map((e) => e.section)];
+
+      final uniqueSections = fresh.map((e) => e.section).toSet().toList();
+
+      uniqueSections.sort();
+
+      _allSections = ['All', ...uniqueSections];
     });
   }
 

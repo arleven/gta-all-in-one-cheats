@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/theme_colors.dart';
-import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
+
+import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
 
 import 'package:flutter/material.dart';
 
@@ -158,7 +159,7 @@ class _BottomBarsState extends State<BottomBars> {
     }
 
     final screens = [
-      Iphone(),
+      XboxScreen(),
       Center(
         child: Text(
           "Favorites Screen",
