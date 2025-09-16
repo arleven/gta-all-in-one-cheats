@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
 import 'package:all_gta/Presentation/Settings_Screen/settings.dart';
@@ -23,7 +24,7 @@ class _BottomBarsState extends State<BottomBars> {
   final GlobalKey _gameTrailingKey = GlobalKey();
 
   int _selectedIndex = 0;
-  String _selectedPlatformKey = 'xbox';
+  final String _selectedPlatformKey = 'xbox';
   List<String> _allowedGames = [];
   bool _initDone = false;
 
@@ -63,66 +64,86 @@ class _BottomBarsState extends State<BottomBars> {
     });
   }
 
-  Future<void> _showGameDropdown(BuildContext context) async {
-    final RenderBox renderBox =
+  OverlayEntry? _dropdownOverlay;
+
+  void _showGameDropdown(BuildContext context) {
+    final overlay = Overlay.of(context);
+    final renderBox =
         _gameTrailingKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
-    final Size size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    final selected = await showMenu<String>(
-      context: context,
-      color: const Color(0xFF1C1C1E),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      position: RelativeRect.fromLTRB(
-        offset.dx,
-        offset.dy + size.height,
-        offset.dx + size.width,
-        offset.dy + size.height + 1,
-      ),
-      items: List.generate(_allowedGames.length * 2 - 1, (index) {
-        if (index.isOdd) {
-          return const PopupMenuItem<String>(
-            enabled: false,
-            height: 1,
-            child: Divider(height: 1, color: Colors.white24),
-          );
-        }
+    _dropdownOverlay = OverlayEntry(
+      builder: (context) {
+        final currentGame = context.read<GameProvider>().selectedGame;
 
-        final key = _allowedGames[index ~/ 2];
-        final game = _localizedGames[key]!;
-
-        final isCurrent = context.read<GameProvider>().selectedGame == key;
-
-        return PopupMenuItem<String>(
-          value: key,
-          height: 50,
-          child: Row(
-            children: [
-              if (isCurrent)
-                const Icon(Icons.check, color: Colors.white, size: 20)
-              else
-                const SizedBox(width: 50),
-              const SizedBox(width: 12),
-              Text(
-                game,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+        return Positioned(
+          top: offset.dy + renderBox.size.height,
+          left: 12,
+          width: screenWidth - 24,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(color: Colors.grey[700]!),
+                borderRadius: BorderRadius.circular(16),
               ),
-            ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < _allowedGames.length; i++) ...[
+                    InkWell(
+                      onTap: () async {
+                        final gameProvider = context.read<GameProvider>();
+                        await gameProvider.setGame(_allowedGames[i]);
+
+                        _removeDropdown();
+                        setState(() {});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 12,
+                        ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                _localizedGames[_allowedGames[i]]!,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            if (currentGame == _allowedGames[i])
+                              Icon(Icons.check, color: AppColors.primaryButton),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    if (i < _allowedGames.length - 1)
+                      Divider(height: 1, color: Colors.grey[700]),
+                  ],
+                ],
+              ),
+            ),
           ),
         );
-      }),
+      },
     );
 
-    if (selected != null) {
-      final gameProvider = context.read<GameProvider>();
-      await gameProvider.setGame(selected);
+    overlay.insert(_dropdownOverlay!);
+  }
 
-      setState(() {});
-    }
+  void _removeDropdown() {
+    _dropdownOverlay?.remove();
+    _dropdownOverlay = null;
   }
 
   @override
@@ -146,9 +167,9 @@ class _BottomBarsState extends State<BottomBars> {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromRGBO(13, 13, 13, 1),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(13, 13, 13, 1),
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,13 +187,33 @@ class _BottomBarsState extends State<BottomBars> {
                 const SizedBox(width: 12),
               ],
             ),
-
             GestureDetector(
               key: _gameTrailingKey,
               onTap: () => _showGameDropdown(context),
-              child: const Icon(Icons.arrow_drop_down, color: Colors.white),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white24,
+                ),
+                child: const Icon(
+                  Icons.videogame_asset,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
             ),
           ],
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [AppColors.bottomGradiant, Colors.transparent],
+              stops: [0.0, 1.0],
+            ),
+          ),
         ),
       ),
 
@@ -183,15 +224,12 @@ class _BottomBarsState extends State<BottomBars> {
         onTap: (index) {
           setState(() => _selectedIndex = index);
         },
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(13, 13, 13, 1),
         selectedItemColor: Colors.greenAccent,
         unselectedItemColor: Colors.white54,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset),
-            label: "Xbox",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Fav"),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

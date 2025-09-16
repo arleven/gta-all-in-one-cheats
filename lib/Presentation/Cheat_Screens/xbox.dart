@@ -338,15 +338,12 @@ class _XboxScreenState extends State<XboxScreen> {
                                       _showBottomSheetWithImages(cheat),
                                 ),
                               ),
-                              const SizedBox(height: 24),
                             ],
                           );
                         }),
                       ],
                     ),
             ),
-
-            SizedBox(height: 8),
           ],
         ),
       ),
