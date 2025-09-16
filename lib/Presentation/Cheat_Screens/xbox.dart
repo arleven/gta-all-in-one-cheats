@@ -148,6 +148,24 @@ class _XboxScreenState extends State<XboxScreen> {
 
   String _selectedLangCode = 'en';
 
+  final Map<String, String> sectionEmojis = {
+    'All': '',
+    'Player Enhancements': '🪄',
+    'Weapons': '🔫',
+    'Vehicles': '🚗',
+    'Traffic': '🚦',
+    'World': '🌍',
+    'Abilities': '🧠',
+    'Theme': '🎨',
+    'Gangs': '🏴',
+    'Health, Armor, and Money': '💎',
+    'Other': '🔷',
+    'Pedestrian & World': '🌍',
+    'Player Stats': '📊',
+    'Time & Weather': '⛅',
+    'Wanted Level': '🚨',
+  };
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -247,6 +265,8 @@ class _XboxScreenState extends State<XboxScreen> {
                   final section = _allSections[index];
                   final isSelected = section == _selectedSection;
 
+                  // final emoji = sectionEmojis[section] ?? '❓';
+
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -263,35 +283,50 @@ class _XboxScreenState extends State<XboxScreen> {
                           width: 1.4,
                           color: isSelected
                               ? AppColors.shadowBorder
-                              : Color.fromRGBO(255, 255, 255, 0.1),
+                              : const Color.fromRGBO(255, 255, 255, 0.1),
                         ),
                         color: isSelected
                             ? AppColors.primaryButton
                             : AppColors.notSelectedbg,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
-                        _localized(
-                          section,
-                          _allCheats.firstWhere(
-                            (c) => c.section == section,
-                            orElse: () => CheatCode(
-                              title: '',
-                              section: section,
-                              description: '',
-                              codes: '',
-                              rawData: {},
+                      child: Row(
+                        children: [
+                          // Text(
+                          //   emoji,
+                          //   style: TextStyle(
+                          //     fontSize: 14,
+                          //     fontFamily: 'Apple Color Emoji',
+                          //     color: isSelected
+                          //         ? const Color.fromRGBO(4, 4, 4, 1)
+                          //         : Colors.grey,
+                          //   ),
+                          // ),
+                          // const SizedBox(width: 6),
+                          Text(
+                            _localized(
+                              section,
+                              _allCheats.firstWhere(
+                                (c) => c.section == section,
+                                orElse: () => CheatCode(
+                                  title: '',
+                                  section: section,
+                                  description: '',
+                                  codes: '',
+                                  rawData: {},
+                                ),
+                              ),
+                              'section',
+                            ),
+                            style: TextStyle(
+                              color: isSelected
+                                  ? const Color.fromRGBO(4, 4, 4, 1)
+                                  : const Color.fromRGBO(200, 196, 196, 1),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13,
                             ),
                           ),
-                          'section',
-                        ),
-                        style: TextStyle(
-                          color: isSelected
-                              ? Color.fromRGBO(4, 4, 4, 1)
-                              : Color.fromRGBO(200, 196, 196, 1),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                        ),
+                        ],
                       ),
                     ),
                   );
