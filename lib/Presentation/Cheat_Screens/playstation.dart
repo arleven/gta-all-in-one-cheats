@@ -23,7 +23,7 @@ class _PlaystationState extends State<Playstation> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   final FocusNode _searchFocusNode = FocusNode();
-  static const String _prefsKey = 'favoriteCheats';
+  static const String _prefsKey = 'favoriteCheats_playstation';
   String _selectedSection = 'All';
   List<String> _allSections = ['All'];
 
@@ -78,7 +78,12 @@ class _PlaystationState extends State<Playstation> {
     setState(() {
       _allCheats = fresh;
       _isLoading = false;
-      _allSections = ['All', ...fresh.map((e) => e.section)];
+
+      final uniqueSections = fresh.map((e) => e.section).toSet().toList();
+
+      uniqueSections.sort();
+
+      _allSections = ['All', ...uniqueSections];
     });
   }
 
@@ -117,7 +122,6 @@ class _PlaystationState extends State<Playstation> {
 
   @override
   Widget build(BuildContext context) {
-    // reload cheats when game changes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _loadCheats();

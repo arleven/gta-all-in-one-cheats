@@ -69,7 +69,7 @@ class _PhoneNumState extends State<PhoneNum> {
   void _loadCheats() async {
     setState(() => _isLoading = true);
 
-    final fresh = await CheatService.fetchIphoneCheats(useCacheFirst: false);
+    final fresh = await CheatService.fetchPhoneNumCheats(useCacheFirst: false);
 
     if (!mounted) return;
     setState(() {

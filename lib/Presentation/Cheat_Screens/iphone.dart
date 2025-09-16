@@ -21,7 +21,7 @@ class _IphoneState extends State<Iphone> {
   String _searchQuery = '';
   final FocusNode _searchFocusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
-  static const String _prefsKey = 'favoriteCheats_iPhone';
+  static const String _prefsKey = 'favoriteCheats_iphone';
   String _selectedSection = 'All';
   List<String> _allSections = ['All'];
 

@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
@@ -54,6 +55,10 @@ class _BottomBarsState extends State<BottomBars> {
 
     _selectedPlatformKey =
         prefs.getString('selectedPlatform') ?? widget.initialPlatform;
+    final savedPlatform = prefs.getString('selectedPlatform');
+    print('Saved platform in prefs: $savedPlatform');
+    print('Initial platform: ${widget.initialPlatform}');
+    print(_selectedPlatformKey);
 
     final gameProvider = context.read<GameProvider>();
     await gameProvider.loadGame();
@@ -185,13 +190,14 @@ class _BottomBarsState extends State<BottomBars> {
 
     final screens = [
       _getPlatformScreen(),
-      Center(
-        child: Text(
-          "Favorites Screen",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
+      Favorites(),
+      SettingsScreen(
+        onPlatformChanged: (newPlatform) async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('selectedPlatform', newPlatform);
+          setState(() => _selectedPlatformKey = newPlatform);
+        },
       ),
-      SettingsScreen(),
     ];
 
     return Scaffold(

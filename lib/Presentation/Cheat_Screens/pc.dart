@@ -22,7 +22,7 @@ class _PcState extends State<Pc> {
   String _searchQuery = '';
   final FocusNode _searchFocusNode = FocusNode();
 
-  static const String _prefsKey = 'favoriteCheats';
+  static const String _prefsKey = 'favoriteCheats_pc';
   String _selectedSection = 'All';
   List<String> _allSections = ['All'];
 
@@ -66,7 +66,7 @@ class _PcState extends State<Pc> {
   void _loadCheats() async {
     setState(() => _isLoading = true);
 
-    final fresh = await CheatService.fetchIphoneCheats(useCacheFirst: false);
+    final fresh = await CheatService.fetchPcCheats(useCacheFirst: false);
 
     if (!mounted) return;
     setState(() {

@@ -6,7 +6,8 @@ import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:all_gta/main.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final ValueChanged<String>? onPlatformChanged;
+  const SettingsScreen({super.key, this.onPlatformChanged});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -201,6 +202,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         selectedPlatformKey = selected;
       });
       _savePlatform(selected);
+
+      widget.onPlatformChanged?.call(selected);
     }
   }
 

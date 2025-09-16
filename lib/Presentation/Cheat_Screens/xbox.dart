@@ -25,7 +25,7 @@ class _XboxScreenState extends State<XboxScreen> {
   String _searchQuery = '';
   final FocusNode _searchFocusNode = FocusNode();
   bool _isMounted = false;
-  static const String _prefsKey = 'favoriteCheats';
+  static const String _prefsKey = 'favoriteCheats_xbox';
   String _selectedSection = 'All';
   List<String> _allSections = ['All'];
 
