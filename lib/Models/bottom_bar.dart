@@ -1,4 +1,7 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
 
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
 
@@ -27,7 +30,7 @@ class _BottomBarsState extends State<BottomBars> {
   final GlobalKey _gameTrailingKey = GlobalKey();
 
   int _selectedIndex = 0;
-  final String _selectedPlatformKey = 'xbox';
+  String? _selectedPlatformKey;
   List<String> _allowedGames = [];
   bool _initDone = false;
 
@@ -49,8 +52,12 @@ class _BottomBarsState extends State<BottomBars> {
 
     _allowedGames = prefs.getStringList('selectedGames') ?? ['sanandreas'];
 
+    _selectedPlatformKey =
+        prefs.getString('selectedPlatform') ?? widget.initialPlatform;
+
     final gameProvider = context.read<GameProvider>();
     await gameProvider.loadGame();
+
     var currentGame = gameProvider.selectedGame.isNotEmpty
         ? gameProvider.selectedGame
         : widget.initialGame;
@@ -60,13 +67,31 @@ class _BottomBarsState extends State<BottomBars> {
       await gameProvider.setGame(currentGame);
     }
 
-    await prefs.setString('selectedPlatform', _selectedPlatformKey);
-
     setState(() {
       _initDone = true;
     });
   }
 
+  Widget _getPlatformScreen() {
+    switch (_selectedPlatformKey) {
+      case 'playstation':
+        return Playstation();
+      case 'pc':
+        return Pc();
+      case 'iphone':
+        return Iphone();
+      case 'xbox':
+      default:
+        return XboxScreen();
+    }
+  }
+
+  final Map<String, String> _platformLabels = const {
+    'playstation': 'Playstation',
+    'pc': 'PC',
+    'xbox': 'Xbox',
+    'iphone': 'iPhone',
+  };
   OverlayEntry? _dropdownOverlay;
 
   void _showGameDropdown(BuildContext context) {
@@ -159,7 +184,7 @@ class _BottomBarsState extends State<BottomBars> {
     }
 
     final screens = [
-      XboxScreen(),
+      _getPlatformScreen(),
       Center(
         child: Text(
           "Favorites Screen",
@@ -180,7 +205,7 @@ class _BottomBarsState extends State<BottomBars> {
             Row(
               children: [
                 Text(
-                  _selectedPlatformKey.toUpperCase(),
+                  _platformLabels[_selectedPlatformKey] ?? "",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 26,

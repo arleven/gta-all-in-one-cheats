@@ -70,18 +70,15 @@ class _PlaystationState extends State<Playstation> {
   void _loadCheats() async {
     setState(() => _isLoading = true);
 
-    final fresh = await CheatService.fetchXboxCheats(useCacheFirst: false);
+    final fresh = await CheatService.fetchPlaystationCheats(
+      useCacheFirst: false,
+    );
 
     if (!mounted) return;
     setState(() {
       _allCheats = fresh;
       _isLoading = false;
-
-      final uniqueSections = fresh.map((e) => e.section).toSet().toList();
-
-      uniqueSections.sort();
-
-      _allSections = ['All', ...uniqueSections];
+      _allSections = ['All', ...fresh.map((e) => e.section)];
     });
   }
 
