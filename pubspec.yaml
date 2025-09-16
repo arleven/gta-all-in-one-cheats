@@ -134,6 +134,11 @@ flutter:
     - assets/data/libertycity/
     - assets/data/vicecity/
     - assets/ARConfig/ARConfig.plist
+    - assets/images/platform_icon.png
+    - assets/images/contact_icon.png
+    - assets/images/privacy_icon.png
+    - assets/images/terms_icon.png
+    - assets/images/language_icon.png
 
 
 flutter_gen:

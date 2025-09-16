@@ -216,8 +216,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
-          SectionHeader(title: AppLocalizations.of(context)!.userSettings),
-
           Card(
             color: const Color(0xFF1C1C1E),
             shape: RoundedRectangleBorder(
@@ -226,8 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: SettingsTile(
-                icon: Icons.videogame_asset,
-                iconColor: Colors.purpleAccent,
+                imagePath: 'assets/images/platform_icon.png',
                 title: AppLocalizations.of(context)!.platformTitle,
                 subtitle: AppLocalizations.of(context)!.platformSubtitle,
                 trailingText: localizedPlatforms[selectedPlatformKey],
@@ -240,8 +237,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 16),
 
-          SectionHeader(title: AppLocalizations.of(context)!.contactSection),
-
           Card(
             color: const Color(0xFF1C1C1E),
             shape: RoundedRectangleBorder(
@@ -250,8 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: SettingsTile(
-                icon: Icons.email_outlined,
-                iconColor: Colors.lightBlueAccent,
+                imagePath: 'assets/images/contact_icon.png',
                 title: AppLocalizations.of(context)!.contactMeTitle,
                 subtitle: AppLocalizations.of(context)!.contactMeSubtitle,
                 onTap: () async {
@@ -281,10 +275,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 16),
 
-          SectionHeader(
-            title: AppLocalizations.of(context)!.informationSection,
-          ),
-
           Card(
             color: const Color(0xFF1C1C1E),
             shape: RoundedRectangleBorder(
@@ -295,8 +285,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 children: [
                   SettingsTile(
-                    icon: Icons.privacy_tip_outlined,
-                    iconColor: Colors.greenAccent,
+                    imagePath: 'assets/images/privacy_icon.png',
                     title: AppLocalizations.of(context)!.privacyPolicyTitle,
                     subtitle: AppLocalizations.of(
                       context,
@@ -310,8 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const Divider(color: Colors.white24),
                   SettingsTile(
-                    icon: Icons.article_outlined,
-                    iconColor: Colors.orangeAccent,
+                    imagePath: 'assets/images/terms_icon.png',
                     title: AppLocalizations.of(context)!.termsOfServiceTitle,
                     subtitle: AppLocalizations.of(
                       context,
@@ -329,8 +317,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 16),
 
-          SectionHeader(title: AppLocalizations.of(context)!.languageSection),
-
           Card(
             color: const Color(0xFF1C1C1E),
             shape: RoundedRectangleBorder(
@@ -339,8 +325,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: SettingsTile(
-                icon: Icons.email_outlined,
-                iconColor: Colors.lightBlueAccent,
+                imagePath: 'assets/images/language_icon.png',
                 title: AppLocalizations.of(context)!.changeLanguageTitle,
                 subtitle: AppLocalizations.of(context)!.changeLanguageSubtitle,
                 onTap: () => _showLanguageBottomSheet(context),
@@ -533,31 +518,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
-class SectionHeader extends StatelessWidget {
-  final String title;
-  const SectionHeader({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 8),
-        Text(
-          title.toUpperCase(),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class SettingsTile extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
+  final String imagePath; // ✅ Use asset image instead of icon
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -567,8 +529,7 @@ class SettingsTile extends StatelessWidget {
 
   const SettingsTile({
     super.key,
-    required this.icon,
-    required this.iconColor,
+    required this.imagePath,
     required this.title,
     required this.subtitle,
     required this.onTap,
@@ -585,10 +546,15 @@ class SettingsTile extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: iconColor.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
+          color: Colors.transparent, // ✅ No background tint unless you want one
         ),
-        child: Icon(icon, color: iconColor),
+        child: Image.asset(
+          imagePath,
+          width: 28, // adjust size as per need
+          height: 28,
+          fit: BoxFit.contain,
+        ),
       ),
       title: Text(
         title,
