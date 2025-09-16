@@ -226,7 +226,7 @@ class _XboxScreenState extends State<XboxScreen> {
                     },
                     child: Text(
                       AppLocalizations.of(context)!.cancel,
-                      style: TextStyle(color: Colors.greenAccent),
+                      style: TextStyle(color: AppColors.primaryButton),
                     ),
                   ),
               ],
@@ -305,12 +305,6 @@ class _XboxScreenState extends State<XboxScreen> {
                   : ListView(
                       children: [
                         ...groupedCheats.entries.map((entry) {
-                          final sectionName = _localized(
-                            entry.key,
-                            entry.value.first,
-                            'section',
-                          );
-
                           final cheats = entry.value;
 
                           return Column(
@@ -319,7 +313,7 @@ class _XboxScreenState extends State<XboxScreen> {
                               const SizedBox(height: 12),
                               ...cheats.map(
                                 (cheat) => CheatCard(
-                                  title: sectionName,
+                                  title: cheat.title,
                                   desc: _localized(
                                     cheat.description,
                                     cheat,

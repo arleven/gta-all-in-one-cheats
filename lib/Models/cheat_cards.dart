@@ -54,6 +54,7 @@ class CheatCard extends StatelessWidget {
                             color: Color.fromRGBO(255, 255, 255, 1),
                           ),
                         ),
+                        SizedBox(height: 8),
                         Text(
                           desc,
                           style: const TextStyle(
@@ -121,39 +122,55 @@ class CheatCard extends StatelessWidget {
                                 vertical: 8,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.green[200]?.withOpacity(0.2),
+                                color: Color.fromRGBO(31, 69, 50, 1),
                                 border: Border.all(
-                                  color: Colors.green.shade700,
+                                  width: 1.8,
+                                  color: Color.fromRGBO(31, 164, 106, 1),
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 code,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.copy,
-                                color: Colors.greenAccent,
-                                size: 20,
+                            SizedBox(width: 12),
+                            Container(
+                              width: 33,
+                              height: 33,
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(48, 50, 57, 1),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: const Color.fromRGBO(76, 82, 79, 1),
+                                  width: 1.8,
+                                ),
                               ),
-                              onPressed: () {
-                                Clipboard.setData(ClipboardData(text: code));
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Copied "$code" to clipboard',
+                              child: IconButton(
+                                padding: const EdgeInsets.all(0),
+                                constraints: const BoxConstraints(),
+                                icon: const Icon(
+                                  Icons.copy,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: code));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Copied "$code" to clipboard',
+                                      ),
+                                      backgroundColor: Colors.green[800],
+                                      duration: const Duration(seconds: 1),
                                     ),
-                                    backgroundColor: Colors.green[800],
-                                    duration: const Duration(seconds: 1),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         );
