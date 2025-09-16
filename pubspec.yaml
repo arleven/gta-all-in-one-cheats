@@ -139,6 +139,7 @@ flutter:
     - assets/images/privacy_icon.png
     - assets/images/terms_icon.png
     - assets/images/language_icon.png
+    - assets/images/dropdown_arrow.png
 
 
 flutter_gen:

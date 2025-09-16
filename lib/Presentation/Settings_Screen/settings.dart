@@ -18,7 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List<String> get platformKeys {
     if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
-      return ['playstation']; // Force PlayStation only
+      return ['playstation'];
     }
     return gamePlatforms[selectedGameKey] ?? [];
   }
@@ -211,10 +211,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    return Container(
+      child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         children: [
           Card(
             color: const Color(0xFF1C1C1E),
@@ -297,7 +296,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                   ),
-                  const Divider(color: Colors.white24),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            color: const Color(0xFF1C1C1E),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: Column(
+                children: [
                   SettingsTile(
                     imagePath: 'assets/images/terms_icon.png',
                     title: AppLocalizations.of(context)!.termsOfServiceTitle,
@@ -316,7 +328,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 16),
-
           Card(
             color: const Color(0xFF1C1C1E),
             shape: RoundedRectangleBorder(
@@ -519,7 +530,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 }
 
 class SettingsTile extends StatelessWidget {
-  final String imagePath; // ✅ Use asset image instead of icon
+  final String imagePath;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -547,11 +558,11 @@ class SettingsTile extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.transparent, // ✅ No background tint unless you want one
+          color: Colors.transparent,
         ),
         child: Image.asset(
           imagePath,
-          width: 28, // adjust size as per need
+          width: 28,
           height: 28,
           fit: BoxFit.contain,
         ),
@@ -572,13 +583,39 @@ class SettingsTile extends StatelessWidget {
           ? GestureDetector(
               key: trailingKey,
               onTap: onTrailingTap,
-              child: Text(
-                trailingText!,
-                style: const TextStyle(
-                  color: Colors.greenAccent,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Color.fromRGBO(105, 240, 174, 0.17),
+                      ),
+                      color: const Color.fromRGBO(5, 241, 139, 0.23),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      trailingText!,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(0, 255, 130, 1),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Image.asset(
+                    'assets/images/dropdown_arrow.png',
+                    width: 16,
+                    height: 16,
+                    fit: BoxFit.contain,
+                  ),
+                ],
               ),
             )
           : null,
