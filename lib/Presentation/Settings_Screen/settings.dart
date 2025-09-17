@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,31 +143,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showPlatformDropdown(BuildContext context) async {
-    if (platformKeys.length == 1) {
-      // Do nothing if only one option
-      return;
-    }
-    final RenderBox renderBox =
-        _trailingKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
-    final Size size = renderBox.size;
+    if (platformKeys.length == 1) return;
+
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
 
     final selected = await showMenu<String>(
       context: context,
-      color: const Color(0xFF1C1C1E),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      position: RelativeRect.fromLTRB(
-        offset.dx,
-        offset.dy + size.height,
-        offset.dx + size.width,
-        offset.dy + size.height + 1,
+      color: const Color.fromRGBO(0, 0, 0, 1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: Color.fromRGBO(102, 102, 102, 0.49), width: 1),
+      ),
+      position: RelativeRect.fromLTRB(12, kToolbarHeight + 20, 12, 0),
+      constraints: BoxConstraints(
+        minWidth: overlay.size.width - 24,
+        maxWidth: overlay.size.width - 24,
       ),
       items: List.generate(platformKeys.length * 2 - 1, (index) {
         if (index.isOdd) {
           return const PopupMenuItem<String>(
             enabled: false,
             height: 1,
-            child: Divider(height: 1, color: Colors.white24),
+            child: Divider(
+              height: 1,
+              color: Color.fromRGBO(102, 102, 102, 0.49),
+            ),
           );
         }
 
@@ -175,35 +177,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
         return PopupMenuItem<String>(
           value: key,
-          height: 50,
-          child: Row(
-            children: [
-              if (selectedPlatformKey == key)
-                const Icon(Icons.check, color: Colors.white, size: 20)
-              else
-                const SizedBox(width: 50),
-              const SizedBox(width: 12),
-              Text(
-                platform,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+          height: 60,
+
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Image.asset(
+                  _getPlatformImage(key),
+                  width: 38,
+                  height: 38,
+                  fit: BoxFit.contain,
                 ),
-              ),
-            ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    platform,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                if (selectedPlatformKey == key)
+                  Icon(Icons.check, color: AppColors.primaryButton, size: 20),
+              ],
+            ),
           ),
         );
       }),
     );
 
     if (selected != null) {
-      setState(() {
-        selectedPlatformKey = selected;
-      });
+      setState(() => selectedPlatformKey = selected);
       _savePlatform(selected);
-
       widget.onPlatformChanged?.call(selected);
+    }
+  }
+
+  String _getPlatformImage(String key) {
+    switch (key.toLowerCase()) {
+      case "xbox":
+        return "assets/images/xbox_icon.png";
+      case "pc":
+        return "assets/images/pc_icon.png";
+      case "playstation":
+        return "assets/images/play_icon.png";
+      case "iphone":
+        return "assets/images/iphone_icon.png";
+      default:
+        return "assets/images/xbox_icon.png";
     }
   }
 

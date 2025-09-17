@@ -140,6 +140,10 @@ flutter:
     - assets/images/terms_icon.png
     - assets/images/language_icon.png
     - assets/images/dropdown_arrow.png
+    - assets/images/xbox_icon.png
+    - assets/images/play_icon.png
+    - assets/images/pc_icon.png
+    - assets/images/iphone_icon.png
 
 
 flutter_gen:
