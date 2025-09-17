@@ -69,6 +69,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get contactSection => '문의';
 
   @override
+  String get version => '버전';
+
+  @override
+  String get version_subtitle => '현재 앱 버전';
+
+  @override
   String get contactMeTitle => '문의하기';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changeLanguageTitle => '언어 변경';
 
   @override
-  String get changeLanguageSubtitle => '언어를 변경하세요.';
+  String get changeLanguageSubtitle => '선호하는 언어를 설정하세요.';
 
   @override
   String languageChangedMessage(String language) {

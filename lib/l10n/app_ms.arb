@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "Tidak dapat buka aplikasi mel",
     "informationSection": "Maklumat",
+    "version": "Versi",
+"version_subtitle": "Versi aplikasi anda sekarang"
+,
     "privacyPolicyTitle": "Dasar Privasi",
     "privacyPolicySubtitle": "Ketahui lebih lanjut tentang amalan privasi aplikasi ini.",
     "termsOfServiceTitle": "Terma Perkhidmatan",
     "termsOfServiceSubtitle": "Kenali garis panduan kami.",
     "languageSection": "Bahasa",
     "changeLanguageTitle": "Tukar Bahasa",
-    "changeLanguageSubtitle": "Tukar bahasa.",
+    "changeLanguageSubtitle": "Tetapkan bahasa pilihan anda.",
  "languageChangedMessage": "Bahasa telah ditukar kepada {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "Не удалось открыть почтовое приложение",
     "informationSection": "Информация",
+    "version": "Версия",
+"version_subtitle": "Текущая версия вашего приложения"
+,
     "privacyPolicyTitle": "Политика конфиденциальности",
     "privacyPolicySubtitle": "Узнайте больше о политике конфиденциальности приложения.",
     "termsOfServiceTitle": "Условия использования",
     "termsOfServiceSubtitle": "Ознакомьтесь с нашими правилами.",
     "languageSection": "Язык",
     "changeLanguageTitle": "Сменить язык",
-    "changeLanguageSubtitle": "Изменить язык.",
+    "changeLanguageSubtitle": "Выберите предпочитаемые языки.",
    "languageChangedMessage": "Язык изменён на {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "メールアプリを開けませんでした",
     "informationSection": "情報",
+    "version": "バージョン",
+"version_subtitle": "現在のアプリのバージョン"
+,
     "privacyPolicyTitle": "プライバシーポリシー",
     "privacyPolicySubtitle": "アプリのプライバシーに関する情報をご覧ください。",
     "termsOfServiceTitle": "利用規約",
     "termsOfServiceSubtitle": "ガイドラインをご確認ください。",
     "languageSection": "言語",
     "changeLanguageTitle": "言語を変更",
-    "changeLanguageSubtitle": "言語を切り替えます。",
+    "changeLanguageSubtitle": "希望する言語を設定してください。",
     "languageChangedMessage": "言語が {language} に変更されました",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

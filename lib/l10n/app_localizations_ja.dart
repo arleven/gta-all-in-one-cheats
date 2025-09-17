@@ -69,6 +69,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactSection => 'お問い合わせ';
 
   @override
+  String get version => 'バージョン';
+
+  @override
+  String get version_subtitle => '現在のアプリのバージョン';
+
+  @override
   String get contactMeTitle => 'お問い合わせ';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changeLanguageTitle => '言語を変更';
 
   @override
-  String get changeLanguageSubtitle => '言語を切り替えます。';
+  String get changeLanguageSubtitle => '希望する言語を設定してください。';
 
   @override
   String languageChangedMessage(String language) {

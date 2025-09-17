@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "Hindi ma-access ang mail app",
     "informationSection": "Impormasyon",
+    "version": "Bersyon",
+"version_subtitle": "Ang kasalukuyang bersyon ng iyong app"
+,
     "privacyPolicyTitle": "Patakaran sa Privacy",
     "privacyPolicySubtitle": "Alamin ang tungkol sa privacy ng app.",
     "termsOfServiceTitle": "Mga Tuntunin ng Serbisyo",
     "termsOfServiceSubtitle": "Kilalanin ang aming mga alituntunin.",
     "languageSection": "Wika",
     "changeLanguageTitle": "Palitan ang Wika",
-    "changeLanguageSubtitle": "Baguhin ang mga wika.",
+    "changeLanguageSubtitle": "Itakda ang iyong mga paboritong wika.",
   "languageChangedMessage": "Ang wika ay pinalitan sa {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

@@ -69,6 +69,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get contactSection => 'संपर्क करें';
 
   @override
+  String get version => 'संस्करण';
+
+  @override
+  String get version_subtitle => 'आपके ऐप का वर्तमान संस्करण';
+
+  @override
   String get contactMeTitle => 'हमसे संपर्क करें';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changeLanguageTitle => 'भाषा बदलें';
 
   @override
-  String get changeLanguageSubtitle => 'भाषा बदलें।';
+  String get changeLanguageSubtitle => 'अपनी पसंदीदा भाषाएँ सेट करें।';
 
   @override
   String languageChangedMessage(String language) {

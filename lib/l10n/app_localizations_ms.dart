@@ -69,6 +69,12 @@ class AppLocalizationsMs extends AppLocalizations {
   String get contactSection => 'Hubungi';
 
   @override
+  String get version => 'Versi';
+
+  @override
+  String get version_subtitle => 'Versi aplikasi anda sekarang';
+
+  @override
   String get contactMeTitle => 'Hubungi Kami';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get changeLanguageTitle => 'Tukar Bahasa';
 
   @override
-  String get changeLanguageSubtitle => 'Tukar bahasa.';
+  String get changeLanguageSubtitle => 'Tetapkan bahasa pilihan anda.';
 
   @override
   String languageChangedMessage(String language) {

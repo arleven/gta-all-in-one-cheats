@@ -69,6 +69,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactSection => 'Контакт';
 
   @override
+  String get version => 'Версия';
+
+  @override
+  String get version_subtitle => 'Текущая версия вашего приложения';
+
+  @override
   String get contactMeTitle => 'Связаться с нами';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changeLanguageTitle => 'Сменить язык';
 
   @override
-  String get changeLanguageSubtitle => 'Изменить язык.';
+  String get changeLanguageSubtitle => 'Выберите предпочитаемые языки.';
 
   @override
   String languageChangedMessage(String language) {

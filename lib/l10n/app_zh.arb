@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "无法打开邮件应用",
     "informationSection": "信息",
+    "version": "版本",
+"version_subtitle": "您当前的应用版本"
+,
     "privacyPolicyTitle": "隐私政策",
     "privacyPolicySubtitle": "了解有关应用隐私的更多信息。",
     "termsOfServiceTitle": "服务条款",
     "termsOfServiceSubtitle": "了解我们的使用规范。",
     "languageSection": "语言",
     "changeLanguageTitle": "更改语言",
-    "changeLanguageSubtitle": "更换应用语言。",
+    "changeLanguageSubtitle": "设置您偏好的语言。",
   "languageChangedMessage": "语言已更改为 {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

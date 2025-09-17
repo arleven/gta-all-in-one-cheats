@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "E-Mail-App konnte nicht geöffnet werden",
     "informationSection": "Informationen",
+    "version": "Version",
+"version_subtitle": "Ihre aktuelle App-Version"
+,
     "privacyPolicyTitle": "Datenschutzrichtlinie",
     "privacyPolicySubtitle": "Erfahre mehr über die Datenschutzpraktiken der App.",
     "termsOfServiceTitle": "Nutzungsbedingungen",
     "termsOfServiceSubtitle": "Mach dich mit unseren Richtlinien vertraut.",
     "languageSection": "Sprache",
     "changeLanguageTitle": "Sprache ändern",
-    "changeLanguageSubtitle": "Sprache ändern.",
+    "changeLanguageSubtitle": "Legen Sie Ihre bevorzugten Sprachen fest.",
   "languageChangedMessage": "Sprache wurde zu {language} geändert",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

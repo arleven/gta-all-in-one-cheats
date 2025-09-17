@@ -69,6 +69,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get contactSection => 'ติดต่อ';
 
   @override
+  String get version => 'เวอร์ชัน';
+
+  @override
+  String get version_subtitle => 'เวอร์ชันปัจจุบันของแอปของคุณ';
+
+  @override
   String get contactMeTitle => 'ติดต่อเรา';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get changeLanguageTitle => 'เปลี่ยนภาษา';
 
   @override
-  String get changeLanguageSubtitle => 'เปลี่ยนภาษาของแอป';
+  String get changeLanguageSubtitle => 'ตั้งค่าภาษาที่คุณต้องการ';
 
   @override
   String languageChangedMessage(String language) {

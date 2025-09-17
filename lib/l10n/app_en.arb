@@ -26,6 +26,8 @@
     "platformTitle": "Platform",
     "platformSubtitle": "Choose your platform.",
     "contactSection": "Contact",
+    "version": "Version",
+    "version_subtitle": "Your current App version",
     "contactMeTitle": "Contact Us",
     "contactMeSubtitle": "Get in touch with us for inquiries or support.",
     "couldNotOpenMailApp": "Could not open mail app",
@@ -36,7 +38,7 @@
     "termsOfServiceSubtitle": "Familiarize yourself with our guidelines.",
     "languageSection": "Language",
     "changeLanguageTitle": "Change Language",
-    "changeLanguageSubtitle": "Change Languages.",
+    "changeLanguageSubtitle": "Set your preferred languages.",
    "languageChangedMessage": "Language changed to {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

@@ -245,6 +245,18 @@ abstract class AppLocalizations {
   /// **'Contact'**
   String get contactSection;
 
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// No description provided for @version_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current App version'**
+  String get version_subtitle;
+
   /// No description provided for @contactMeTitle.
   ///
   /// In en, this message translates to:
@@ -308,7 +320,7 @@ abstract class AppLocalizations {
   /// No description provided for @changeLanguageSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Change Languages.'**
+  /// **'Set your preferred languages.'**
   String get changeLanguageSubtitle;
 
   /// Message shown after the user changes the language.

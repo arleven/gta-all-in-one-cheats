@@ -69,6 +69,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get contactSection => 'İletişim';
 
   @override
+  String get version => 'Sürüm';
+
+  @override
+  String get version_subtitle => 'Mevcut uygulama sürümünüz';
+
+  @override
   String get contactMeTitle => 'Bizimle İletişime Geçin';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changeLanguageTitle => 'Dili Değiştir';
 
   @override
-  String get changeLanguageSubtitle => 'Dili değiştirin.';
+  String get changeLanguageSubtitle => 'Tercih ettiğiniz dilleri ayarlayın.';
 
   @override
   String languageChangedMessage(String language) {

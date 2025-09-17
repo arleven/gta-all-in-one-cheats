@@ -69,6 +69,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get contactSection => 'تواصل';
 
   @override
+  String get version => 'الإصدار';
+
+  @override
+  String get version_subtitle => 'إصدار التطبيق الحالي لديك';
+
+  @override
   String get contactMeTitle => 'اتصل بنا';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changeLanguageTitle => 'تغيير اللغة';
 
   @override
-  String get changeLanguageSubtitle => 'تغيير اللغات.';
+  String get changeLanguageSubtitle => 'قم بتعيين لغاتك المفضلة.';
 
   @override
   String languageChangedMessage(String language) {

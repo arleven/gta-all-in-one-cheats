@@ -38,7 +38,7 @@ dependencies:
   flutter_localization: ^0.3.3
   flutter_jailbreak_detection: ^1.10.0
   amplitude_flutter: ^4.3.7
-  package_info_plus: ^8.3.1
+  package_info_plus: ^9.0.0
   country_codes: ^3.3.0
   flutter_native_timezone: ^2.0.0
   appsflyer_sdk: ^6.17.1
@@ -144,6 +144,7 @@ flutter:
     - assets/images/play_icon.png
     - assets/images/pc_icon.png
     - assets/images/iphone_icon.png
+    - assets/images/version_icon.png
 
 
 flutter_gen:

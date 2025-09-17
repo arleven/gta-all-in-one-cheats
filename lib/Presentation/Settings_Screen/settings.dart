@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:all_gta/main.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
   final ValueChanged<String>? onPlatformChanged;
@@ -16,6 +17,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   //MARK: Variables
+
+  String _version = '';
 
   List<String> get platformKeys {
     if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
@@ -107,8 +110,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadSavedPlatform();
       _loadSelectedLangCode();
-
+      _loadVersion();
       _loadSelectedGames();
+    });
+  }
+
+  Future<void> _loadVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = packageInfo.version;
     });
   }
 
@@ -240,7 +250,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         children: [
           Card(
-            color: const Color(0xFF1C1C1E),
+            color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -261,7 +271,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 16),
 
           Card(
-            color: const Color(0xFF1C1C1E),
+            color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -299,7 +309,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 16),
 
           Card(
-            color: const Color(0xFF1C1C1E),
+            color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -326,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 16),
           Card(
-            color: const Color(0xFF1C1C1E),
+            color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -353,7 +363,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 16),
           Card(
-            color: const Color(0xFF1C1C1E),
+            color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -367,8 +377,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
+          SizedBox(height: 16),
+          Card(
+            color: const Color.fromRGBO(35, 35, 35, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: SettingsTile(
+                imagePath: 'assets/images/contact_icon.png',
+                title: AppLocalizations.of(context)!.version,
+                subtitle: AppLocalizations.of(context)!.version_subtitle,
+                onTap: () async {},
+                trailingText: _version,
+                trailingPlain: true,
+              ),
+            ),
+          ),
 
-          const SizedBox(height: 80),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.info_outline, size: 18, color: Colors.white54),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    "This app is an independent tool designed solely to provide cheat codes for GTA on different platforms. "
+                    "It is not created, endorsed, or sponsored by Rockstar Games. All trademarks and copyrights belong "
+                    "to their respective owners. This app is for informational purposes only.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      height: 1.4,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -643,6 +693,7 @@ class SettingsTile extends StatelessWidget {
   final String? trailingText;
   final VoidCallback? onTrailingTap;
   final Key? trailingKey;
+  final bool trailingPlain;
 
   const SettingsTile({
     super.key,
@@ -653,11 +704,13 @@ class SettingsTile extends StatelessWidget {
     this.trailingText,
     this.onTrailingTap,
     this.trailingKey,
+    this.trailingPlain = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      visualDensity: const VisualDensity(vertical: 2),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 2),
       leading: Container(
@@ -677,53 +730,67 @@ class SettingsTile extends StatelessWidget {
         title,
         style: const TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
         ),
       ),
+
       subtitle: Text(
         subtitle,
-        style: const TextStyle(color: Colors.white, fontSize: 15),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       trailing: trailingText != null
-          ? GestureDetector(
-              key: trailingKey,
-              onTap: onTrailingTap,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+          ? trailingPlain
+                ? Text(
+                    trailingText!,
+                    style: const TextStyle(
+                      color: AppColors.primaryButton,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Color.fromRGBO(105, 240, 174, 0.17),
-                      ),
-                      color: const Color.fromRGBO(5, 241, 139, 0.23),
-                      borderRadius: BorderRadius.circular(8),
+                  )
+                : GestureDetector(
+                    key: trailingKey,
+                    onTap: onTrailingTap,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Color.fromRGBO(105, 240, 174, 0.17),
+                            ),
+                            color: const Color.fromRGBO(5, 241, 139, 0.23),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            trailingText!,
+                            style: const TextStyle(
+                              color: Color.fromRGBO(0, 255, 130, 1),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Image.asset(
+                          'assets/images/dropdown_arrow.png',
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.contain,
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      trailingText!,
-                      style: const TextStyle(
-                        color: Color.fromRGBO(0, 255, 130, 1),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Image.asset(
-                    'assets/images/dropdown_arrow.png',
-                    width: 16,
-                    height: 16,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
-            )
+                  )
           : null,
     );
   }

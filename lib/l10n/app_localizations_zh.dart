@@ -69,6 +69,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactSection => '联系';
 
   @override
+  String get version => '版本';
+
+  @override
+  String get version_subtitle => '您当前的应用版本';
+
+  @override
   String get contactMeTitle => '联系我们';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changeLanguageTitle => '更改语言';
 
   @override
-  String get changeLanguageSubtitle => '更换应用语言。';
+  String get changeLanguageSubtitle => '设置您偏好的语言。';
 
   @override
   String languageChangedMessage(String language) {

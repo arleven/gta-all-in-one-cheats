@@ -27,13 +27,16 @@
 
   "couldNotOpenMailApp": "मेल ऐप नहीं खोल सका",
   "informationSection": "जानकारी",
+  "version": "संस्करण",
+"version_subtitle": "आपके ऐप का वर्तमान संस्करण"
+,
   "privacyPolicyTitle": "गोपनीयता नीति",
   "privacyPolicySubtitle": "ऐप की गोपनीयता प्रथाओं के बारे में जानें।",
   "termsOfServiceTitle": "सेवा की शर्तें",
   "termsOfServiceSubtitle": "हमारे दिशा-निर्देश जानें।",
   "languageSection": "भाषा",
   "changeLanguageTitle": "भाषा बदलें",
-  "changeLanguageSubtitle": "भाषा बदलें।",
+  "changeLanguageSubtitle": "अपनी पसंदीदा भाषाएँ सेट करें।",
   "languageChangedMessage": "भाषा {language} में बदल दी गई है",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

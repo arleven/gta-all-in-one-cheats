@@ -69,6 +69,12 @@ class AppLocalizationsFil extends AppLocalizations {
   String get contactSection => 'Makipag-ugnayan';
 
   @override
+  String get version => 'Bersyon';
+
+  @override
+  String get version_subtitle => 'Ang kasalukuyang bersyon ng iyong app';
+
+  @override
   String get contactMeTitle => 'Makipag-ugnayan sa Amin';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get changeLanguageTitle => 'Palitan ang Wika';
 
   @override
-  String get changeLanguageSubtitle => 'Baguhin ang mga wika.';
+  String get changeLanguageSubtitle => 'Itakda ang iyong mga paboritong wika.';
 
   @override
   String languageChangedMessage(String language) {

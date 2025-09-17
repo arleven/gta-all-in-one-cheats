@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "تعذر فتح تطبيق البريد",
     "informationSection": "معلومات",
+    "version": "الإصدار",
+"version_subtitle": "إصدار التطبيق الحالي لديك",
+
     "privacyPolicyTitle": "سياسة الخصوصية",
     "privacyPolicySubtitle": "تعرف على ممارسات الخصوصية للتطبيق.",
     "termsOfServiceTitle": "شروط الخدمة",
     "termsOfServiceSubtitle": "تعرّف على إرشاداتنا.",
     "languageSection": "اللغة",
     "changeLanguageTitle": "تغيير اللغة",
-    "changeLanguageSubtitle": "تغيير اللغات.",
+    "changeLanguageSubtitle": "قم بتعيين لغاتك المفضلة.",
     "languageChangedMessage": "تم تغيير اللغة إلى {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

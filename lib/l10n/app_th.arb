@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "ไม่สามารถเปิดแอปอีเมลได้",
     "informationSection": "ข้อมูล",
+    "version": "เวอร์ชัน",
+"version_subtitle": "เวอร์ชันปัจจุบันของแอปของคุณ"
+,
     "privacyPolicyTitle": "นโยบายความเป็นส่วนตัว",
     "privacyPolicySubtitle": "เรียนรู้เกี่ยวกับนโยบายความเป็นส่วนตัวของแอป",
     "termsOfServiceTitle": "ข้อกำหนดการให้บริการ",
     "termsOfServiceSubtitle": "ทำความเข้าใจกับแนวทางของเรา",
     "languageSection": "ภาษา",
     "changeLanguageTitle": "เปลี่ยนภาษา",
-    "changeLanguageSubtitle": "เปลี่ยนภาษาของแอป",
+    "changeLanguageSubtitle": "ตั้งค่าภาษาที่คุณต้องการ",
     "languageChangedMessage": "เปลี่ยนภาษาเป็น {language} แล้ว",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

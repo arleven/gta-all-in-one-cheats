@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "Posta uygulaması açılamadı",
     "informationSection": "Bilgi",
+    "version": "Sürüm",
+"version_subtitle": "Mevcut uygulama sürümünüz"
+,
     "privacyPolicyTitle": "Gizlilik Politikası",
     "privacyPolicySubtitle": "Uygulamanın gizlilik uygulamaları hakkında daha fazla bilgi edinin.",
     "termsOfServiceTitle": "Hizmet Şartları",
     "termsOfServiceSubtitle": "Kurallarımızı öğrenin.",
     "languageSection": "Dil",
     "changeLanguageTitle": "Dili Değiştir",
-    "changeLanguageSubtitle": "Dili değiştirin.",
+    "changeLanguageSubtitle": "Tercih ettiğiniz dilleri ayarlayın.",
     "languageChangedMessage": "Dil {language} olarak değiştirildi",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",

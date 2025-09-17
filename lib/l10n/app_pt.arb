@@ -27,13 +27,16 @@
 
     "couldNotOpenMailApp": "Não foi possível abrir o app de e-mail",
     "informationSection": "Informações",
+    "version": "Versão",
+"version_subtitle": "A versão atual do seu app"
+,
     "privacyPolicyTitle": "Política de Privacidade",
     "privacyPolicySubtitle": "Saiba mais sobre as práticas de privacidade do aplicativo.",
     "termsOfServiceTitle": "Termos de Serviço",
     "termsOfServiceSubtitle": "Familiarize-se com nossas diretrizes.",
     "languageSection": "Idioma",
     "changeLanguageTitle": "Alterar Idioma",
-    "changeLanguageSubtitle": "Mudar idioma.",
+    "changeLanguageSubtitle": "Defina seus idiomas preferidos.",
   "languageChangedMessage": "Idioma alterado para {language}",
 "@languageChangedMessage": {
   "description": "Message shown after the user changes the language.",
