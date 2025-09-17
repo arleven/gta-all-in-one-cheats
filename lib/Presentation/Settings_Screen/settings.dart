@@ -435,7 +435,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           builder: (context, scrollController) {
             return Container(
               decoration: const BoxDecoration(
-                color: Colors.black,
+                color: Color.fromRGBO(13, 13, 13, 1),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: Column(
@@ -451,27 +451,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 12),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(16),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Spacer(),
                         Text(
                           AppLocalizations.of(context)!.changeLanguageTitle,
                           style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
                         ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 0.78,
+                                color: Color.fromRGBO(148, 148, 148, 1),
+                              ),
+                              color: Color.fromRGBO(32, 31, 31, 1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(color: Colors.white24, height: 1),
+
+                  const Divider(
+                    color: Color.fromRGBO(150, 150, 150, 0.21),
+                    height: 1,
+                  ),
                   Expanded(
                     child: ListView.separated(
                       controller: scrollController,
@@ -508,34 +529,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             child: Row(
                               children: [
-                                isSelected
-                                    ? const Icon(
-                                        Icons.check,
-                                        color: Colors.white,
-                                        size: 20,
-                                      )
-                                    : const SizedBox(width: 20),
-                                const SizedBox(width: 12),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      label,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      native,
-                                      style: const TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  _getFlagEmoji(code),
+                                  style: const TextStyle(fontSize: 32),
                                 ),
+                                const SizedBox(width: 12),
+
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        label,
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(
+                                            238,
+                                            238,
+                                            238,
+                                            1,
+                                          ),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        native,
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(
+                                            184,
+                                            181,
+                                            181,
+                                            1,
+                                          ),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                if (isSelected)
+                                  Icon(
+                                    Icons.check,
+                                    color: AppColors.primaryButton,
+                                    size: 30,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                               ],
                             ),
                           ),
@@ -550,6 +591,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
+  }
+
+  String _getFlagEmoji(String code) {
+    switch (code) {
+      case 'en':
+        return '🇺🇸';
+      case 'ar':
+        return '🇸🇦';
+      case 'zh':
+        return '🇨🇳';
+      case 'fr':
+        return '🇫🇷';
+      case 'de':
+        return '🇩🇪';
+      case 'hi':
+        return '🇮🇳';
+      case 'it':
+        return '🇮🇹';
+      case 'ja':
+        return '🇯🇵';
+      case 'ko':
+        return '🇰🇷';
+      case 'pt':
+        return '🇧🇷';
+      case 'fil':
+        return '🇵🇭';
+      case 'ms':
+        return '🇲🇾';
+      case 'pl':
+        return '🇵🇱';
+      case 'ru':
+        return '🇷🇺';
+      case 'es':
+        return '🇪🇸';
+      case 'th':
+        return '🇹🇭';
+      case 'tr':
+        return '🇹🇷';
+      default:
+        return '🌐';
+    }
   }
 }
 
