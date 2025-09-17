@@ -197,6 +197,15 @@ class _BottomBarsState extends State<BottomBars> {
           await prefs.setString('selectedPlatform', newPlatform);
           setState(() => _selectedPlatformKey = newPlatform);
         },
+        onGameChanged: (newGame) async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('selectedGame', newGame);
+
+          final gameProvider = context.read<GameProvider>();
+          await gameProvider.setGame(newGame);
+
+          setState(() {});
+        },
       ),
     ];
 

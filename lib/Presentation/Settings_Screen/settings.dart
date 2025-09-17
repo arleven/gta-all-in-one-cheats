@@ -9,7 +9,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
   final ValueChanged<String>? onPlatformChanged;
-  const SettingsScreen({super.key, this.onPlatformChanged});
+  final ValueChanged<String>? onGameChanged;
+  const SettingsScreen({super.key, this.onPlatformChanged, this.onGameChanged});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -91,15 +92,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('selectedPlatform', platformKey);
   }
 
+  Future<void> _saveGame(String gameKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedGame', gameKey);
+  }
+
   late List<String> allowedGames = [];
 
   Future<void> _loadSelectedGames() async {
     final prefs = await SharedPreferences.getInstance();
     allowedGames = prefs.getStringList('selectedGames') ?? gameKeys;
 
+    final savedGame = prefs.getString('selectedGame');
     setState(() {
-      if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
-        selectedGameKey = 'libertycity';
+      if (savedGame != null && allowedGames.contains(savedGame)) {
+        selectedGameKey = savedGame;
+      } else if (allowedGames.isNotEmpty) {
+        selectedGameKey = allowedGames.first;
       }
     });
   }
@@ -149,6 +158,75 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         selectedPlatformKey = saved;
       });
+    }
+  }
+
+  void _showGameDropdown(BuildContext context) async {
+    if (allowedGames.length == 1) return;
+
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+
+    final selected = await showMenu<String>(
+      context: context,
+      color: const Color.fromRGBO(0, 0, 0, 1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(
+          color: Color.fromRGBO(102, 102, 102, 0.49),
+          width: 1,
+        ),
+      ),
+      position: RelativeRect.fromLTRB(12, kToolbarHeight + 80, 12, 0),
+      constraints: BoxConstraints(
+        minWidth: overlay.size.width - 24,
+        maxWidth: overlay.size.width - 24,
+      ),
+      items: List.generate(allowedGames.length * 2 - 1, (index) {
+        if (index.isOdd) {
+          return const PopupMenuItem<String>(
+            enabled: false,
+            height: 1,
+            child: Divider(
+              height: 1,
+              color: Color.fromRGBO(102, 102, 102, 0.49),
+            ),
+          );
+        }
+
+        final key = allowedGames[index ~/ 2];
+        final game = localizedGames[key] ?? key.capitalize();
+
+        return PopupMenuItem<String>(
+          value: key,
+          height: 60,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    game,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                if (selectedGameKey == key)
+                  Icon(Icons.check, color: AppColors.primaryButton, size: 20),
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+
+    if (selected != null) {
+      setState(() => selectedGameKey = selected);
+      await _saveGame(selected);
+      widget.onGameChanged?.call(selected); // notify parent
     }
   }
 
@@ -269,7 +347,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
 
           const SizedBox(height: 16),
+          Card(
+            color: const Color.fromRGBO(35, 35, 35, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: SettingsTile(
+                imagePath: 'assets/images/platform_icon.png',
+                title: 'Game',
+                subtitle: 'Choose your game',
+                trailingText: localizedGames[selectedGameKey],
+                onTap: () {},
+                onTrailingTap: () => _showGameDropdown(context),
+              ),
+            ),
+          ),
 
+          const SizedBox(height: 16),
           Card(
             color: const Color.fromRGBO(35, 35, 35, 1),
             shape: RoundedRectangleBorder(
