@@ -1,6 +1,6 @@
 [
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Invincibility",
       "codes": "RIGHT, A, RIGHT, LEFT, RIGHT, RB, RIGHT, LEFT, A, Y",
       "description": "Grants 5 minutes of invincibility to the player, making them immune to all damage.",
@@ -53,7 +53,7 @@
       "description_tr": "Oyuncuya 5 dakika yenilmezlik kazandırır ve onu tüm hasarlara karşı bağışık hale getirir."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Max Health and Armor",
       "codes": "B, LB, Y, RT, A, X, B, RIGHT, X, LB, LB, LB",
       "description": "Restores your health and armor to the maximum instantly.",
@@ -106,7 +106,7 @@
       "description_tr": "Sağlığınızı ve zırhınızı anında maksimum seviyeye geri kazandırır."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Raise Wanted Level",
       "codes": "RB, RB, B, RT, LEFT, RIGHT, LEFT, RIGHT, LEFT, RIGHT",
       "description": "Increases your wanted level by one star each time you use it.",
@@ -159,7 +159,7 @@
       "description_tr": "Her kullanıldığında aranma seviyenizi bir yıldız artırır."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Lower Wanted Level",
       "codes": "RB, RB, B, RT, RIGHT, LEFT, RIGHT, LEFT, RIGHT, LEFT",
       "description": "Decreases your wanted level by one star each time it's activated.",
@@ -212,7 +212,7 @@
       "description_tr": "Her etkinleştirildiğinde aranma seviyenizi bir yıldız azaltır."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Run",
       "codes": "Y, LEFT, RIGHT, RIGHT, LT, LB, X",
       "description": "Allows your character to sprint much faster than normal.",
@@ -265,7 +265,7 @@
       "description_tr": "Karakterinizin normalden çok daha hızlı koşmasını sağlar."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Swim",
       "codes": "LEFT, LEFT, LB, RIGHT, RIGHT, RT, LEFT, LT, RIGHT",
       "description": "Increases your swimming speed significantly.",
@@ -318,7 +318,7 @@
       "description_tr": "Yüzme hızınızı önemli ölçüde artırır."
    },
    {
-      "section": "Special Ability",
+      "section": "Player",
       "title": "Recharge Ability",
       "codes": "A, A, X, RB, LB, A, RIGHT, LEFT, A",
       "description": "Instantly recharges your character’s special ability bar.",
@@ -371,7 +371,7 @@
       "description_tr": "Karakterinizin özel yetenek çubuğunu anında doldurur."
    },
    {
-      "section": "Parachute",
+      "section": "Weapons",
       "title": "Give Parachute",
       "codes": "LEFT, RIGHT, LB, LT, RB, RT, RT, LEFT, LEFT, RIGHT, LB",
       "description": "Grants you a parachute, useful when jumping from high places or aircraft.",
@@ -424,7 +424,7 @@
       "description_tr": "Yüksek yerlerden veya uçaklardan atlarken işinize yarayacak bir paraşüt kazandırır."
    },
    {
-      "section": "Fun Effects",
+      "section": "World",
       "title": "Skyfall",
       "codes": "LB, LT, RB, RT, LEFT, RIGHT, LEFT, RIGHT, LB, LT, RB, RT, LEFT, RIGHT, LEFT, RIGHT",
       "description": "Teleports you high into the sky with no parachute—great for chaotic fun.",
@@ -636,7 +636,7 @@
       "description_tr": "Mermiler ateşlendiğinde hedefleri ateşe verir."
    },
    {
-      "section": "Combat Effects",
+      "section": "Player",
       "title": "Slow Motion Aim",
       "codes": "X, LT, RB, Y, LEFT, X, LT, RIGHT, A",
       "description": "Slows down time while aiming for precise targeting.",
@@ -689,7 +689,7 @@
       "description_tr": "Hedefleme sırasında zamanı yavaşlatarak hassas hedefleme sağlar."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Drunk Mode",
       "codes": "Y, RIGHT, RIGHT, LEFT, RIGHT, X, B, LEFT",
       "description": "Makes your character drunk—blurry screen and wobbly controls.",
@@ -795,7 +795,7 @@
       "description_tr": "Size anında tam bir silah ve cephane seti verir."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Super Jump",
       "codes": "LEFT, LEFT, Y, Y, RIGHT, RIGHT, LEFT, RIGHT, X, RB, RT",
       "description": "Makes your character jump extremely high.",
@@ -848,7 +848,7 @@
       "description_tr": "Karakterinizin çok yükseğe zıplamasını sağlar."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Moon Gravity",
       "codes": "LEFT, LEFT, LB, RB, LB, RIGHT, LEFT, LB, LEFT",
       "description": "Lowers gravity significantly—jumps and collisions are floaty.",
@@ -901,7 +901,7 @@
       "description_tr": "Yer çekimini önemli ölçüde azaltır; sıçramalar ve çarpışmalar havada asılı kalır."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Change Weather",
       "codes": "RT, A, LB, LB, LT, LT, LT, X",
       "description": "Cycles through different weather conditions like sunny, rainy, etc.",
@@ -954,7 +954,7 @@
       "description_tr": "Güneşli, yağmurlu vb. farklı hava koşullarında bisiklet sürer."
    },
    {
-      "section": "Vehicle Effects",
+      "section": "Vehicles",
       "title": "Slidey Cars",
       "codes": "Y, RB, RB, LEFT, RB, LB, RT, LB",
       "description": "Reduces traction making all vehicles slide more—like driving on ice.",
@@ -1007,7 +1007,7 @@
       "description_tr": "Çekiş gücünü azaltarak tüm araçların daha fazla kaymasına neden olur; tıpkı buz üzerinde sürüş gibi."
    },
    {
-      "section": "Time Effects",
+      "section": "World",
       "title": "Slow Motion",
       "codes": "Y, LEFT, RIGHT, RIGHT, X, RT, RB",
       "description": "Slows down time—can be activated up to three levels.",
@@ -1642,61 +1642,9 @@
       "title_tr": "BMX'i yarat",
       "description_tr": "Akrobasi ve serbest dolaşım için bir BMX bisikleti oluşturur."
    },
+ 
    {
-      "section": "Special Modes",
-      "title": "Director Mode",
-      "codes": "RT, LB, LB, RIGHT, LB, LT, A, A, X, RB",
-      "description": "Launches Rockstar Editor’s Director Mode (if unlocked)",
-      "section_hi": "विशेष मोड",
-      "title_hi": "निर्देशक मोड",
-      "description_hi": "रॉकस्टार एडिटर का डायरेक्टर मोड लॉन्च करता है (यदि अनलॉक हो)",
-      "section_ar": "الأوضاع الخاصة",
-      "title_ar": "وضع المخرج",
-      "description_ar": "يتم تشغيل وضع المخرج الخاص بمحرر Rockstar (إذا تم فتحه)",
-      "section_fr": "Modes spéciaux",
-      "title_fr": "Mode réalisateur",
-      "description_fr": "Lance le mode réalisateur de l'éditeur Rockstar (s'il est déverrouillé)",
-      "section_fil": "Mga Espesyal na Mode",
-      "title_fil": "Mode ng Direktor",
-      "description_fil": "Inilunsad ang Director Mode ng Rockstar Editor (kung naka-unlock)",
-      "section_de": "Spezialmodi",
-      "title_de": "Regisseur-Modus",
-      "description_de": "Startet den Director-Modus des Rockstar Editors (falls freigeschaltet)",
-      "section_it": "Modalità speciali",
-      "title_it": "Modalità regista",
-      "description_it": "Avvia la modalità Regista dell'Editor Rockstar (se sbloccata)",
-      "section_ja": "特別モード",
-      "title_ja": "ディレクターモード",
-      "description_ja": "ロックスターエディターのディレクターモードを起動します（ロック解除されている場合）",
-      "section_ko": "특수 모드",
-      "title_ko": "디렉터 모드",
-      "description_ko": "Rockstar Editor의 디렉터 모드를 시작합니다(잠금 해제된 경우)",
-      "section_ms": "Mod Khas",
-      "title_ms": "Mod Pengarah",
-      "description_ms": "Melancarkan Mod Pengarah Editor Rockstar (jika tidak berkunci)",
-      "section_pl": "Tryby specjalne",
-      "title_pl": "Tryb reżysera",
-      "description_pl": "Uruchamia tryb reżysera w edytorze Rockstar (jeśli odblokowany)",
-      "section_pt": "Modos Especiais",
-      "title_pt": "Modo Diretor",
-      "description_pt": "Inicia o Modo Diretor do Editor Rockstar (se desbloqueado)",
-      "section_ru": "Специальные режимы",
-      "title_ru": "Режим режиссера",
-      "description_ru": "Запускает режим режиссера в редакторе Rockstar (если он разблокирован)",
-      "section_zh": "特殊模式",
-      "title_zh": "导演模式",
-      "description_zh": "启动 Rockstar 编辑器的导演模式（如果已解锁）",
-      "section_es": "Modos especiales",
-      "title_es": "Modo Director",
-      "description_es": "Inicia el modo Director del Editor Rockstar (si está desbloqueado)",
-      "section_th": "โหมดพิเศษ",
-      "title_th": "โหมดผู้กำกับ",
-      "description_th": "เปิดตัวโหมดผู้กำกับของ Rockstar Editor (ถ้าปลดล็อค)",
-      "title_tr": "Yönetmen Modu",
-      "description_tr": "Rockstar Editor's Director Modunu başlatır (eğer kilidi açılmışsa)"
-   },
-   {
-      "section": "Vehicle Effects",
+      "section": "Vehicles",
       "title": "Slippery Cars",
       "codes": "Y, RB, RB, LEFT, RB, LB, RT, LB",
       "description": "Makes cars extremely slidey – similar to SNOWDAY but more intense",

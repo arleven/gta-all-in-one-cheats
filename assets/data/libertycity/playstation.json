@@ -1,6 +1,6 @@
 [
    {
-      "section": "Gameplay",
+      "section": "World",
       "title": "Faster Gameplay",
       "codes": "R1, R1, L1, R1, R1, L1, Down, X",
       "description": "Speeds up the overall game speed, making everything move faster.",
@@ -54,7 +54,7 @@
       "description_tr": "Oyunun genel hızını artırır, her şeyin daha hızlı hareket etmesini sağlar."
    },
    {
-      "section": "Gameplay",
+      "section": "World",
       "title": "Slower Gameplay",
       "codes": "R1, Triangle, X, R1, Square, Circle, Left, Right",
       "description": "Slows down the gameplay speed for a more cinematic feel.",
@@ -108,7 +108,7 @@
       "description_tr": "Daha sinematik bir his için oyun hızını yavaşlatır."
    },
    {
-      "section": "Misc",
+      "section": "World",
       "title": "Bobble Head World",
       "codes": "Down, Down, Down, Circle, Circle, X, L1, R1",
       "description": "Makes all pedestrians’ heads appear larger, like bobbleheads.",
@@ -162,7 +162,7 @@
       "description_tr": "Tüm yayaların kafalarının bobblehead gibi daha büyük görünmesini sağlar."
    },
    {
-      "section": "Misc",
+      "section": "Player",
       "title": "Display Game Credits",
       "codes": "L1, R1, L1, R1, Up, Down, L1, R1",
       "description": "Shows the game’s credits screen.",
@@ -215,62 +215,9 @@
       "title_tr": "Oyun Kredilerini Görüntüle",
       "description_tr": "Oyunun jeneriği ekranını gösterir."
    },
+   
    {
-      "section": "Misc",
-      "title": "Raise Media Attention",
-      "codes": "L1, Up, Right, R1, Triangle, Square, Down, X",
-      "description": "Increases your media attention level, making you more notorious.",
-      "section_hi": "विविध",
-      "title_hi": "मीडिया का ध्यान आकर्षित करें",
-      "description_hi": "इससे मीडिया में आपकी उपस्थिति बढ़ जाती है, जिससे आप अधिक कुख्यात हो जाते हैं।",
-      "section_ar": "متفرقات",
-      "title_ar": "لفت انتباه وسائل الإعلام",
-      "description_ar": "يزيد من مستوى اهتمام وسائل الإعلام بك، مما يجعلك أكثر شهرة.",
-      "section_fr": "Divers",
-      "title_fr": "Attirer l'attention des médias",
-      "description_fr": "Augmente votre niveau d’attention médiatique, vous rendant plus notoire.",
-      "section_fil": "Misc",
-      "title_fil": "Itaas ang Pansin ng Media",
-      "description_fil": "Pinapataas ang iyong antas ng atensyon sa media, na ginagawa kang mas kilalang-kilala.",
-      "section_de": "Sonstiges",
-      "title_de": "Erhöhen Sie die Aufmerksamkeit der Medien",
-      "description_de": "Erhöht Ihre Medienaufmerksamkeit und macht Sie bekannter.",
-      "section_it": "Varie",
-      "title_it": "Attirare l'attenzione dei media",
-      "description_it": "Aumenta il tuo livello di attenzione mediatica, rendendoti più famoso.",
-      "section_ja": "その他",
-      "title_ja": "メディアの注目を高める",
-      "description_ja": "メディアの注目度が上がり、悪名が高まります。",
-      "section_ko": "기타",
-      "title_ko": "언론의 관심을 끌어올리다",
-      "description_ko": "언론의 주목을 받아 더욱 유명해집니다.",
-      "section_ms": "Lain-lain",
-      "title_ms": "Angkat Perhatian Media",
-      "description_ms": "Meningkatkan tahap perhatian media anda, menjadikan anda lebih terkenal.",
-      "section_pl": "Różne",
-      "title_pl": "Zwiększ uwagę mediów",
-      "description_pl": "Zwiększa poziom zainteresowania mediów, co czyni cię bardziej znanym.",
-      "section_pt": "Diversos",
-      "title_pt": "Aumente a atenção da mídia",
-      "description_pt": "Aumenta seu nível de atenção na mídia, tornando você mais notório.",
-      "section_ru": "Разное",
-      "title_ru": "Привлечь внимание СМИ",
-      "description_ru": "Повышает уровень внимания к вам со стороны СМИ, делая вас более известным.",
-      "section_zh": "杂项",
-      "title_zh": "引起媒体关注",
-      "description_zh": "提高您的媒体关注度，让您更加臭名昭著。",
-      "section_es": "Varios",
-      "title_es": "Llamar la atención de los medios",
-      "description_es": "Aumenta tu nivel de atención mediática, haciéndote más notorio.",
-      "section_th": "เบ็ดเตล็ด",
-      "title_th": "ดึงดูดความสนใจสื่อ",
-      "description_th": "เพิ่มระดับความสนใจของคุณจากสื่อ ทำให้คุณเป็นที่รู้จักมากขึ้น",
-      "section_tr": "Çeşitli",
-      "title_tr": "Medyanın Dikkatini Çekin",
-      "description_tr": "Medyanın ilgi seviyesini artırır, daha fazla tanınmanızı sağlar."
-   },
-   {
-      "section": "Pedestrians",
+      "section": "Vehicles",
       "title": "Closest Pedestrian Enters Vehicle",
       "codes": "X, Square, Down, X, Square, Up, R1, R1",
       "description": "Nearest pedestrian will enter your vehicle as a passenger.",
@@ -324,7 +271,7 @@
       "description_tr": "En yakın yaya, yolcu olarak aracınıza binecektir."
    },
    {
-      "section": "Pedestrians",
+      "section": "Player",
       "title": "Have People Follow You",
       "codes": "Down, Down, Down, Triangle, Triangle, Circle, L1, R1",
       "description": "Makes pedestrians follow you everywhere you go.",
@@ -378,7 +325,7 @@
       "description_tr": "Yayaların gittiğiniz her yere sizi takip etmesini sağlar."
    },
    {
-      "section": "Pedestrians",
+      "section": "Player",
       "title": "Pedestrians Attack You",
       "codes": "L1, L1, R1, L1, L1, R1, Up, Triangle",
       "description": "All pedestrians will become hostile and attack you.",
@@ -432,7 +379,7 @@
       "description_tr": "Bütün yayalar düşmanca tavırlar sergileyecek ve size saldıracak."
    },
    {
-      "section": "Pedestrians",
+      "section": "Weapons",
       "title": "Pedestrians Have Weapons",
       "codes": "R1, R1, L1, R1, R1, L1, Right, Circle",
       "description": "Gives all pedestrians weapons.",
@@ -486,7 +433,7 @@
       "description_tr": "Tüm yayalara silah verir."
    },
    {
-      "section": "Pedestrians",
+      "section": "World",
       "title": "Pedestrians Riot",
       "codes": "L1, L1, R1, L1, L1, R1, Left, Square",
       "description": "Starts a citywide riot; pedestrians attack each other.",
@@ -756,7 +703,7 @@
       "description_tr": "Anında paranıza 250.000$ ekler."
    },
    {
-      "section": "Time",
+      "section": "World",
       "title": "Faster Clock",
       "codes": "L1, L1, Left, L1, L1, Right, Circle, X",
       "description": "Speeds up the in-game clock.",
@@ -810,7 +757,7 @@
       "description_tr": "Oyun içi saati hızlandırır."
    },
    {
-      "section": "Traffic",
+      "section": "Vehicles",
       "title": "Aggressive Drivers",
       "codes": "Square, Square, R1, X, X, L1, Circle, Circle",
       "description": "Makes other drivers aggressive and reckless.",
@@ -864,7 +811,7 @@
       "description_tr": "Diğer sürücülerin saldırgan ve pervasız olmasına neden olur."
    },
    {
-      "section": "Traffic",
+      "section": "Vehicles",
       "title": "All Green Lights",
       "codes": "Triangle, Triangle, R1, Square, Square, L1, X, X",
       "description": "Turns all traffic lights green.",
@@ -1404,7 +1351,7 @@
       "description_tr": "Bir Trashmaster çöp kamyonu yaratır."
    },
    {
-      "section": "Wanted",
+      "section": "Player",
       "title": "Never Wanted",
       "codes": "L1, L1, Triangle, R1, R1, X, Square, Circle",
       "description": "Removes all wanted levels permanently.",
@@ -1458,7 +1405,7 @@
       "description_tr": "Tüm aranan seviyeleri kalıcı olarak kaldırır."
    },
    {
-      "section": "Wanted",
+      "section": "Player",
       "title": "Raise Wanted Level",
       "codes": "L1, R1, Square, L1, R1, Triangle, L1, R1",
       "description": "Increases your wanted level by one star.",
@@ -1674,7 +1621,7 @@
       "description_tr": "Ağır ateş gücü de dahil olmak üzere gelişmiş silahlar verir."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Clear",
       "codes": "Up, Down, Circle, Up, Down, Square, L1, R1",
       "description": "Changes the weather to clear skies.",
@@ -1728,7 +1675,7 @@
       "description_tr": "Havayı açık gökyüzüne çevirir."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Foggy",
       "codes": "Up, Down, Triangle, Up, Down, X, L1, R1",
       "description": "Changes the weather to foggy.",
@@ -1782,7 +1729,7 @@
       "description_tr": "Havayı sisli hale getirir."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Overcast/Cloudy",
       "codes": "Up, Down, X, Up, Down, Triangle, L1, R1",
       "description": "Changes the weather to overcast/cloudy.",
@@ -1836,7 +1783,7 @@
       "description_tr": "Hava durumunu kapalı/bulutlu olarak değiştirir."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Rainy",
       "codes": "Up, Down, Square, Up, Down, Circle, L1, R1",
       "description": "Changes the weather to rainy.",
@@ -1890,7 +1837,7 @@
       "description_tr": "Havayı yağmurlu hale getirir."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Sunny",
       "codes": "L1, L1, Circle, R1, R1, Square, Triangle, X",
       "description": "Changes the weather to sunny and bright.",

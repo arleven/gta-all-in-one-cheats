@@ -33,7 +33,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     'xbox': AppLocalizations.of(context)!.xbox,
     'pc': AppLocalizations.of(context)!.pc,
     'iphone': AppLocalizations.of(context)!.iphone,
-    'stadia': 'Phone Number',
   };
 
   String selectedPlatformKey = 'xbox';
@@ -41,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final Map<String, List<String>> gamePlatforms = {
     'sanandreas': ['playstation', 'xbox', 'pc', 'iphone'],
     'vicecity': ['playstation', 'xbox', 'pc', 'iphone'],
-    'gtav': ['playstation', 'xbox', 'pc', 'iphone', 'stadia'],
+    'gtav': ['playstation', 'xbox', 'pc', 'iphone'],
     'libertycity': ['playstation'],
   };
 

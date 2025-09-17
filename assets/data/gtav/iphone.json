@@ -110,63 +110,9 @@
   "title_tr": "Patlayıcı Mermiler",
   "description_tr": "Mermiler çarptığı anda patlar."
 },
+
 {
-  "section": "Combat Effects",
-  "title": "Explosive Melee Attack",
-  "codes": "HOTHANDS",
-  "phoneNum": "1-999-468-42637",
-  "description": "Melee attacks cause explosions.",
-  "section_hi": "युद्ध प्रभाव",
-  "title_hi": "विस्फोटक हाथापाई हमला",
-  "description_hi": "हाथापाई के हमलों से विस्फोट होते हैं।",
-  "section_ar": "تأثيرات القتال",
-  "title_ar": "هجوم مشاجرة متفجر",
-  "description_ar": "تسبب الهجمات المباشرة انفجارات.",
-  "section_fr": "Effets de combat",
-  "title_fr": "Attaque de mêlée explosive",
-  "description_fr": "Les attaques de mêlée provoquent des explosions.",
-  "section_fil": "Mga Epekto ng Labanan",
-  "title_fil": "Explosive Melee Attack",
-  "description_fil": "Ang mga pag-atake ng labu-labo ay nagdudulot ng mga pagsabog.",
-  "section_de": "Kampfeffekte",
-  "title_de": "Explosiver Nahkampfangriff",
-  "description_de": "Nahkampfangriffe verursachen Explosionen.",
-  "section_it": "Effetti di combattimento",
-  "title_it": "Attacco corpo a corpo esplosivo",
-  "description_it": "Gli attacchi corpo a corpo causano esplosioni.",
-  "section_ja": "戦闘効果",
-  "title_ja": "爆発的な近接攻撃",
-  "description_ja": "近接攻撃は爆発を引き起こします。",
-  "section_ko": "전투 효과",
-  "title_ko": "폭발적인 근접 공격",
-  "description_ko": "근접 공격은 폭발을 일으킵니다.",
-  "section_ms": "Kesan Pertempuran",
-  "title_ms": "Serangan Melee Meletup",
-  "description_ms": "Serangan jarak dekat menyebabkan letupan.",
-  "section_pl": "Efekty walki",
-  "title_pl": "Wybuchowy atak wręcz",
-  "description_pl": "Ataki wręcz powodują eksplozje.",
-  "section_pt": "Efeitos de Combate",
-  "title_pt": "Ataque corpo a corpo explosivo",
-  "description_pt": "Ataques corpo a corpo causam explosões.",
-  "section_ru": "Боевые эффекты",
-  "title_ru": "Взрывная атака ближнего боя",
-  "description_ru": "Атаки ближнего боя вызывают взрывы.",
-  "section_zh": "战斗效果",
-  "title_zh": "爆炸性近战攻击",
-  "description_zh": "近战攻击会引起爆炸。",
-  "section_es": "Efectos de combate",
-  "title_es": "Ataque cuerpo a cuerpo explosivo",
-  "description_es": "Los ataques cuerpo a cuerpo provocan explosiones.",
-  "section_th": "เอฟเฟกต์การต่อสู้",
-  "title_th": "การโจมตีระยะประชิดแบบระเบิด",
-  "description_th": "การโจมตีระยะประชิดทำให้เกิดการระเบิด",
-  "section_tr": "Savaş Etkileri",
-  "title_tr": "Patlayıcı Yakın Dövüş Saldırısı",
-  "description_tr": "Yakın dövüş saldırıları patlamalara sebep olur."
-},
-{
-  "section": "Parachute",
+  "section": "Player",
   "title": "Give Parachute",
   "codes": "SKYDIVE",
   "phoneNum": "1-999-759-3483",
@@ -221,7 +167,7 @@
   "description_tr": "Anında paraşüt kazanmanızı sağlar."
 },
 {
-  "section": "World Effects",
+  "section": "World",
   "title": "Moon Gravity",
   "codes": "FLOATER",
   "phoneNum": "1-999-356-2837",
@@ -276,7 +222,7 @@
   "description_tr": "Yer çekimini azaltır, her şeyin yüzer hale gelmesini sağlar."
 },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Drunk Mode",
       "codes": "LIQUOR",
         "phoneNum": "1-999-547-861",
@@ -331,7 +277,7 @@
       "description_tr": "Karakterinizin tökezlemesine ve sallanmasına neden olur."
    },
    {
-      "section": "Special Ability",
+      "section": "Player",
       "title": "Recharge Ability",
       "codes": "POWERUP",
         "phoneNum": "1-999-769-3787",
@@ -386,7 +332,7 @@
       "description_tr": "Özel yeteneğinizi tamamen geri kazandırır."
    },
    {
-      "section": "Time Effects",
+      "section": "World",
       "title": "Slow Motion (enter 3 times for max effect)",
       "codes": "SLOWMO",
        "phoneNum": "1-999-756-966",
@@ -441,7 +387,7 @@
       "description_tr": "Zamanı giderek yavaşlatır."
    },
    {
-      "section": "Teleportation",
+      "section": "Player",
       "title": "Skyfall",
       "codes": "SKYFALL",
        "phoneNum": "1-999-759-3255",
@@ -496,7 +442,7 @@
       "description_tr": "Sizi havaya ışınlar ve serbest düşüşe başlarsınız."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn BMX",
       "codes": "BANDIT",
         "phoneNum": "1-999-226-348",
@@ -551,7 +497,7 @@
       "description_tr": "Bir BMX bisikleti oluşturur."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Comet",
       "codes": "COMET",
         "phoneNum": "1-999-266-38",
@@ -606,7 +552,7 @@
       "description_tr": "Comet spor arabasını ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn PCJ-600",
       "codes": "ROCKET",
       "phoneNum": "1-999-762-538",
@@ -662,7 +608,7 @@
       "description_tr": "PCJ-600 motosikletini ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Sanchez Dirt Bike",
       "codes": "OFFROAD",
       "phoneNum": "1-999-633-7623",
@@ -717,7 +663,7 @@
       "description_tr": "Arazide kullanılabilen bir Sanchez motosikleti ortaya çıkar."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Rapid GT",
       "codes": "RAPIDGT",
       "phoneNum": "1-999-727-4348",
@@ -772,7 +718,7 @@
       "description_tr": "Rapid GT arabasını ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Limo",
       "codes": "VINEWOOD",
       "phoneNum": "1-999-846-39663",
@@ -827,7 +773,7 @@
       "description_tr": "Uzun ve lüks bir limuzin ortaya çıkar."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Trashmaster",
       "codes": "TRASHED",
       "phoneNum": "1-999-872-433",
@@ -882,7 +828,7 @@
       "description_tr": "Bir çöp kamyonu ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Buzzard Attack Helicopter",
       "codes": "BUZZOFF",
       "phoneNum": "1-999-289-9633",
@@ -937,7 +883,7 @@
       "description_tr": "Silahlı bir Buzzard helikopteri ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Duke O'Death",
       "codes": "DEATHCAR",
       "phoneNum": "1-999-3328-4227",
@@ -992,7 +938,7 @@
       "description_tr": "Zırhlı bir kaslı araba (Duke O’Death) ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Kraken Sub",
       "codes": "BUBBLES",
       "phoneNum": "1-999-282-2537",
@@ -1047,7 +993,7 @@
       "description_tr": "Kraken denizaltısını ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Dodo",
       "codes": "EXTINCT",
       "phoneNum": "1-999-398-4628",
@@ -1102,7 +1048,7 @@
       "description_tr": "Dodo deniz uçağını ortaya çıkarır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Stunt Plane",
       "codes": "BARNSTORM",
       "phoneNum": "1-999-227-678-676",
@@ -1157,7 +1103,7 @@
       "description_tr": "Bir dublör uçağı yaratır."
    },
    {
-      "section": "Combat Effects",
+      "section": "Player",
       "title": "Slow Motion Aiming (enter 3 times for full effect)",
       "codes": "DEADEYE",
       "phoneNum": "1-999-332-3393",
@@ -1212,7 +1158,7 @@
       "description_tr": "Hassasiyet hedeflerken zamanı yavaşlatır."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Invincibility",
       "codes": "PAINKILLER",
       "phoneNum": "1-999-724-654-5537"
@@ -1270,7 +1216,7 @@
    
   
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Run",
       "codes": "CATCHME",
       "phoneNum": "1-999-228-8463"
@@ -1326,7 +1272,7 @@
       "description_tr": "Koşu hızınızı artırır."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Raise Wanted Level",
       "codes": "FUGITIVE",
       "phoneNum": "1-999-384-48483"
@@ -1382,7 +1328,7 @@
       "description_tr": "Aranma seviyenizi 1 yıldız artırır."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Lower Wanted Level",
       "codes": "LAWYERUP",
       "phoneNum": "1-999-5299-3787"
@@ -1438,7 +1384,7 @@
       "description_tr": "Aranma seviyenizi 1 yıldız azaltır."
    },
    {
-      "section": "Weather",
+      "section": "World",
       "title": "Change Weather",
       "codes": "MAKEITRAIN",
       "phoneNum": "1-999-625-348-7246"
@@ -1496,7 +1442,7 @@
    
 
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Swim",
       "codes": "GOT‑GILLS",
       "phoneNum": "1-999-468-44557",
@@ -1552,7 +1498,7 @@
    },
    
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Super Jump",
       "codes": "HOP‑TO‑IT",
       "phoneNum": "1-999-467-86-48",
@@ -1665,7 +1611,7 @@
   
    
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Max Health & Armor",
       "codes": "TURTLE",
       "phoneNum": "1-999-887-853",
@@ -1720,7 +1666,7 @@
       "description_tr": "Canınızı ve vücut zırhınızı anında tam olarak doldurur."
    },
    {
-      "section": "Combat Effects",
+      "section": "Player",
       "title": "Slow Motion",
       "codes": "SLOW‑MO",
       "phoneNum": "1-999-756-966",
@@ -1775,7 +1721,7 @@
       "description_tr": "3 seviyede yavaş çekimde oynanış."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Change Weather",
       "codes": "MAKE‑IT‑RAIN",
       "phoneNum": "1-999-625-348",
@@ -1831,7 +1777,7 @@
    },
    
    {
-      "section": "Vehicle Effects",
+      "section": "Vehicle",
       "title": "Slippery Cars (Drifting)",
       "codes": "SNOWDAY",
       "phoneNum": "1-999-766-9329",
@@ -1885,120 +1831,10 @@
       "title_tr": "Kaygan Arabalar (Drift)",
       "description_tr": "Araçlar çekiş gücünü kaybederek dramatik kaymalara/sürüklenmelere neden oluyor."
    },
-   {
-      "section": "Special Modes",
-      "title": "Director Mode",
-      "codes": "JR‑TALENT",
-      "phoneNum": "1-999-57-999-468",
-      "description": "Unlocks the in‑game Director Mode for cinematic control.",
-      "section_hi": "विशेष मोड",
-      "title_hi": "निर्देशक मोड",
-      "description_hi": "सिनेमाई नियंत्रण के लिए इन-गेम डायरेक्टर मोड को अनलॉक करता है।",
-      "section_ar": "الأوضاع الخاصة",
-      "title_ar": "وضع المخرج",
-      "description_ar": "يفتح وضع المخرج داخل اللعبة للتحكم السينمائي.",
-      "section_fr": "Modes spéciaux",
-      "title_fr": "Mode réalisateur",
-      "description_fr": "Débloque le mode réalisateur du jeu pour le contrôle cinématique.",
-      "section_fil": "Mga Espesyal na Mode",
-      "title_fil": "Mode ng Direktor",
-      "description_fil": "Ina-unlock ang in-game na Director Mode para sa cinematic na kontrol.",
-      "section_de": "Spezialmodi",
-      "title_de": "Regisseur-Modus",
-      "description_de": "Schaltet den Director-Modus im Spiel für filmische Steuerung frei.",
-      "section_it": "Modalità speciali",
-      "title_it": "Modalità regista",
-      "description_it": "Sblocca la modalità Regista nel gioco per un controllo cinematografico.",
-      "section_ja": "スペシャルモード",
-      "title_ja": "ディレクターモード",
-      "description_ja": "ゲーム内のディレクター モードのロックを解除して、映画のようなコントロールを実現します。",
-      "section_ko": "특수 모드",
-      "title_ko": "디렉터 모드",
-      "description_ko": "영화적 제어를 위한 게임 내 디렉터 모드를 잠금 해제합니다.",
-      "section_ms": "Mod Khas",
-      "title_ms": "Mod Pengarah",
-      "description_ms": "Membuka kunci Mod Pengarah dalam permainan untuk kawalan sinematik.",
-      "section_pl": "Tryby specjalne",
-      "title_pl": "Tryb reżysera",
-      "description_pl": "Odblokowuje tryb reżysera w grze, umożliwiający sterowanie kinowe.",
-      "section_pt": "Modos Especiais",
-      "title_pt": "Modo Diretor",
-      "description_pt": "Desbloqueia o Modo Diretor do jogo para controle cinematográfico.",
-      "section_ru": "Специальные режимы",
-      "title_ru": "Режим режиссера",
-      "description_ru": "Открывает игровой режим режиссера для кинематографического управления.",
-      "section_zh": "特殊模式",
-      "title_zh": "导演模式",
-      "description_zh": "解锁游戏中的导演模式，实现电影控制。",
-      "section_es": "Modos especiales",
-      "title_es": "Modo Director",
-      "description_es": "Desbloquea el modo Director del juego para un control cinematográfico.",
-      "section_th": "โหมดพิเศษ",
-      "title_th": "โหมดผู้กำกับ",
-      "description_th": "ปลดล็อคโหมดผู้กำกับในเกมเพื่อการควบคุมภาพยนตร์",
-      "section_tr": "Özel Modlar",
-      "title_tr": "Yönetmen Modu",
-      "description_tr": "Sinematik kontrol için oyun içi Yönetmen Modu'nun kilidini açar."
-   },
-   {
-      "section": "Hidden Fun",
-      "title": "Black Cellphones",
-      "codes": "EMP‑DROP",
-      "phoneNum": "1-999-367-3767",
-      "description": "Could trigger explosions or alter phone visuals; novelty cheat.",
-      "section_hi": "छिपा हुआ मज़ा",
-      "title_hi": "काले सेलफोन",
-      "description_hi": "विस्फोट को ट्रिगर कर सकता है या फोन के दृश्य को बदल सकता है; नवीनता धोखा।",
-      "section_ar": "متعة خفية",
-      "title_ar": "الهواتف المحمولة السوداء",
-      "description_ar": "قد يؤدي إلى حدوث انفجارات أو تغيير صور الهاتف؛ غش جديد.",
-      "section_fr": "Amusement caché",
-      "title_fr": "Téléphones portables noirs",
-      "description_fr": "Peut déclencher des explosions ou modifier l'apparence du téléphone ; nouveauté triche.",
-      "section_fil": "Nakatagong Kasayahan",
-      "title_fil": "Itim na Cellphone",
-      "description_fil": "Maaaring mag-trigger ng mga pagsabog o baguhin ang mga visual ng telepono; bagong bagay na cheat.",
-      "section_de": "Versteckter Spaß",
-      "title_de": "Schwarze Handys",
-      "description_de": "Könnte Explosionen auslösen oder die Optik des Telefons verändern; neuartiger Cheat.",
-      "section_it": "Divertimento nascosto",
-      "title_it": "Cellulari neri",
-      "description_it": "Potrebbe innescare esplosioni o alterare le immagini del telefono; trucco originale.",
-      "section_ja": "隠れた楽しみ",
-      "title_ja": "黒い携帯電話",
-      "description_ja": "爆発を引き起こしたり、携帯電話のビジュアルを変更したりできる、目新しいチート。",
-      "section_ko": "숨겨진 재미",
-      "title_ko": "검은색 휴대폰",
-      "description_ko": "폭발을 일으키거나 휴대전화의 시각적 이미지를 바꿀 수 있음. 신기한 속임수.",
-      "section_ms": "Keseronokan Tersembunyi",
-      "title_ms": "Telefon Bimbit Hitam",
-      "description_ms": "Boleh mencetuskan letupan atau mengubah visual telefon; penipuan kebaharuan.",
-      "section_pl": "Ukryta zabawa",
-      "title_pl": "Czarne telefony komórkowe",
-      "description_pl": "Może powodować eksplozje lub zmieniać wygląd telefonu; oszustwo polegające na rzucaniu zaklęć.",
-      "section_pt": "Diversão Oculta",
-      "title_pt": "Celulares pretos",
-      "description_pt": "Poderia provocar explosões ou alterar o visual do telefone; truque de novidade.",
-      "section_ru": "Скрытое веселье",
-      "title_ru": "Черные мобильные телефоны",
-      "description_ru": "Может вызвать взрыв или изменить визуальное представление телефона; мошенничество в виде новизны.",
-      "section_zh": "隐藏的乐趣",
-      "title_zh": "黑色手机",
-      "description_zh": "可能会引发爆炸或改变手机视觉效果；新奇的欺骗行为。",
-      "section_es": "Diversión oculta",
-      "title_es": "Teléfonos móviles negros",
-      "description_es": "Podría provocar explosiones o alterar la imagen del teléfono; truco novedoso.",
-      "section_th": "ความสนุกที่ซ่อนอยู่",
-      "title_th": "โทรศัพท์มือถือสีดำ",
-      "description_th": "อาจก่อให้เกิดการระเบิดหรือเปลี่ยนแปลงภาพในโทรศัพท์ การโกงที่แปลกใหม่",
-      "section_tr": "Gizli Eğlence",
-      "title_tr": "Siyah Cep Telefonları",
-      "description_tr": "Patlamalara sebep olabilir veya telefon görsellerini değiştirebilir; yenilik hilesi."
-   },
-  
+
   
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Caddy",
       "codes": "HOLE‑IN‑1",
       "phoneNum": "1-999-4653-46",
@@ -2053,7 +1889,7 @@
       "description_tr": "Rahat sürüş için bir golf arabası yaratır."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "Spawn Duster",
       "codes": "FLYSPRAY",
       "phoneNum": "1-999-359-7277",

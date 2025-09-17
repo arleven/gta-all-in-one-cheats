@@ -1,6 +1,6 @@
 [
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Invincibility",
       "codes": "RIGHT, X, RIGHT, LEFT, RIGHT, R1, RIGHT, LEFT, X, TRIANGLE",
       "description": "Makes you invincible for 5 minutes from all damage.",
@@ -54,7 +54,7 @@
       "description_tr": "5 dakika boyunca tüm hasarlara karşı yenilmez olmanızı sağlar."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Max Health and Armor",
       "codes": "CIRCLE, L1, TRIANGLE, R2, X, SQUARE, CIRCLE, RIGHT, SQUARE, L1, L1, L1",
       "description": "Restores full health and armor instantly.",
@@ -162,7 +162,7 @@
       "description_tr": "Size tam bir silah seti verir."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Super Jump",
       "codes": "LEFT, LEFT, TRIANGLE, TRIANGLE, RIGHT, RIGHT, LEFT, RIGHT, SQUARE, R1, R2",
       "description": "Enables super high jumping.",
@@ -216,7 +216,7 @@
       "description_tr": "Çok yüksek zıplamayı sağlar."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Moon Gravity",
       "codes": "LEFT, LEFT, L1, R1, L1, RIGHT, LEFT, L1, LEFT",
       "description": "Reduces gravity to simulate a moon-like effect.",
@@ -269,116 +269,10 @@
       "title_tr": "Ay Yerçekimi",
       "description_tr": "Ay benzeri bir etki yaratmak için yer çekimini azaltır."
    },
+  
+   
    {
-      "section": "Wanted Level",
-      "title": "Raise Wanted Level",
-      "codes": "R1, R1, CIRCLE, R2, LEFT, RIGHT, LEFT, RIGHT, LEFT, RIGHT",
-      "description": "Increases your wanted level by one star.",
-      "section_hi": "वांछित स्तर",
-      "title_hi": "नौकरी का स्तर बढ़ा",
-      "description_hi": "आपके वांछित स्तर को एक स्टार से बढ़ाता है।",
-      "section_ar": "المستوى المطلوب",
-      "title_ar": "رفع مستوى المطلوب",
-      "description_ar": "يزيد مستوى المطلوب لديك بنجمة واحدة.",
-      "section_fr": "Niveau recherché",
-      "title_fr": "Augmenter le niveau recherché",
-      "description_fr": "Augmente votre niveau de recherche d'une étoile.",
-      "section_fil": "Wanted Level",
-      "title_fil": "Itaas ang Wanted Level",
-      "description_fil": "Pinapataas ng isang bituin ang iyong nais na antas.",
-      "section_de": "Fahndungsstufe",
-      "title_de": "Erhöhen Sie den Fahndungslevel",
-      "description_de": "Erhöht Ihren Fahndungslevel um einen Stern.",
-      "section_it": "Livello ricercato",
-      "title_it": "Aumenta il livello di ricerca",
-      "description_it": "Aumenta il tuo livello di ricercato di una stella.",
-      "section_ja": "指名手配レベル",
-      "title_ja": "指名手配レベルを上げる",
-      "description_ja": "指名手配レベルが星 1 つ上がります。",
-      "section_ko": "수배 레벨",
-      "title_ko": "수배 레벨 올리기",
-      "description_ko": "수배레벨이 별 하나 증가합니다.",
-      "section_ms": "Tahap Dikehendaki",
-      "title_ms": "Naikkan Tahap Dikehendaki",
-      "description_ms": "Meningkatkan tahap yang dikehendaki anda sebanyak satu bintang.",
-      "section_pl": "Poziom poszukiwany",
-      "title_pl": "Podnieś poziom poszukiwań",
-      "description_pl": "Zwiększa poziom poszukiwań o jedną gwiazdkę.",
-      "section_pt": "Nível de procurado",
-      "title_pt": "Aumentar o nível de procurado",
-      "description_pt": "Aumenta seu nível de procurado em uma estrela.",
-      "section_ru": "Уровень розыска",
-      "title_ru": "Повысить уровень розыска",
-      "description_ru": "Увеличивает ваш уровень розыска на одну звезду.",
-      "section_zh": "通缉等级",
-      "title_zh": "提升通缉等级",
-      "description_zh": "增加你的通缉等级一颗星。",
-      "section_es": "Nivel de búsqueda",
-      "title_es": "Aumentar el nivel de búsqueda",
-      "description_es": "Aumenta tu nivel de búsqueda en una estrella.",
-      "section_th": "ระดับที่ต้องการ",
-      "title_th": "เพิ่มระดับความต้องการ",
-      "description_th": "เพิ่มระดับการต้องการตัวของคุณหนึ่งดาว",
-      "section_tr": "Aranan Seviye",
-      "title_tr": "Aranma Seviyesini Yükselt",
-      "description_tr": "Aranma seviyenizi bir yıldız artırır."
-   },
-   {
-      "section": "Wanted Level",
-      "title": "Lower Wanted Level",
-      "codes": "R1, R1, CIRCLE, R2, RIGHT, LEFT, RIGHT, LEFT, RIGHT, LEFT",
-      "description": "Decreases your wanted level by one star.",
-      "section_hi": "वांछित स्तर",
-      "title_hi": "आवश्यक निम्नतर स्तर",
-      "description_hi": "आपके वांछित स्तर को एक स्टार से कम कर देता है।",
-      "section_ar": "المستوى المطلوب",
-      "title_ar": "مستوى مطلوب أقل",
-      "description_ar": "يقلل مستوى المطلوب منك بنجمة واحدة.",
-      "section_fr": "Niveau recherché",
-      "title_fr": "Niveau de recherche inférieur",
-      "description_fr": "Diminue votre niveau de recherche d'une étoile.",
-      "section_fil": "Wanted Level",
-      "title_fil": "Lower Wanted Level",
-      "description_fil": "Binabawasan ng isang bituin ang iyong nais na antas.",
-      "section_de": "Fahndungsstufe",
-      "title_de": "Niedrigeres Fahndungslevel",
-      "description_de": "Verringert Ihren Fahndungslevel um einen Stern.",
-      "section_it": "Livello ricercato",
-      "title_it": "Abbassare il livello di ricerca",
-      "description_it": "Riduce il livello di ricercato di una stella.",
-      "section_ja": "指名手配レベル",
-      "title_ja": "指名手配レベルを下げる",
-      "description_ja": "指名手配レベルが星 1 つ下がります。",
-      "section_ko": "수배 레벨",
-      "title_ko": "낮은 수배 레벨",
-      "description_ko": "수배레벨을 별 하나 낮춥니다.",
-      "section_ms": "Tahap Dikehendaki",
-      "title_ms": "Tahap Keperluan Rendah",
-      "description_ms": "Mengurangkan tahap yang dikehendaki anda sebanyak satu bintang.",
-      "section_pl": "Poziom poszukiwany",
-      "title_pl": "Niższy poziom poszukiwań",
-      "description_pl": "Zmniejsza poziom poszukiwań o jedną gwiazdkę.",
-      "section_pt": "Nível de procurado",
-      "title_pt": "Nível de procurado mais baixo",
-      "description_pt": "Diminui seu nível de procurado em uma estrela.",
-      "section_ru": "Уровень розыска",
-      "title_ru": "Нижний уровень розыска",
-      "description_ru": "Снижает ваш уровень розыска на одну звезду.",
-      "section_zh": "通缉等级",
-      "title_zh": "降低通缉等级",
-      "description_zh": "降低你的通缉等级一颗星。",
-      "section_es": "Nivel de búsqueda",
-      "title_es": "Nivel de búsqueda más bajo",
-      "description_es": "Reduce tu nivel de búsqueda en una estrella.",
-      "section_th": "ระดับที่ต้องการ",
-      "title_th": "ระดับที่ต้องการตัวที่ต่ำกว่า",
-      "description_th": "ลดระดับการต้องการตัวของคุณลงหนึ่งดาว",
-      "section_tr": "Aranan Seviye",
-      "title_tr": "Daha Düşük Aranma Seviyesi",
-      "description_tr": "Aranma seviyenizi bir yıldız azaltır."
-   },
-   {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Run",
       "codes": "TRIANGLE, LEFT, RIGHT, RIGHT, L2, L1, SQUARE",
       "description": "Makes your character sprint faster.",
@@ -432,7 +326,7 @@
       "description_tr": "Karakterinizin daha hızlı koşmasını sağlar."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Swim",
       "codes": "LEFT, LEFT, L1, RIGHT, RIGHT, R2, LEFT, L2, RIGHT",
       "description": "Makes your character swim much faster.",
@@ -486,7 +380,7 @@
       "description_tr": "Karakterinizin çok daha hızlı yüzmesini sağlar."
    },
    {
-      "section": "Special Ability",
+      "section": "Player",
       "title": "Recharge Ability",
       "codes": "X, X, SQUARE, R1, L1, X, RIGHT, LEFT, X",
       "description": "Fully recharges your special ability meter.",
@@ -540,7 +434,7 @@
       "description_tr": "Özel yetenek göstergenizi tamamen doldurur."
    },
    {
-      "section": "Parachute",
+      "section": "Weapons",
       "title": "Give Parachute",
       "codes": "LEFT, RIGHT, L1, L2, R1, R2, R2, LEFT, LEFT, RIGHT, L1",
       "description": "Gives you a parachute for skydiving.",
@@ -594,7 +488,7 @@
       "description_tr": "Paraşütle atlamak için paraşüt verir."
    },
    {
-      "section": "Combat Effects",
+      "section": "Weapons",
       "title": "Explosive Melee Attacks",
       "codes": "RIGHT, LEFT, X, TRIANGLE, R1, CIRCLE, CIRCLE, CIRCLE, L2",
       "description": "Melee attacks cause massive explosions.",
@@ -756,7 +650,7 @@
       "description_tr": "Vurulduğu zaman hedefleri ateşe verir."
    },
    {
-      "section": "Combat Effects",
+      "section": "Player",
       "title": "Slow Motion Aim",
       "codes": "SQUARE, L2, R1, TRIANGLE, LEFT, SQUARE, L2, RIGHT, X",
       "description": "Enables slow-motion when aiming for precision.",
@@ -810,7 +704,7 @@
       "description_tr": "Hassasiyet için nişan alırken ağır çekim özelliğini etkinleştirir."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Drunk Mode",
       "codes": "TRIANGLE, RIGHT, RIGHT, LEFT, RIGHT, SQUARE, CIRCLE, LEFT",
       "description": "Makes your character stumble like they are drunk.",
@@ -864,7 +758,7 @@
       "description_tr": "Karakterinizin sarhoşmuş gibi sendelemesine neden olur."
    },
    {
-      "section": "Vehicle Effects",
+      "section": "Vehicles",
       "title": "Slidey Cars",
       "codes": "TRIANGLE, R1, R1, LEFT, R1, L1, R2, L1",
       "description": "Reduces vehicle traction and makes cars slide more.",
@@ -918,7 +812,7 @@
       "description_tr": "Araç çekişini azaltır ve araçların daha fazla kaymasına neden olur."
    },
    {
-      "section": "Time Effects",
+      "section": "World",
       "title": "Slow Motion",
       "codes": "TRIANGLE, LEFT, RIGHT, RIGHT, SQUARE, R2, R1",
       "description": "Slows down overall game speed.",

@@ -1,61 +1,6 @@
 [
    {
-      "section": "Special Modes",
-      "title": "Director Mode",
-      "codes": "JRTALENT",
-      "phoneNum": "1-999-578-25368",
-      "description": "Enables Director Mode for acting and scene creation.",
-      "section_hi": "विशेष मोड",
-      "title_hi": "निर्देशक मोड",
-      "description_hi": "अभिनय और दृश्य निर्माण के लिए निर्देशक मोड सक्षम करता है।",
-      "section_ar": "الأوضاع الخاصة",
-      "title_ar": "وضع المخرج",
-      "description_ar": "تمكين وضع المخرج للتمثيل وإنشاء المشهد.",
-      "section_fr": "Modes spéciaux",
-      "title_fr": "Mode réalisateur",
-      "description_fr": "Active le mode réalisateur pour le jeu d'acteur et la création de scènes.",
-      "section_fil": "Mga Espesyal na Mode",
-      "title_fil": "Mode ng Direktor",
-      "description_fil": "Pinapagana ang Director Mode para sa pag-arte at paggawa ng eksena.",
-      "section_de": "Spezialmodi",
-      "title_de": "Regisseur-Modus",
-      "description_de": "Aktiviert den Regiemodus für Schauspiel und Szenenerstellung.",
-      "section_it": "Modalità speciali",
-      "title_it": "Modalità regista",
-      "description_it": "Abilita la modalità Regista per la recitazione e la creazione di scene.",
-      "section_ja": "特別モード",
-      "title_ja": "ディレクターモード",
-      "description_ja": "演技やシーン作成のためのディレクター モードを有効にします。",
-      "section_ko": "특수 모드",
-      "title_ko": "디렉터 모드",
-      "description_ko": "연기와 장면 생성을 위한 디렉터 모드를 활성화합니다.",
-      "section_ms": "Mod Khas",
-      "title_ms": "Mod Pengarah",
-      "description_ms": "Mendayakan Mod Pengarah untuk lakonan dan penciptaan adegan.",
-      "section_pl": "Tryby specjalne",
-      "title_pl": "Tryb reżysera",
-      "description_pl": "Włącza tryb reżysera umożliwiający grę aktorską i tworzenie scen.",
-      "section_pt": "Modos Especiais",
-      "title_pt": "Modo Diretor",
-      "description_pt": "Habilita o Modo Diretor para atuação e criação de cenas.",
-      "section_ru": "Специальные режимы",
-      "title_ru": "Режим режиссера",
-      "description_ru": "Включает режим режиссера для актерской игры и создания сцен.",
-      "section_zh": "特殊模式",
-      "title_zh": "导演模式",
-      "description_zh": "启用导演模式进行表演和场景创作。",
-      "section_es": "Modos especiales",
-      "title_es": "Modo Director",
-      "description_es": "Habilita el modo Director para actuar y crear escenas.",
-      "section_th": "โหมดพิเศษ",
-      "title_th": "โหมดผู้กำกับ",
-      "description_th": "เปิดใช้งานโหมดผู้กำกับสำหรับการแสดงและการสร้างฉาก",
-      "section_tr": "Özel Modlar",
-      "title_tr": "Yönetmen Modu",
-      "description_tr": "Oyunculuk ve sahne oluşturma için Yönetmen Modunu etkinleştirir."
-   },
-   {
-      "section": "Movement",
+      "section": "Player",
       "title": "Super Jump",
       "codes": "HOPTOIT",
       "phoneNum": "1-999-467-8648",
@@ -275,7 +220,7 @@
       "description_tr": "Mermiler çarptığı anda patlar."
    },
    {
-      "section": "Parachute",
+      "section": "Player",
       "title": "Give Parachute",
       "codes": "SKYDIVE",
       "phoneNum": "1-999-759-3483",
@@ -330,7 +275,7 @@
       "description_tr": "Yüksekten güvenli bir şekilde atlamak için paraşüt sağlar."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Moon Gravity",
       "codes": "FLOATER",
       "phoneNum": "1-999-356-2837",
@@ -385,7 +330,7 @@
       "description_tr": "Ay'da olmak gibi yer çekimini önemli ölçüde azaltır."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Drunk Mode",
       "codes": "LIQUOR",
       "phoneNum": "1-999-547-867",
@@ -440,7 +385,7 @@
       "description_tr": "Görüşü bulanıklaştırır ve yürümeyi zorlaştırır."
    },
    {
-      "section": "Special Ability",
+      "section": "Player",
       "title": "Recharge Ability",
       "codes": "POWERUP",
       "phoneNum": "1-999-769-3787",
@@ -495,7 +440,7 @@
       "description_tr": "Özel yetenek göstergesini anında doldurur."
    },
    {
-      "section": "Time Effects",
+      "section": "World",
       "title": "Slow Motion",
       "codes": "SLOWMO",
       "phoneNum": "1-999-756-966",
@@ -550,7 +495,7 @@
       "description_tr": "Oyunun hızını yavaşlatır, 3 seviyeye kadar kullanılabilir."
    },
    {
-      "section": "Fun Effects",
+      "section": "Player",
       "title": "Skyfall",
       "codes": "SKYFALL",
       "phoneNum": "1-999-759-3255",
@@ -1100,7 +1045,7 @@
       "description_tr": "Çevik bir gösteri uçağı yaratır."
    },
    {
-      "section": "Combat Effects",
+      "section": "Player",
       "title": "Slow Motion Aiming",
       "codes": "DEADEYE",
       "phoneNum": "1-999-332-33393",
@@ -1155,7 +1100,7 @@
       "description_tr": "Daha iyi doğruluk için nişan alırken ağır çekim özelliğini etkinleştirir."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Invincibility",
       "codes": "PAINKILLER",
       "phoneNum": "1-999-724-654-5537",
@@ -1210,7 +1155,7 @@
       "description_tr": "5 dakika boyunca sizi yenilmez kılar."
    },
    {
-      "section": "Player Effects",
+      "section": "Player",
       "title": "Max Health & Armor",
       "codes": "TURTLE",
       "phoneNum": "1-999-887-853",
@@ -1265,7 +1210,7 @@
       "description_tr": "Sağlığı ve zırhı tamamen yeniler."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Run",
       "codes": "CATCHME",
       "phoneNum": "1-999-228-2463",
@@ -1320,7 +1265,7 @@
       "description_tr": "Koşu hızınızı arttırır."
    },
    {
-      "section": "Movement",
+      "section": "Player",
       "title": "Fast Swim",
       "codes": "GOTGILLS",
       "phoneNum": "1-999-468-44557",
@@ -1375,7 +1320,7 @@
       "description_tr": "Karakterinizin çok daha hızlı yüzmesini sağlar."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Raise Wanted Level",
       "codes": "FUGITIVE",
       "phoneNum": "1-999-384-48483",
@@ -1430,7 +1375,7 @@
       "description_tr": "Aranma seviyenize bir yıldız ekler."
    },
    {
-      "section": "Wanted Level",
+      "section": "Player",
       "title": "Lower Wanted Level",
       "codes": "LAWYERUP",
       "phoneNum": "1-999-529-93787",
@@ -1485,7 +1430,7 @@
       "description_tr": "Aranma seviyenizden bir yıldız kaldırır."
    },
    {
-      "section": "World Effects",
+      "section": "World",
       "title": "Change Weather",
       "codes": "MAKEITRAIN",
       "phoneNum": "1-999-625-3487246",
@@ -1540,7 +1485,7 @@
       "description_tr": "Çeşitli hava tipleri arasında geçiş yapar."
    },
    {
-      "section": "Vehicle Effects",
+      "section": "Vehicles",
       "title": "Slippery Cars Drifting",
       "codes": "SNOWDAY",
       "phoneNum": "1-999-766-9329",
@@ -1595,7 +1540,7 @@
       "description_tr": "Çekiş gücünü ortadan kaldırarak araçların kolayca kaymasını sağlar."
    },
    {
-      "section": "Hidden Fun",
+      "section": "World",
       "title": "Black Cellphones",
       "codes": "DORE ROR",
       "phoneNum": "1-999-367-3767",
