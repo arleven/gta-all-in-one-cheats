@@ -16,7 +16,7 @@
 
     "searchHint": "Search any cheat",
     "cancel": "Cancel",
-    "favoritesTitle": "❤️ Favorites",
+    "favoritesTitle": "Favorites",
     "loading": "Loading...",
     "sectionIconLabel": "Section",
 
@@ -26,6 +26,10 @@
     "platformTitle": "Platform",
     "platformSubtitle": "Choose your platform.",
     "contactSection": "Contact",
+    "infoText":  "This app provides GTA cheat codes independently and is not affiliated with Rockstar Games.All trademarks belong to their respective owners. For informational use only.",
+    "gameTitle": "Game",
+    "gameSubtitle": "Choose your Game.",
+    "searchText": "Search cheats by keyword or effect",
     "version": "Version",
     "version_subtitle": "Your current App version",
     "contactMeTitle": "Contact Us",

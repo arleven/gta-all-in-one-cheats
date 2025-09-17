@@ -48,7 +48,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get cancel => 'Batal';
 
   @override
-  String get favoritesTitle => '❤️ Kegemaran';
+  String get favoritesTitle => 'Kegemaran';
 
   @override
   String get loading => 'Memuatkan...';
@@ -67,6 +67,18 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get contactSection => 'Hubungi';
+
+  @override
+  String get infoText => 'Aplikasi ini menyediakan kod cheat GTA secara bebas dan tidak berkaitan dengan Rockstar Games. Semua tanda dagangan adalah milik pemilik masing-masing. Untuk kegunaan maklumat sahaja.';
+
+  @override
+  String get gameTitle => 'Permainan';
+
+  @override
+  String get gameSubtitle => 'Pilih permainan anda.';
+
+  @override
+  String get searchText => 'Cari cheat mengikut kata kunci atau kesan';
 
   @override
   String get version => 'Versi';

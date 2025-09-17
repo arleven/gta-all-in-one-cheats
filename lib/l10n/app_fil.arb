@@ -14,7 +14,7 @@
   
     "searchHint": "Maghanap ng cheat",
     "cancel": "Kanselahin",
-    "favoritesTitle": "❤️ Mga Paborito",
+    "favoritesTitle": "Mga Paborito",
     "loading": "Naglo-load...",
     "sectionIconLabel": "Seksyon",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Hindi ma-access ang mail app",
     "informationSection": "Impormasyon",
     "version": "Bersyon",
-"version_subtitle": "Ang kasalukuyang bersyon ng iyong app"
+"version_subtitle": "Ang kasalukuyang bersyon ng iyong app",
+"infoText": "Ang app na ito ay nagbibigay ng GTA cheat codes nang independyente at hindi kaugnay sa Rockstar Games. Ang lahat ng trademark ay pag-aari ng kani-kanilang may-ari. Para lamang sa impormasyong gamit.",
+"gameTitle": "Laro",
+"gameSubtitle": "Piliin ang iyong laro.",
+"searchText": "Maghanap ng cheats gamit ang keyword o epekto"
+
 ,
     "privacyPolicyTitle": "Patakaran sa Privacy",
     "privacyPolicySubtitle": "Alamin ang tungkol sa privacy ng app.",

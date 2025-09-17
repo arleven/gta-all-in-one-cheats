@@ -14,7 +14,7 @@
   
     "searchHint": "치트 검색",
     "cancel": "취소",
-    "favoritesTitle": "❤️ 즐겨찾기",
+    "favoritesTitle": "즐겨찾기",
     "loading": "로딩 중...",
     "sectionIconLabel": "섹션",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "메일 앱을 열 수 없습니다",
     "informationSection": "정보",
     "version": "버전",
-"version_subtitle": "현재 앱 버전"
+"version_subtitle": "현재 앱 버전",
+"infoText": "이 앱은 GTA 치트 코드를 독립적으로 제공하며 Rockstar Games와 관련이 없습니다. 모든 상표는 각 소유자에게 속합니다. 정보 제공용입니다.",
+"gameTitle": "게임",
+"gameSubtitle": "게임을 선택하세요.",
+"searchText": "키워드나 효과로 치트 검색"
+
 ,
     "privacyPolicyTitle": "개인정보 처리방침",
     "privacyPolicySubtitle": "앱의 개인정보 보호 정책에 대해 알아보세요.",

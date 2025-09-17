@@ -69,6 +69,18 @@ class AppLocalizationsHi extends AppLocalizations {
   String get contactSection => 'संपर्क करें';
 
   @override
+  String get infoText => 'यह ऐप GTA चीट कोड्स स्वतंत्र रूप से प्रदान करता है और Rockstar Games से संबद्ध नहीं है। सभी ट्रेडमार्क उनके संबंधित मालिकों के हैं। केवल सूचना हेतु उपयोग के लिए।';
+
+  @override
+  String get gameTitle => 'खेल';
+
+  @override
+  String get gameSubtitle => 'अपना खेल चुनें।';
+
+  @override
+  String get searchText => 'कीवर्ड या प्रभाव से चीट्स खोजें';
+
+  @override
   String get version => 'संस्करण';
 
   @override

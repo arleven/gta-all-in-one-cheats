@@ -14,7 +14,7 @@
   
     "searchHint": "Wyszukaj kod",
     "cancel": "Anuluj",
-    "favoritesTitle": "❤️ Ulubione",
+    "favoritesTitle": "Ulubione",
     "loading": "Ładowanie...",
     "sectionIconLabel": "Sekcja",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Nie można otworzyć aplikacji pocztowej",
     "informationSection": "Informacje",
     "version": "Wersja",
-"version_subtitle": "Twoja aktualna wersja aplikacji"
+"version_subtitle": "Twoja aktualna wersja aplikacji",
+"infoText": "Ta aplikacja udostępnia kody do GTA niezależnie i nie jest powiązana z Rockstar Games. Wszystkie znaki towarowe należą do ich właścicieli. Tylko do celów informacyjnych.",
+"gameTitle": "Gra",
+"gameSubtitle": "Wybierz swoją grę.",
+"searchText": "Szukaj cheatów według słowa kluczowego lub efektu"
+
 ,
     "privacyPolicyTitle": "Polityka prywatności",
     "privacyPolicySubtitle": "Dowiedz się więcej o polityce prywatności aplikacji.",

@@ -48,7 +48,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cancel => 'Anuluj';
 
   @override
-  String get favoritesTitle => '❤️ Ulubione';
+  String get favoritesTitle => 'Ulubione';
 
   @override
   String get loading => 'Ładowanie...';
@@ -67,6 +67,18 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get contactSection => 'Kontakt';
+
+  @override
+  String get infoText => 'Ta aplikacja udostępnia kody do GTA niezależnie i nie jest powiązana z Rockstar Games. Wszystkie znaki towarowe należą do ich właścicieli. Tylko do celów informacyjnych.';
+
+  @override
+  String get gameTitle => 'Gra';
+
+  @override
+  String get gameSubtitle => 'Wybierz swoją grę.';
+
+  @override
+  String get searchText => 'Szukaj cheatów według słowa kluczowego lub efektu';
 
   @override
   String get version => 'Wersja';

@@ -14,7 +14,7 @@
   
     "searchHint": "搜索任何秘籍",
     "cancel": "取消",
-    "favoritesTitle": "❤️ 收藏夹",
+    "favoritesTitle": "收藏夹",
     "loading": "加载中...",
     "sectionIconLabel": "分类",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "无法打开邮件应用",
     "informationSection": "信息",
     "version": "版本",
-"version_subtitle": "您当前的应用版本"
+"version_subtitle": "您当前的应用版本",
+"infoText": "此应用独立提供 GTA 作弊码，与 Rockstar Games 无关。所有商标归其各自所有者所有，仅供参考使用。",
+"gameTitle": "游戏",
+"gameSubtitle": "选择你的游戏。",
+"searchText": "按关键词或效果搜索作弊码"
+
 ,
     "privacyPolicyTitle": "隐私政策",
     "privacyPolicySubtitle": "了解有关应用隐私的更多信息。",

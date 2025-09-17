@@ -48,7 +48,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cancel => '取消';
 
   @override
-  String get favoritesTitle => '❤️ 收藏夹';
+  String get favoritesTitle => '收藏夹';
 
   @override
   String get loading => '加载中...';
@@ -67,6 +67,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactSection => '联系';
+
+  @override
+  String get infoText => '此应用独立提供 GTA 作弊码，与 Rockstar Games 无关。所有商标归其各自所有者所有，仅供参考使用。';
+
+  @override
+  String get gameTitle => '游戏';
+
+  @override
+  String get gameSubtitle => '选择你的游戏。';
+
+  @override
+  String get searchText => '按关键词或效果搜索作弊码';
 
   @override
   String get version => '版本';

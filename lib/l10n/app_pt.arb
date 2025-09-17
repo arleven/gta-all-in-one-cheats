@@ -14,7 +14,7 @@
   
     "searchHint": "Pesquisar trapaça",
     "cancel": "Cancelar",
-    "favoritesTitle": "❤️ Favoritos",
+    "favoritesTitle": "Favoritos",
     "loading": "Carregando...",
     "sectionIconLabel": "Seção",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Não foi possível abrir o app de e-mail",
     "informationSection": "Informações",
     "version": "Versão",
-"version_subtitle": "A versão atual do seu app"
+"version_subtitle": "A versão atual do seu app",
+"infoText": "Este aplicativo fornece códigos de trapaça do GTA de forma independente e não é afiliado à Rockstar Games. Todas as marcas pertencem aos seus respectivos proprietários. Apenas para uso informativo.",
+"gameTitle": "Jogo",
+"gameSubtitle": "Escolha seu jogo.",
+"searchText": "Pesquisar cheats por palavra-chave ou efeito"
+
 ,
     "privacyPolicyTitle": "Política de Privacidade",
     "privacyPolicySubtitle": "Saiba mais sobre as práticas de privacidade do aplicativo.",

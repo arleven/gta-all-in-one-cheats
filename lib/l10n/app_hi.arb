@@ -28,7 +28,12 @@
   "couldNotOpenMailApp": "मेल ऐप नहीं खोल सका",
   "informationSection": "जानकारी",
   "version": "संस्करण",
-"version_subtitle": "आपके ऐप का वर्तमान संस्करण"
+"version_subtitle": "आपके ऐप का वर्तमान संस्करण",
+"infoText": "यह ऐप GTA चीट कोड्स स्वतंत्र रूप से प्रदान करता है और Rockstar Games से संबद्ध नहीं है। सभी ट्रेडमार्क उनके संबंधित मालिकों के हैं। केवल सूचना हेतु उपयोग के लिए।",
+"gameTitle": "खेल",
+"gameSubtitle": "अपना खेल चुनें।",
+"searchText": "कीवर्ड या प्रभाव से चीट्स खोजें"
+
 ,
   "privacyPolicyTitle": "गोपनीयता नीति",
   "privacyPolicySubtitle": "ऐप की गोपनीयता प्रथाओं के बारे में जानें।",

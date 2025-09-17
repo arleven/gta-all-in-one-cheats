@@ -14,7 +14,7 @@
   
     "searchHint": "チートを検索",
     "cancel": "キャンセル",
-    "favoritesTitle": "❤️ お気に入り",
+    "favoritesTitle": "お気に入り",
     "loading": "読み込み中...",
     "sectionIconLabel": "セクション",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "メールアプリを開けませんでした",
     "informationSection": "情報",
     "version": "バージョン",
-"version_subtitle": "現在のアプリのバージョン"
+"version_subtitle": "現在のアプリのバージョン",
+"infoText": "このアプリはGTAのチートコードを独立して提供しており、Rockstar Gamesとは関係ありません。すべての商標はそれぞれの所有者に帰属します。情報提供のみを目的としています。",
+"gameTitle": "ゲーム",
+"gameSubtitle": "ゲームを選択してください。",
+"searchText": "キーワードや効果でチートを検索"
+
 ,
     "privacyPolicyTitle": "プライバシーポリシー",
     "privacyPolicySubtitle": "アプリのプライバシーに関する情報をご覧ください。",

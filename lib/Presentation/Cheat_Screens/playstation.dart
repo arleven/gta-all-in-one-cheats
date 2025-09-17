@@ -160,7 +160,7 @@ class _PlaystationState extends State<Playstation> {
                     controller: _searchController,
                     focusNode: _searchFocusNode,
                     decoration: InputDecoration(
-                      hintText: "Search cheats by keyword or effect",
+                      hintText: AppLocalizations.of(context)!.searchText,
                       hintStyle: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,

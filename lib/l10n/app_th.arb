@@ -14,7 +14,7 @@
   
     "searchHint": "ค้นหาโกงเกม",
     "cancel": "ยกเลิก",
-    "favoritesTitle": "❤️ รายการโปรด",
+    "favoritesTitle": "รายการโปรด",
     "loading": "กำลังโหลด...",
     "sectionIconLabel": "หมวด",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "ไม่สามารถเปิดแอปอีเมลได้",
     "informationSection": "ข้อมูล",
     "version": "เวอร์ชัน",
-"version_subtitle": "เวอร์ชันปัจจุบันของแอปของคุณ"
+"version_subtitle": "เวอร์ชันปัจจุบันของแอปของคุณ",
+"infoText": "แอปนี้ให้รหัสโกง GTA อย่างอิสระและไม่ได้เกี่ยวข้องกับ Rockstar Games เครื่องหมายการค้าทั้งหมดเป็นของเจ้าของแต่ละราย ใช้เพื่อข้อมูลเท่านั้น",
+"gameTitle": "เกม",
+"gameSubtitle": "เลือกเกมของคุณ",
+"searchText": "ค้นหารหัสโกงตามคำหลักหรือเอฟเฟกต์"
+
 ,
     "privacyPolicyTitle": "นโยบายความเป็นส่วนตัว",
     "privacyPolicySubtitle": "เรียนรู้เกี่ยวกับนโยบายความเป็นส่วนตัวของแอป",

@@ -48,7 +48,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cancel => 'キャンセル';
 
   @override
-  String get favoritesTitle => '❤️ お気に入り';
+  String get favoritesTitle => 'お気に入り';
 
   @override
   String get loading => '読み込み中...';
@@ -67,6 +67,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactSection => 'お問い合わせ';
+
+  @override
+  String get infoText => 'このアプリはGTAのチートコードを独立して提供しており、Rockstar Gamesとは関係ありません。すべての商標はそれぞれの所有者に帰属します。情報提供のみを目的としています。';
+
+  @override
+  String get gameTitle => 'ゲーム';
+
+  @override
+  String get gameSubtitle => 'ゲームを選択してください。';
+
+  @override
+  String get searchText => 'キーワードや効果でチートを検索';
 
   @override
   String get version => 'バージョン';

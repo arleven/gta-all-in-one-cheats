@@ -14,7 +14,7 @@
   
     "searchHint": "Buscar un truco",
     "cancel": "Cancelar",
-    "favoritesTitle": "❤️ Favoritos",
+    "favoritesTitle": "Favoritos",
     "loading": "Cargando...",
     "sectionIconLabel": "Sección",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "No se pudo abrir la app de correo",
     "informationSection": "Información",
     "version": "Versión",
-"version_subtitle": "La versión actual de tu app"
+"version_subtitle": "La versión actual de tu app",
+"infoText": "Esta aplicación proporciona códigos de trucos de GTA de forma independiente y no está afiliada a Rockstar Games. Todas las marcas pertenecen a sus respectivos dueños. Solo para uso informativo.",
+"gameTitle": "Juego",
+"gameSubtitle": "Elige tu juego.",
+"searchText": "Buscar trucos por palabra clave o efecto"
+
 ,
     "privacyPolicyTitle": "Política de privacidad",
     "privacyPolicySubtitle": "Conoce más sobre las prácticas de privacidad de la app.",

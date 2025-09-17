@@ -48,7 +48,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get cancel => 'ยกเลิก';
 
   @override
-  String get favoritesTitle => '❤️ รายการโปรด';
+  String get favoritesTitle => 'รายการโปรด';
 
   @override
   String get loading => 'กำลังโหลด...';
@@ -67,6 +67,18 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get contactSection => 'ติดต่อ';
+
+  @override
+  String get infoText => 'แอปนี้ให้รหัสโกง GTA อย่างอิสระและไม่ได้เกี่ยวข้องกับ Rockstar Games เครื่องหมายการค้าทั้งหมดเป็นของเจ้าของแต่ละราย ใช้เพื่อข้อมูลเท่านั้น';
+
+  @override
+  String get gameTitle => 'เกม';
+
+  @override
+  String get gameSubtitle => 'เลือกเกมของคุณ';
+
+  @override
+  String get searchText => 'ค้นหารหัสโกงตามคำหลักหรือเอฟเฟกต์';
 
   @override
   String get version => 'เวอร์ชัน';

@@ -5,6 +5,7 @@ import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
 
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
+import 'package:all_gta/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -252,8 +253,8 @@ class _BottomBarsState extends State<BottomBars> {
               ],
             );
           } else if (_selectedIndex == 1) {
-            return const Text(
-              "Favorites",
+            return Text(
+              AppLocalizations.of(context)!.favoritesTitle,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 26,
@@ -261,8 +262,8 @@ class _BottomBarsState extends State<BottomBars> {
               ),
             );
           } else {
-            return const Text(
-              "Settings",
+            return Text(
+              AppLocalizations.of(context)!.settings,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 26,

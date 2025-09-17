@@ -14,7 +14,7 @@
   
     "searchHint": "Herhangi bir hile ara",
     "cancel": "İptal",
-    "favoritesTitle": "❤️ Favoriler",
+    "favoritesTitle": "Favoriler",
     "loading": "Yükleniyor...",
     "sectionIconLabel": "Bölüm",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Posta uygulaması açılamadı",
     "informationSection": "Bilgi",
     "version": "Sürüm",
-"version_subtitle": "Mevcut uygulama sürümünüz"
+"version_subtitle": "Mevcut uygulama sürümünüz",
+"infoText": "Bu uygulama, GTA hile kodlarını bağımsız olarak sağlar ve Rockstar Games ile bağlantılı değildir. Tüm ticari markalar sahiplerine aittir. Sadece bilgilendirme amaçlıdır.",
+"gameTitle": "Oyun",
+"gameSubtitle": "Oyununu seç.",
+"searchText": "Hileleri anahtar kelime veya etkiye göre ara"
+
 ,
     "privacyPolicyTitle": "Gizlilik Politikası",
     "privacyPolicySubtitle": "Uygulamanın gizlilik uygulamaları hakkında daha fazla bilgi edinin.",

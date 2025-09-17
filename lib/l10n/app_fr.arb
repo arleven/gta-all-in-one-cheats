@@ -14,7 +14,7 @@
   
     "searchHint": "Rechercher un code de triche",
     "cancel": "Annuler",
-    "favoritesTitle": "❤️ Favoris",
+    "favoritesTitle": "Favoris",
     "loading": "Chargement...",
     "sectionIconLabel": "Section",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Impossible d’ouvrir l’application mail",
     "informationSection": "Informations",
     "version": "Version",
-"version_subtitle": "Votre version actuelle de l'application"
+"version_subtitle": "Votre version actuelle de l'application",
+"infoText": "Cette application fournit des codes de triche GTA de manière indépendante et n'est pas affiliée à Rockstar Games. Toutes les marques appartiennent à leurs propriétaires respectifs. À des fins d'information uniquement.",
+"gameTitle": "Jeu",
+"gameSubtitle": "Choisissez votre jeu.",
+"searchText": "Recherchez des cheats par mot-clé ou effet"
+
 ,
     "privacyPolicyTitle": "Politique de confidentialité",
     "privacyPolicySubtitle": "En savoir plus sur la confidentialité de l’application.",

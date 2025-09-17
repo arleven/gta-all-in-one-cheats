@@ -14,7 +14,7 @@
   
     "searchHint": "Nach Cheat suchen",
     "cancel": "Abbrechen",
-    "favoritesTitle": "❤️ Favoriten",
+    "favoritesTitle": "Favoriten",
     "loading": "Wird geladen...",
     "sectionIconLabel": "Bereich",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "E-Mail-App konnte nicht geöffnet werden",
     "informationSection": "Informationen",
     "version": "Version",
-"version_subtitle": "Ihre aktuelle App-Version"
+"version_subtitle": "Ihre aktuelle App-Version",
+"infoText": "Diese App stellt GTA-Cheats unabhängig bereit und ist nicht mit Rockstar Games verbunden. Alle Marken gehören ihren jeweiligen Eigentümern. Nur zu Informationszwecken.",
+"gameTitle": "Spiel",
+"gameSubtitle": "Wähle dein Spiel.",
+"searchText": "Cheats nach Stichwort oder Effekt suchen"
+
 ,
     "privacyPolicyTitle": "Datenschutzrichtlinie",
     "privacyPolicySubtitle": "Erfahre mehr über die Datenschutzpraktiken der App.",

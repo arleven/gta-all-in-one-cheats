@@ -373,8 +373,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: SettingsTile(
                 imagePath: 'assets/images/platform_icon.png',
-                title: 'Game',
-                subtitle: 'Choose your game',
+                title: AppLocalizations.of(context)!.gameTitle,
+                subtitle: AppLocalizations.of(context)!.gameSubtitle,
                 trailingText: localizedGames[selectedGameKey],
                 onTap: () {},
                 onTrailingTap: () => _showGameDropdown(context),
@@ -518,9 +518,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    "This app is an independent tool designed solely to provide cheat codes for GTA on different platforms. "
-                    "It is not created, endorsed, or sponsored by Rockstar Games. All trademarks and copyrights belong "
-                    "to their respective owners. This app is for informational purposes only.",
+                    AppLocalizations.of(context)!.infoText,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,

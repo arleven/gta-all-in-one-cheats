@@ -14,7 +14,7 @@
   
     "searchHint": "ابحث عن أي شفرة",
     "cancel": "إلغاء",
-    "favoritesTitle": "❤️ المفضلة",
+    "favoritesTitle": "المفضلة",
     "loading": "جارٍ التحميل...",
     "sectionIconLabel": "القسم",
   
@@ -29,6 +29,11 @@
     "informationSection": "معلومات",
     "version": "الإصدار",
 "version_subtitle": "إصدار التطبيق الحالي لديك",
+"infoText": "يوفر هذا التطبيق أكواد الغش الخاصة بلعبة GTA بشكل مستقل ولا يرتبط بشركة Rockstar Games. جميع العلامات التجارية ملك لأصحابها. للاستخدام المعلوماتي فقط.",
+"gameTitle": "اللعبة",
+"gameSubtitle": "اختر لعبتك.",
+"searchText": "ابحث عن أكواد الغش بالكلمة المفتاحية أو التأثير"
+,
 
     "privacyPolicyTitle": "سياسة الخصوصية",
     "privacyPolicySubtitle": "تعرف على ممارسات الخصوصية للتطبيق.",

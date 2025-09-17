@@ -14,7 +14,7 @@
   
     "searchHint": "Cari sebarang cheat",
     "cancel": "Batal",
-    "favoritesTitle": "❤️ Kegemaran",
+    "favoritesTitle": "Kegemaran",
     "loading": "Memuatkan...",
     "sectionIconLabel": "Seksyen",
   
@@ -28,7 +28,12 @@
     "couldNotOpenMailApp": "Tidak dapat buka aplikasi mel",
     "informationSection": "Maklumat",
     "version": "Versi",
-"version_subtitle": "Versi aplikasi anda sekarang"
+"version_subtitle": "Versi aplikasi anda sekarang",
+"infoText": "Aplikasi ini menyediakan kod cheat GTA secara bebas dan tidak berkaitan dengan Rockstar Games. Semua tanda dagangan adalah milik pemilik masing-masing. Untuk kegunaan maklumat sahaja.",
+"gameTitle": "Permainan",
+"gameSubtitle": "Pilih permainan anda.",
+"searchText": "Cari cheat mengikut kata kunci atau kesan"
+
 ,
     "privacyPolicyTitle": "Dasar Privasi",
     "privacyPolicySubtitle": "Ketahui lebih lanjut tentang amalan privasi aplikasi ini.",

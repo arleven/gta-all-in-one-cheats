@@ -48,7 +48,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cancel => 'إلغاء';
 
   @override
-  String get favoritesTitle => '❤️ المفضلة';
+  String get favoritesTitle => 'المفضلة';
 
   @override
   String get loading => 'جارٍ التحميل...';
@@ -67,6 +67,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contactSection => 'تواصل';
+
+  @override
+  String get infoText => 'يوفر هذا التطبيق أكواد الغش الخاصة بلعبة GTA بشكل مستقل ولا يرتبط بشركة Rockstar Games. جميع العلامات التجارية ملك لأصحابها. للاستخدام المعلوماتي فقط.';
+
+  @override
+  String get gameTitle => 'اللعبة';
+
+  @override
+  String get gameSubtitle => 'اختر لعبتك.';
+
+  @override
+  String get searchText => 'ابحث عن أكواد الغش بالكلمة المفتاحية أو التأثير';
 
   @override
   String get version => 'الإصدار';

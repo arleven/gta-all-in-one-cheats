@@ -48,7 +48,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get cancel => 'Kanselahin';
 
   @override
-  String get favoritesTitle => '❤️ Mga Paborito';
+  String get favoritesTitle => 'Mga Paborito';
 
   @override
   String get loading => 'Naglo-load...';
@@ -67,6 +67,18 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get contactSection => 'Makipag-ugnayan';
+
+  @override
+  String get infoText => 'Ang app na ito ay nagbibigay ng GTA cheat codes nang independyente at hindi kaugnay sa Rockstar Games. Ang lahat ng trademark ay pag-aari ng kani-kanilang may-ari. Para lamang sa impormasyong gamit.';
+
+  @override
+  String get gameTitle => 'Laro';
+
+  @override
+  String get gameSubtitle => 'Piliin ang iyong laro.';
+
+  @override
+  String get searchText => 'Maghanap ng cheats gamit ang keyword o epekto';
 
   @override
   String get version => 'Bersyon';

@@ -206,7 +206,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoritesTitle.
   ///
   /// In en, this message translates to:
-  /// **'❤️ Favorites'**
+  /// **'Favorites'**
   String get favoritesTitle;
 
   /// No description provided for @loading.
@@ -244,6 +244,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact'**
   String get contactSection;
+
+  /// No description provided for @infoText.
+  ///
+  /// In en, this message translates to:
+  /// **'This app provides GTA cheat codes independently and is not affiliated with Rockstar Games.All trademarks belong to their respective owners. For informational use only.'**
+  String get infoText;
+
+  /// No description provided for @gameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Game'**
+  String get gameTitle;
+
+  /// No description provided for @gameSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your Game.'**
+  String get gameSubtitle;
+
+  /// No description provided for @searchText.
+  ///
+  /// In en, this message translates to:
+  /// **'Search cheats by keyword or effect'**
+  String get searchText;
 
   /// No description provided for @version.
   ///

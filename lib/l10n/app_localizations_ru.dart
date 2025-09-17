@@ -48,7 +48,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cancel => 'Отмена';
 
   @override
-  String get favoritesTitle => '❤️ Избранное';
+  String get favoritesTitle => 'Избранное';
 
   @override
   String get loading => 'Загрузка...';
@@ -67,6 +67,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contactSection => 'Контакт';
+
+  @override
+  String get infoText => 'Это приложение предоставляет чит-коды GTA независимо и не связано с Rockstar Games. Все торговые марки принадлежат их соответствующим владельцам. Только для информационного использования.';
+
+  @override
+  String get gameTitle => 'Игра';
+
+  @override
+  String get gameSubtitle => 'Выберите вашу игру.';
+
+  @override
+  String get searchText => 'Искать читы по ключевому слову или эффекту';
 
   @override
   String get version => 'Версия';

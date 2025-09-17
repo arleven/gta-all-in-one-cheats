@@ -48,7 +48,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cancel => '취소';
 
   @override
-  String get favoritesTitle => '❤️ 즐겨찾기';
+  String get favoritesTitle => '즐겨찾기';
 
   @override
   String get loading => '로딩 중...';
@@ -67,6 +67,18 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get contactSection => '문의';
+
+  @override
+  String get infoText => '이 앱은 GTA 치트 코드를 독립적으로 제공하며 Rockstar Games와 관련이 없습니다. 모든 상표는 각 소유자에게 속합니다. 정보 제공용입니다.';
+
+  @override
+  String get gameTitle => '게임';
+
+  @override
+  String get gameSubtitle => '게임을 선택하세요.';
+
+  @override
+  String get searchText => '키워드나 효과로 치트 검색';
 
   @override
   String get version => '버전';

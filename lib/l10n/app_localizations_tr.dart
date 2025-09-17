@@ -48,7 +48,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cancel => 'İptal';
 
   @override
-  String get favoritesTitle => '❤️ Favoriler';
+  String get favoritesTitle => 'Favoriler';
 
   @override
   String get loading => 'Yükleniyor...';
@@ -67,6 +67,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contactSection => 'İletişim';
+
+  @override
+  String get infoText => 'Bu uygulama, GTA hile kodlarını bağımsız olarak sağlar ve Rockstar Games ile bağlantılı değildir. Tüm ticari markalar sahiplerine aittir. Sadece bilgilendirme amaçlıdır.';
+
+  @override
+  String get gameTitle => 'Oyun';
+
+  @override
+  String get gameSubtitle => 'Oyununu seç.';
+
+  @override
+  String get searchText => 'Hileleri anahtar kelime veya etkiye göre ara';
 
   @override
   String get version => 'Sürüm';
