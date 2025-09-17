@@ -3,6 +3,7 @@ class CheatCode {
   final String description;
   final String codes;
   final String section;
+  final String? phoneNum; // optional
   final Map<String, dynamic> rawData;
 
   CheatCode({
@@ -10,6 +11,7 @@ class CheatCode {
     required this.description,
     required this.codes,
     required this.section,
+    this.phoneNum,
     required this.rawData,
   });
 
@@ -19,7 +21,24 @@ class CheatCode {
       description: json['description'] ?? '',
       codes: json['codes'] ?? '',
       section: json['section'] ?? '',
+      phoneNum: json['phoneNum'] as String?, // cast safely
       rawData: json,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = {
+      'title': title,
+      'description': description,
+      'codes': codes,
+      'section': section,
+    };
+
+    // Only add phoneNum if it's not null
+    if (phoneNum != null && phoneNum!.isNotEmpty) {
+      data['phoneNum'] = phoneNum!;
+    }
+
+    return data;
   }
 }
