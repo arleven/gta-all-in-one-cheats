@@ -22,7 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _version = '';
 
   List<String> get platformKeys {
-    if (allowedGames.length == 1 && allowedGames.first == 'libertycity') {
+    if (selectedGameKey == 'libertycity') {
       return ['playstation'];
     }
     return gamePlatforms[selectedGameKey] ?? [];
@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     'sanandreas': ['playstation', 'xbox', 'pc', 'iphone'],
     'vicecity': ['playstation', 'xbox', 'pc', 'iphone'],
     'gtav': ['playstation', 'xbox', 'pc', 'iphone', 'stadia'],
-    'libertycity': ['playstation', 'pc'],
+    'libertycity': ['playstation'],
   };
 
   final GlobalKey _trailingKey = GlobalKey();
@@ -224,9 +224,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
 
     if (selected != null) {
-      setState(() => selectedGameKey = selected);
-      await _saveGame(selected);
-      widget.onGameChanged?.call(selected); // notify parent
+      setState(() {
+        selectedGameKey = selected;
+
+        // Force platform to PlayStation if Liberty City is selected
+        if (selected == 'libertycity') {
+          selectedPlatformKey = 'playstation';
+          _savePlatform('playstation');
+          widget.onPlatformChanged?.call('playstation');
+        } else {
+          // make sure current platform is valid for the new game
+          if (!gamePlatforms[selected]!.contains(selectedPlatformKey)) {
+            selectedPlatformKey = gamePlatforms[selected]!.first;
+            _savePlatform(selectedPlatformKey);
+            widget.onPlatformChanged?.call(selectedPlatformKey);
+          }
+        }
+      });
+
+      _saveGame(selected);
+      widget.onGameChanged?.call(selected);
     }
   }
 
