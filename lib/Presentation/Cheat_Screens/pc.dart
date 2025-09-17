@@ -286,6 +286,7 @@ class _PcState extends State<Pc> {
                                     cheat,
                                     'description',
                                   ),
+                                  phoneNum: cheat.phoneNum,
                                   buttons: cheat.codes
                                       .split(',')
                                       .map((b) => b.trim())

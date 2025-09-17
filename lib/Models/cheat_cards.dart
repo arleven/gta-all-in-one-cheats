@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 class CheatCard extends StatefulWidget {
   final String title;
   final String desc;
+  final String? phoneNum;
   final List<String> buttons;
   final bool isFavorite;
   final Function(String) onFavoriteToggle;
@@ -14,6 +15,7 @@ class CheatCard extends StatefulWidget {
   const CheatCard({
     required this.title,
     required this.desc,
+    this.phoneNum,
     required this.buttons,
     required this.isFavorite,
     required this.onFavoriteToggle,
@@ -87,6 +89,19 @@ class _CheatCardState extends State<CheatCard> {
                             color: Colors.white,
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        if (widget.phoneNum != null &&
+                            widget.phoneNum!.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            "Phone code: ${widget.phoneNum}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 8),
                         Text(
                           widget.desc,
@@ -172,7 +187,6 @@ class _CheatCardState extends State<CheatCard> {
                               ),
                             ),
                             const SizedBox(width: 12),
-
                             Container(
                               width: 33,
                               height: 33,
@@ -190,7 +204,7 @@ class _CheatCardState extends State<CheatCard> {
                                 icon: Icon(
                                   copied ? Icons.check : Icons.copy,
                                   color: copied
-                                      ? Color.fromRGBO(0, 255, 144, 1)
+                                      ? const Color.fromRGBO(0, 255, 144, 1)
                                       : Colors.white,
                                   size: 16,
                                 ),

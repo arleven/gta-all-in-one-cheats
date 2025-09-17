@@ -296,6 +296,7 @@ class _IphoneState extends State<Iphone> {
                                     cheat,
                                     'description',
                                   ),
+                                  phoneNum: cheat.phoneNum,
                                   buttons: [cheat.codes.trim()],
                                   isFavorite: _favorites.contains(cheat.title),
                                   onFavoriteToggle: (_) =>
