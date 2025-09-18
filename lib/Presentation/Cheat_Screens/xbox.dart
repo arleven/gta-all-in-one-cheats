@@ -370,57 +370,77 @@ class _XboxScreenState extends State<XboxScreen> {
                                     !_hasReviewedUnlocked;
 
                                 if (isLocked) {
-                                  // Locked section → show only title + Rate button
                                   return Card(
                                     color: AppColors.notSelectedbg,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
                                     ),
-                                    child: ListTile(
-                                      title: Text(
-                                        cheat.title,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
                                       ),
-                                      trailing: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.primaryButton,
-                                          foregroundColor: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cheat.title,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
                                             ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .push(
-                                                MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      const ReviewToUnlcock(),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const ReviewToUnlcock(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    69,
+                                                    50,
+                                                    1,
+                                                  ),
+                                                  border: Border.all(
+                                                    width: 1.8,
+                                                    color: const Color.fromRGBO(
+                                                      31,
+                                                      164,
+                                                      106,
+                                                      1,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
-                                              )
-                                              .then((_) async {
-                                                final prefs =
-                                                    await SharedPreferences.getInstance();
-                                                final unlocked =
-                                                    prefs.getBool(
-                                                      _reviewUnlockKey,
-                                                    ) ??
-                                                    false;
-                                                if (unlocked) {
-                                                  setState(() {
-                                                    _hasReviewedUnlocked = true;
-                                                  });
-                                                }
-                                              });
-                                        },
-
-                                        child: const Text("Review to Unlock"),
+                                                child: Text(
+                                                  'Unlock',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
