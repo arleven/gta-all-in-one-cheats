@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
 import 'package:all_gta/Models/image_swiper.dart';
@@ -7,7 +8,6 @@ import 'package:all_gta/Models/cheat_cards.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
-
 import 'package:all_gta/l10n/app_localizations.dart';
 
 class XboxScreen extends StatefulWidget {
@@ -29,6 +29,8 @@ class _XboxScreenState extends State<XboxScreen> {
   String? _selectedSection;
   List<String> _allSections = [];
   final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
+  bool _hasReviewedUnlocked = false;
+  static const String _reviewUnlockKey = 'unlockedReviewed';
 
   @override
   void initState() {
@@ -37,6 +39,8 @@ class _XboxScreenState extends State<XboxScreen> {
     _loadFavorites();
     _loadSelectedLanguage();
     _loadCheats();
+
+    _loadReviewUnlockStatus();
 
     //  _searchFocusNode.addListener(() {
     //   if (!_isMounted) return;
@@ -52,6 +56,13 @@ class _XboxScreenState extends State<XboxScreen> {
       setState(() {
         _searchQuery = _searchController.text.trim().toLowerCase();
       });
+    });
+  }
+
+  Future<void> _loadReviewUnlockStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _hasReviewedUnlocked = prefs.getBool(_reviewUnlockKey) ?? false;
     });
   }
 
@@ -354,9 +365,9 @@ class _XboxScreenState extends State<XboxScreen> {
                             children: [
                               const SizedBox(height: 12),
                               ...cheats.map((cheat) {
-                                final isLocked = _lockedSections.contains(
-                                  entry.key,
-                                );
+                                final isLocked =
+                                    _lockedSections.contains(entry.key) &&
+                                    !_hasReviewedUnlocked;
 
                                 if (isLocked) {
                                   // Locked section → show only title + Rate button
@@ -386,18 +397,35 @@ class _XboxScreenState extends State<XboxScreen> {
                                           ),
                                         ),
                                         onPressed: () {
-                                          // 👉 Open rate dialog
-                                          ARReviewManager.startReviewRequestIfRequired(
-                                            context,
-                                          );
+                                          Navigator.of(context)
+                                              .push(
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const ReviewToUnlcock(),
+                                                ),
+                                              )
+                                              .then((_) async {
+                                                final prefs =
+                                                    await SharedPreferences.getInstance();
+                                                final unlocked =
+                                                    prefs.getBool(
+                                                      _reviewUnlockKey,
+                                                    ) ??
+                                                    false;
+                                                if (unlocked) {
+                                                  setState(() {
+                                                    _hasReviewedUnlocked = true;
+                                                  });
+                                                }
+                                              });
                                         },
-                                        child: const Text("Rate our app"),
+
+                                        child: const Text("Review to Unlock"),
                                       ),
                                     ),
                                   );
                                 }
 
-                                // Normal cheat card
                                 return CheatCard(
                                   title: cheat.title,
                                   desc: _localized(
