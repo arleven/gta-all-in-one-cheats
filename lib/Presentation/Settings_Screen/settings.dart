@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -110,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         selectedGameKey = allowedGames.first;
       }
     });
+    CheatService.updateSelectedGame(selectedGameKey);
   }
 
   @override
@@ -242,6 +244,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       });
 
       _saveGame(selected);
+      CheatService.updateSelectedGame(selected);
       widget.onGameChanged?.call(selected);
     }
   }

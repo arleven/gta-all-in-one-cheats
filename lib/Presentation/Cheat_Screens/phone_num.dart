@@ -31,6 +31,7 @@ class _PhoneNumState extends State<PhoneNum> {
     _loadFavorites();
     _loadCheats();
     _loadSelectedLanguage();
+    _loadSelectedGame();
 
     ARReviewManager.startReviewRequestIfRequired(context);
 
@@ -43,6 +44,14 @@ class _PhoneNumState extends State<PhoneNum> {
     _searchFocusNode.addListener(() {
       setState(() {});
     });
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(
+      savedGame,
+    ); // <- tell CheatService which game
   }
 
   String _selectedLangCode = 'en';

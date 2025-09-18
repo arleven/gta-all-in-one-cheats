@@ -39,7 +39,7 @@ class _XboxScreenState extends State<XboxScreen> {
     _loadFavorites();
     _loadSelectedLanguage();
     _loadCheats();
-
+    _loadSelectedGame();
     _loadReviewUnlockStatus();
 
     //  _searchFocusNode.addListener(() {
@@ -57,6 +57,14 @@ class _XboxScreenState extends State<XboxScreen> {
         _searchQuery = _searchController.text.trim().toLowerCase();
       });
     });
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(
+      savedGame,
+    ); // <- tell CheatService which game
   }
 
   Future<void> _loadReviewUnlockStatus() async {

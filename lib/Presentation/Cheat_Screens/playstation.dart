@@ -38,6 +38,7 @@ class _PlaystationState extends State<Playstation> {
     _loadFavorites();
     _loadCheats();
     _loadSelectedLanguage();
+    _loadSelectedGame();
     _isMounted = true;
     _loadReviewUnlockStatus();
     ARReviewManager.startReviewRequestIfRequired(context);
@@ -53,6 +54,12 @@ class _PlaystationState extends State<Playstation> {
     _searchFocusNode.addListener(() {
       setState(() {});
     });
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(savedGame);
   }
 
   Future<void> _loadReviewUnlockStatus() async {

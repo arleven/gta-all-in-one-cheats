@@ -38,6 +38,7 @@ class _IphoneState extends State<Iphone> {
     _loadSelectedLanguage();
     _refreshCheatsInBackground();
     _loadReviewUnlockStatus();
+    _loadSelectedGame();
     ARReviewManager.startReviewRequestIfRequired(context);
 
     _searchController.addListener(() {
@@ -50,6 +51,14 @@ class _IphoneState extends State<Iphone> {
     _searchFocusNode.addListener(() {
       setState(() {});
     });
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(
+      savedGame,
+    ); // <- tell CheatService which game
   }
 
   Future<void> _loadReviewUnlockStatus() async {

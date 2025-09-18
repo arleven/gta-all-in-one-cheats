@@ -10,6 +10,7 @@ class GameProvider extends ChangeNotifier {
   Future<void> loadGame() async {
     final prefs = await SharedPreferences.getInstance();
     _selectedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(_selectedGame);
     notifyListeners();
   }
 

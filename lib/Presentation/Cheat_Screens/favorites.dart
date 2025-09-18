@@ -23,6 +23,7 @@ class _FavoritesState extends State<Favorites> {
   void initState() {
     super.initState();
     _loadSelectedPlatform();
+    _loadSelectedGame();
   }
 
   Future<void> _loadSelectedPlatform() async {
@@ -34,6 +35,14 @@ class _FavoritesState extends State<Favorites> {
     });
 
     _loadFavorites();
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(
+      savedGame,
+    ); // <- tell CheatService which game
   }
 
   Future<void> _loadFavorites() async {

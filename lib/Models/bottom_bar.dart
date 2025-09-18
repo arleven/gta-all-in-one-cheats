@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
@@ -72,6 +73,8 @@ class _BottomBarsState extends State<BottomBars> {
       currentGame = _allowedGames.first;
       await gameProvider.setGame(currentGame);
     }
+
+    CheatService.updateSelectedGame(currentGame);
 
     setState(() {
       _initDone = true;
@@ -204,6 +207,9 @@ class _BottomBarsState extends State<BottomBars> {
 
           final gameProvider = context.read<GameProvider>();
           await gameProvider.setGame(newGame);
+
+          // Important: keep CheatService in sync
+          CheatService.updateSelectedGame(newGame);
 
           setState(() {});
         },

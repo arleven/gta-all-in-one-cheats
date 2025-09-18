@@ -3,7 +3,7 @@ class CheatCode {
   final String description;
   final String codes;
   final String section;
-  final String? phoneNum; // optional
+  final String? phoneNum;
   final Map<String, dynamic> rawData;
 
   CheatCode({
@@ -21,7 +21,7 @@ class CheatCode {
       description: json['description'] ?? '',
       codes: json['codes'] ?? '',
       section: json['section'] ?? '',
-      phoneNum: json['phoneNum'] as String?, // cast safely
+      phoneNum: json['phoneNum'] as String?,
       rawData: json,
     );
   }
@@ -34,7 +34,6 @@ class CheatCode {
       'section': section,
     };
 
-    // Only add phoneNum if it's not null
     if (phoneNum != null && phoneNum!.isNotEmpty) {
       data['phoneNum'] = phoneNum!;
     }

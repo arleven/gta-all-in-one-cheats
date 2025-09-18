@@ -39,6 +39,7 @@ class _PcState extends State<Pc> {
     _loadReviewUnlockStatus();
     _loadCheats();
     _loadSelectedLanguage();
+    _loadSelectedGame();
 
     ARReviewManager.startReviewRequestIfRequired(context);
     _refreshCheatsInBackground();
@@ -53,6 +54,14 @@ class _PcState extends State<Pc> {
     _searchFocusNode.addListener(() {
       setState(() {});
     });
+  }
+
+  Future<void> _loadSelectedGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
+    CheatService.updateSelectedGame(
+      savedGame,
+    ); // <- tell CheatService which game
   }
 
   Future<void> _loadReviewUnlockStatus() async {
