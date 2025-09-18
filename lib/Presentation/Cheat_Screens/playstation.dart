@@ -134,6 +134,7 @@ class _PlaystationState extends State<Playstation> {
 
   @override
   void dispose() {
+    _isMounted = false;
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
@@ -360,7 +361,7 @@ class _PlaystationState extends State<Playstation> {
               child: _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.greenAccent,
+                        color: AppColors.primaryButton,
                       ),
                     )
                   : ListView(

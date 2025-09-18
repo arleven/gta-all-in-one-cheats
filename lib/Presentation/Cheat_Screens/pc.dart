@@ -22,9 +22,10 @@ class _PcState extends State<Pc> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   final FocusNode _searchFocusNode = FocusNode();
-  bool _isMounted = false;
+
   static const String _prefsKey = 'favoriteCheats_pc';
   String? _selectedSection;
+  bool _isMounted = false;
   List<String> _allSections = [];
   final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
   bool _hasReviewedUnlocked = false;
@@ -34,6 +35,7 @@ class _PcState extends State<Pc> {
   void initState() {
     super.initState();
     _loadFavorites();
+    _isMounted = true;
     _loadReviewUnlockStatus();
     _loadCheats();
     _loadSelectedLanguage();
@@ -42,6 +44,7 @@ class _PcState extends State<Pc> {
     _refreshCheatsInBackground();
 
     _searchController.addListener(() {
+      if (!_isMounted) return;
       setState(() {
         _searchQuery = _searchController.text.trim().toLowerCase();
       });
@@ -70,6 +73,7 @@ class _PcState extends State<Pc> {
 
   @override
   void dispose() {
+    _isMounted = false;
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
@@ -100,7 +104,7 @@ class _PcState extends State<Pc> {
 
   void _refreshCheatsInBackground() async {
     try {
-      final fresh = await CheatService.fetchXboxCheats(useCacheFirst: false);
+      final fresh = await CheatService.fetchPcCheats(useCacheFirst: false);
       if (_isMounted) {
         final sections = fresh.map((e) => e.section).toSet().toList();
         sections.sort();
@@ -302,7 +306,7 @@ class _PcState extends State<Pc> {
               child: _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.greenAccent,
+                        color: AppColors.primaryButton,
                       ),
                     )
                   : ListView(

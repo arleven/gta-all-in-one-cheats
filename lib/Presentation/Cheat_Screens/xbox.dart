@@ -352,7 +352,7 @@ class _XboxScreenState extends State<XboxScreen> {
               child: _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.greenAccent,
+                        color: AppColors.primaryButton,
                       ),
                     )
                   : ListView(

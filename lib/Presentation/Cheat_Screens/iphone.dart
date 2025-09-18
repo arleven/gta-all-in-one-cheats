@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +23,12 @@ class _IphoneState extends State<Iphone> {
   final FocusNode _searchFocusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
   static const String _prefsKey = 'favoriteCheats_iphone';
-  String _selectedSection = 'All';
-  List<String> _allSections = ['All'];
+  String? _selectedSection;
+  bool _isMounted = false;
+  List<String> _allSections = [];
+  final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
+  bool _hasReviewedUnlocked = false;
+  static const String _reviewUnlockKey = 'unlockedReviewed';
 
   @override
   void initState() {
@@ -31,10 +36,12 @@ class _IphoneState extends State<Iphone> {
     _loadFavorites();
     _loadCheats();
     _loadSelectedLanguage();
-
+    _refreshCheatsInBackground();
+    _loadReviewUnlockStatus();
     ARReviewManager.startReviewRequestIfRequired(context);
 
     _searchController.addListener(() {
+      if (!_isMounted) return;
       setState(() {
         _searchQuery = _searchController.text.trim().toLowerCase();
       });
@@ -42,6 +49,13 @@ class _IphoneState extends State<Iphone> {
 
     _searchFocusNode.addListener(() {
       setState(() {});
+    });
+  }
+
+  Future<void> _loadReviewUnlockStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _hasReviewedUnlocked = prefs.getBool(_reviewUnlockKey) ?? false;
     });
   }
 
@@ -77,15 +91,43 @@ class _IphoneState extends State<Iphone> {
       _isLoading = false;
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
-
       uniqueSections.sort();
 
-      _allSections = ['All', ...uniqueSections];
+      _allSections = uniqueSections;
+
+      if (_allSections.isNotEmpty &&
+          (_selectedSection == null ||
+              !_allSections.contains(_selectedSection))) {
+        _selectedSection = _allSections.first;
+      }
     });
+  }
+
+  void _refreshCheatsInBackground() async {
+    try {
+      final fresh = await CheatService.fetchIphoneCheats(useCacheFirst: false);
+      if (_isMounted) {
+        final sections = fresh.map((e) => e.section).toSet().toList();
+        sections.sort();
+        setState(() {
+          _allCheats = fresh;
+          _allSections = sections;
+
+          if (_allSections.isNotEmpty &&
+              (_selectedSection == null ||
+                  !_allSections.contains(_selectedSection))) {
+            _selectedSection = _allSections.first;
+          }
+        });
+      }
+    } catch (e) {
+      print("Failed to refresh in background: $e");
+    }
   }
 
   @override
   void dispose() {
+    _isMounted = false;
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
@@ -132,7 +174,7 @@ class _IphoneState extends State<Iphone> {
         continue;
       }
 
-      if (_selectedSection != 'All' && cheat.section != _selectedSection) {
+      if (_selectedSection != null && cheat.section != _selectedSection) {
         continue;
       }
 
@@ -283,9 +325,89 @@ class _IphoneState extends State<Iphone> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 12),
-                              ...cheats.map(
-                                (cheat) => CheatCard(
+                              ...cheats.map((cheat) {
+                                final isLocked =
+                                    _lockedSections.contains(entry.key) &&
+                                    !_hasReviewedUnlocked;
+
+                                if (isLocked) {
+                                  return Card(
+                                    color: AppColors.notSelectedbg,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cheat.title,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const ReviewOnboard(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    69,
+                                                    50,
+                                                    1,
+                                                  ),
+                                                  border: Border.all(
+                                                    width: 1.8,
+                                                    color: const Color.fromRGBO(
+                                                      31,
+                                                      164,
+                                                      106,
+                                                      1,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: const Text(
+                                                  'Unlock',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return CheatCard(
                                   title: _localized(
                                     cheat.title,
                                     cheat,
@@ -297,13 +419,16 @@ class _IphoneState extends State<Iphone> {
                                     'description',
                                   ),
                                   phoneNum: cheat.phoneNum,
-                                  buttons: [cheat.codes.trim()],
+                                  buttons: cheat.codes
+                                      .split(',')
+                                      .map((b) => b.trim())
+                                      .toList(),
                                   isFavorite: _favorites.contains(cheat.title),
                                   onFavoriteToggle: (_) =>
                                       toggleFavorite(cheat.title),
                                   useImages: false,
-                                ),
-                              ),
+                                );
+                              }),
                             ],
                           );
                         }),
