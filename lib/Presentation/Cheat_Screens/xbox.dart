@@ -28,6 +28,7 @@ class _XboxScreenState extends State<XboxScreen> {
   static const String _prefsKey = 'favoriteCheats_xbox';
   String? _selectedSection;
   List<String> _allSections = [];
+  final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
 
   @override
   void initState() {
@@ -352,8 +353,52 @@ class _XboxScreenState extends State<XboxScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 12),
-                              ...cheats.map(
-                                (cheat) => CheatCard(
+                              ...cheats.map((cheat) {
+                                final isLocked = _lockedSections.contains(
+                                  entry.key,
+                                );
+
+                                if (isLocked) {
+                                  // Locked section → show only title + Rate button
+                                  return Card(
+                                    color: AppColors.notSelectedbg,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: ListTile(
+                                      title: Text(
+                                        cheat.title,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      trailing: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              AppColors.primaryButton,
+                                          foregroundColor: Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // 👉 Open rate dialog
+                                          ARReviewManager.startReviewRequestIfRequired(
+                                            context,
+                                          );
+                                        },
+                                        child: const Text("Rate our app"),
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // Normal cheat card
+                                return CheatCard(
                                   title: cheat.title,
                                   desc: _localized(
                                     cheat.description,
@@ -371,8 +416,8 @@ class _XboxScreenState extends State<XboxScreen> {
                                   imageMapper: getXboxImagePath,
                                   onTap: () =>
                                       _showBottomSheetWithImages(cheat),
-                                ),
-                              ),
+                                );
+                              }),
                             ],
                           );
                         }),
