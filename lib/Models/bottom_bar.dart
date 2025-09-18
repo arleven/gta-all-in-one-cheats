@@ -290,23 +290,35 @@ class _BottomBarsState extends State<BottomBars> {
         ),
       ),
 
-      body: screens[_selectedIndex],
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() => _selectedIndex = index);
-        },
-        backgroundColor: Color.fromRGBO(13, 13, 13, 1),
-        selectedItemColor: Colors.greenAccent,
-        unselectedItemColor: Colors.white54,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Fav"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
+      body: Stack(
+        children: [
+          screens[_selectedIndex],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: (index) => setState(() => _selectedIndex = index),
+              backgroundColor: Colors.black,
+              selectedItemColor: Colors.greenAccent,
+              unselectedItemColor: Colors.white54,
+              type: BottomNavigationBarType.fixed,
+              iconSize: 22,
+              selectedFontSize: 11,
+              unselectedFontSize: 10,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: "Fav",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: "Settings",
+                ),
+              ],
+            ),
           ),
         ],
       ),
