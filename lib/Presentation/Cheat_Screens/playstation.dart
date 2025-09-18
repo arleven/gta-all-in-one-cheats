@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
 import 'package:all_gta/Models/cheat_cards.dart';
@@ -22,10 +23,14 @@ class _PlaystationState extends State<Playstation> {
   Set<String> _favorites = {};
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  bool _isMounted = false;
   final FocusNode _searchFocusNode = FocusNode();
   static const String _prefsKey = 'favoriteCheats_playstation';
-  String _selectedSection = 'All';
-  List<String> _allSections = ['All'];
+  String? _selectedSection;
+  List<String> _allSections = [];
+  final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
+  bool _hasReviewedUnlocked = false;
+  static const String _reviewUnlockKey = 'unlockedReviewed';
 
   @override
   void initState() {
@@ -33,9 +38,13 @@ class _PlaystationState extends State<Playstation> {
     _loadFavorites();
     _loadCheats();
     _loadSelectedLanguage();
+    _isMounted = true;
+    _loadReviewUnlockStatus();
     ARReviewManager.startReviewRequestIfRequired(context);
+    _refreshCheatsInBackground();
 
     _searchController.addListener(() {
+      if (!_isMounted) return;
       setState(() {
         _searchQuery = _searchController.text.trim().toLowerCase();
       });
@@ -43,6 +52,13 @@ class _PlaystationState extends State<Playstation> {
 
     _searchFocusNode.addListener(() {
       setState(() {});
+    });
+  }
+
+  Future<void> _loadReviewUnlockStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _hasReviewedUnlocked = prefs.getBool(_reviewUnlockKey) ?? false;
     });
   }
 
@@ -80,11 +96,40 @@ class _PlaystationState extends State<Playstation> {
       _isLoading = false;
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
-
       uniqueSections.sort();
 
-      _allSections = ['All', ...uniqueSections];
+      _allSections = uniqueSections;
+
+      if (_allSections.isNotEmpty &&
+          (_selectedSection == null ||
+              !_allSections.contains(_selectedSection))) {
+        _selectedSection = _allSections.first;
+      }
     });
+  }
+
+  void _refreshCheatsInBackground() async {
+    try {
+      final fresh = await CheatService.fetchPlaystationCheats(
+        useCacheFirst: false,
+      );
+      if (_isMounted) {
+        final sections = fresh.map((e) => e.section).toSet().toList();
+        sections.sort();
+        setState(() {
+          _allCheats = fresh;
+          _allSections = sections;
+
+          if (_allSections.isNotEmpty &&
+              (_selectedSection == null ||
+                  !_allSections.contains(_selectedSection))) {
+            _selectedSection = _allSections.first;
+          }
+        });
+      }
+    } catch (e) {
+      print("Failed to refresh in background: $e");
+    }
   }
 
   @override
@@ -120,6 +165,28 @@ class _PlaystationState extends State<Playstation> {
     _saveFavorites();
   }
 
+  _showBottomSheetWithImages(CheatCode cheat) {
+    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
+
+    final imagePaths = codes
+        .map((code) => getPlaystationImagePath(code))
+        .toList();
+    final codeTexts = codes;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.black87,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.5,
+        child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codeTexts),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -136,7 +203,7 @@ class _PlaystationState extends State<Playstation> {
         continue;
       }
 
-      if (_selectedSection != 'All' && cheat.section != _selectedSection) {
+      if (_selectedSection != null && cheat.section != _selectedSection) {
         continue;
       }
 
@@ -219,6 +286,8 @@ class _PlaystationState extends State<Playstation> {
                   final section = _allSections[index];
                   final isSelected = section == _selectedSection;
 
+                  // final emoji = sectionEmojis[section] ?? '❓';
+
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -235,35 +304,50 @@ class _PlaystationState extends State<Playstation> {
                           width: 1.4,
                           color: isSelected
                               ? AppColors.shadowBorder
-                              : Color.fromRGBO(255, 255, 255, 0.1),
+                              : const Color.fromRGBO(255, 255, 255, 0.1),
                         ),
                         color: isSelected
                             ? AppColors.primaryButton
                             : AppColors.notSelectedbg,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
-                        _localized(
-                          section,
-                          _allCheats.firstWhere(
-                            (c) => c.section == section,
-                            orElse: () => CheatCode(
-                              title: '',
-                              section: section,
-                              description: '',
-                              codes: '',
-                              rawData: {},
+                      child: Row(
+                        children: [
+                          // Text(
+                          //   emoji,
+                          //   style: TextStyle(
+                          //     fontSize: 14,
+                          //     fontFamily: 'Apple Color Emoji',
+                          //     color: isSelected
+                          //         ? const Color.fromRGBO(4, 4, 4, 1)
+                          //         : Colors.grey,
+                          //   ),
+                          // ),
+                          // const SizedBox(width: 6),
+                          Text(
+                            _localized(
+                              section,
+                              _allCheats.firstWhere(
+                                (c) => c.section == section,
+                                orElse: () => CheatCode(
+                                  title: '',
+                                  section: section,
+                                  description: '',
+                                  codes: '',
+                                  rawData: {},
+                                ),
+                              ),
+                              'section',
+                            ),
+                            style: TextStyle(
+                              color: isSelected
+                                  ? const Color.fromRGBO(4, 4, 4, 1)
+                                  : const Color.fromRGBO(200, 196, 196, 1),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13,
                             ),
                           ),
-                          'section',
-                        ),
-                        style: TextStyle(
-                          color: isSelected
-                              ? Color.fromRGBO(4, 4, 4, 1)
-                              : Color.fromRGBO(200, 196, 196, 1),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                        ),
+                        ],
                       ),
                     ),
                   );
@@ -287,13 +371,91 @@ class _PlaystationState extends State<Playstation> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...cheats.map(
-                                (cheat) => CheatCard(
-                                  title: _localized(
-                                    cheat.title,
-                                    cheat,
-                                    'title',
-                                  ),
+                              const SizedBox(height: 12),
+                              ...cheats.map((cheat) {
+                                final isLocked =
+                                    _lockedSections.contains(entry.key) &&
+                                    !_hasReviewedUnlocked;
+
+                                if (isLocked) {
+                                  return Card(
+                                    color: AppColors.notSelectedbg,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cheat.title,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const ReviewToUnlcock(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    69,
+                                                    50,
+                                                    1,
+                                                  ),
+                                                  border: Border.all(
+                                                    width: 1.8,
+                                                    color: const Color.fromRGBO(
+                                                      31,
+                                                      164,
+                                                      106,
+                                                      1,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Text(
+                                                  'Unlock',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return CheatCard(
+                                  title: cheat.title,
                                   desc: _localized(
                                     cheat.description,
                                     cheat,
@@ -308,45 +470,10 @@ class _PlaystationState extends State<Playstation> {
                                       toggleFavorite(cheat.title),
                                   useImages: true,
                                   imageMapper: getPlaystationImagePath,
-                                  onTap: () {
-                                    final images = cheat.codes
-                                        .split(',')
-                                        .map(
-                                          (code) => getPlaystationImagePath(
-                                            code.trim(),
-                                          ),
-                                        )
-                                        .toList();
-
-                                    final codes = cheat.codes
-                                        .split(',')
-                                        .map(
-                                          (code) => code.trim().toLowerCase(),
-                                        )
-                                        .toList();
-
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.black,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(16),
-                                        ),
-                                      ),
-                                      builder: (_) => SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                            0.6,
-                                        child: SlidingImageViewer(
-                                          imagePaths: images,
-                                          codeTexts: codes,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                  onTap: () =>
+                                      _showBottomSheetWithImages(cheat),
+                                );
+                              }),
                             ],
                           );
                         }),
