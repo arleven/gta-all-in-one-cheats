@@ -26,8 +26,8 @@ class _XboxScreenState extends State<XboxScreen> {
   final FocusNode _searchFocusNode = FocusNode();
   bool _isMounted = false;
   static const String _prefsKey = 'favoriteCheats_xbox';
-  String _selectedSection = 'All';
-  List<String> _allSections = ['All'];
+  String? _selectedSection;
+  List<String> _allSections = [];
 
   @override
   void initState() {
@@ -72,10 +72,15 @@ class _XboxScreenState extends State<XboxScreen> {
       _isLoading = false;
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
-
       uniqueSections.sort();
 
-      _allSections = ['All', ...uniqueSections];
+      _allSections = uniqueSections;
+
+      if (_allSections.isNotEmpty &&
+          (_selectedSection == null ||
+              !_allSections.contains(_selectedSection))) {
+        _selectedSection = _allSections.first;
+      }
     });
   }
 
@@ -83,10 +88,17 @@ class _XboxScreenState extends State<XboxScreen> {
     try {
       final fresh = await CheatService.fetchXboxCheats(useCacheFirst: false);
       if (_isMounted) {
-        final sections = {'All', ...fresh.map((e) => e.section)};
+        final sections = fresh.map((e) => e.section).toSet().toList();
+        sections.sort();
         setState(() {
           _allCheats = fresh;
-          _allSections = sections.toList();
+          _allSections = sections;
+
+          if (_allSections.isNotEmpty &&
+              (_selectedSection == null ||
+                  !_allSections.contains(_selectedSection))) {
+            _selectedSection = _allSections.first;
+          }
         });
       }
     } catch (e) {
@@ -149,21 +161,10 @@ class _XboxScreenState extends State<XboxScreen> {
   String _selectedLangCode = 'en';
 
   final Map<String, String> sectionEmojis = {
-    'All': '',
-    'Player Enhancements': '🪄',
+    'Player': '🪄',
     'Weapons': '🔫',
-    'Vehicles': '🚗',
-    'Traffic': '🚦',
+    'Vehicle': '🚗',
     'World': '🌍',
-    'Abilities': '🧠',
-    'Theme': '🎨',
-    'Gangs': '🏴',
-    'Health, Armor, and Money': '💎',
-    'Other': '🔷',
-    'Pedestrian & World': '🌍',
-    'Player Stats': '📊',
-    'Time & Weather': '⛅',
-    'Wanted Level': '🚨',
   };
 
   @override
@@ -182,7 +183,7 @@ class _XboxScreenState extends State<XboxScreen> {
         continue;
       }
 
-      if (_selectedSection != 'All' && cheat.section != _selectedSection) {
+      if (_selectedSection != null && cheat.section != _selectedSection) {
         continue;
       }
 

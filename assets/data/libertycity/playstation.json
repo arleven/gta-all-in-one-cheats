@@ -162,7 +162,7 @@
       "description_tr": "Ağır ateş gücü de dahil olmak üzere gelişmiş silahlar verir."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "All Black Cars",
       "codes": "Circle, Circle, R1, Triangle, Triangle, L1, Square, Square",
       "description": "Makes all cars black.",
@@ -216,7 +216,7 @@
       "description_tr": "Tüm arabaları siyah yapar."
    },
    {
-      "section": "Vehicles",
+      "section": "Vehicle",
       "title": "All Chrome Vehicles",
       "codes": "Triangle, R1, L1, Down, Down, R1, R1, Triangle",
       "description": "Gives all cars a chrome finish.",
