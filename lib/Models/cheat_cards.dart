@@ -89,7 +89,7 @@ class _CheatCardState extends State<CheatCard> {
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 5),
                         if (widget.phoneNum != null &&
                             widget.phoneNum!.isNotEmpty) ...[
                           const SizedBox(height: 4),
@@ -102,7 +102,7 @@ class _CheatCardState extends State<CheatCard> {
                             ),
                           ),
                         ],
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         Text(
                           widget.desc,
                           style: const TextStyle(
