@@ -393,7 +393,11 @@ class _XboxScreenState extends State<XboxScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            cheat.title,
+                                            _localized(
+                                              cheat.title,
+                                              cheat,
+                                              'title',
+                                            ),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -455,7 +459,11 @@ class _XboxScreenState extends State<XboxScreen> {
                                 }
 
                                 return CheatCard(
-                                  title: cheat.title,
+                                  title: _localized(
+                                    cheat.title,
+                                    cheat,
+                                    'title',
+                                  ),
                                   desc: _localized(
                                     cheat.description,
                                     cheat,

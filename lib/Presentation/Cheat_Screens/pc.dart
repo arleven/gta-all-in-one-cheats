@@ -347,7 +347,11 @@ class _PcState extends State<Pc> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            cheat.title,
+                                            _localized(
+                                              cheat.title,
+                                              cheat,
+                                              'title',
+                                            ),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
