@@ -430,6 +430,7 @@ class _PcState extends State<Pc> {
                                   useImages: false,
                                 );
                               }),
+                              SizedBox(height: 40),
                             ],
                           );
                         }),

@@ -482,6 +482,7 @@ class _PlaystationState extends State<Playstation> {
                                       _showBottomSheetWithImages(cheat),
                                 );
                               }),
+                              SizedBox(height: 40),
                             ],
                           );
                         }),

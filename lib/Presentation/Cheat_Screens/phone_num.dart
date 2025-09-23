@@ -321,6 +321,7 @@ class _PhoneNumState extends State<PhoneNum> {
                                   useImages: false,
                                 ),
                               ),
+                              SizedBox(height: 40),
                             ],
                           );
                         }),

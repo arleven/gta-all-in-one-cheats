@@ -438,6 +438,7 @@ class _IphoneState extends State<Iphone> {
                                   useImages: false,
                                 );
                               }),
+                              SizedBox(height: 40),
                             ],
                           );
                         }),

@@ -183,6 +183,7 @@ class _FavoritesState extends State<Favorites> {
             }).toList(),
           ),
         ),
+        SizedBox(height: 64),
       ],
     );
   }

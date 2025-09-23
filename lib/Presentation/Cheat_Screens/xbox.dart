@@ -474,6 +474,7 @@ class _XboxScreenState extends State<XboxScreen> {
                                       _showBottomSheetWithImages(cheat),
                                 );
                               }),
+                              SizedBox(height: 40),
                             ],
                           );
                         }),

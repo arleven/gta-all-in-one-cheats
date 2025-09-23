@@ -101,86 +101,104 @@ class _BottomBarsState extends State<BottomBars> {
     'xbox': 'Xbox',
     'iphone': 'iPhone',
   };
-  OverlayEntry? _dropdownOverlay;
 
-  void _showGameDropdown(BuildContext context) {
-    final overlay = Overlay.of(context);
-    final renderBox =
-        _gameTrailingKey.currentContext!.findRenderObject() as RenderBox;
-    final offset = renderBox.localToGlobal(Offset.zero);
-    final screenWidth = MediaQuery.of(context).size.width;
+  Widget buildDragHandle() {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        height: 4,
+        width: 40,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(76, 72, 72, 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
 
-    _dropdownOverlay = OverlayEntry(
-      builder: (context) {
-        final currentGame = context.read<GameProvider>().selectedGame;
+  void _showGameBottomSheet(BuildContext context) {
+    final currentGame = context.read<GameProvider>().selectedGame;
 
-        return Positioned(
-          top: offset.dy + renderBox.size.height,
-          left: 12,
-          width: screenWidth - 24,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                border: Border.all(color: Colors.grey[700]!),
-                borderRadius: BorderRadius.circular(16),
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(42, 40, 40, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+
+            buildDragHandle(),
+
+            const SizedBox(height: 8),
+
+            // Centered heading
+            const Text(
+              "Select Game",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (int i = 0; i < _allowedGames.length; i++) ...[
-                    InkWell(
-                      onTap: () async {
-                        final gameProvider = context.read<GameProvider>();
-                        await gameProvider.setGame(_allowedGames[i]);
-
-                        _removeDropdown();
-                        setState(() {});
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 12,
-                        ),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Text(
-                                _localizedGames[_allowedGames[i]]!,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            if (currentGame == _allowedGames[i])
-                              Icon(Icons.check, color: AppColors.primaryButton),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    if (i < _allowedGames.length - 1)
-                      Divider(height: 1, color: Colors.grey[700]),
-                  ],
-                ],
-              ),
+              textAlign: TextAlign.center,
             ),
-          ),
+
+            const SizedBox(height: 16),
+
+            // List of platforms
+            for (int i = 0; i < _allowedGames.length; i++) ...[
+              InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () async {
+                  final gameProvider = context.read<GameProvider>();
+                  await gameProvider.setGame(_allowedGames[i]);
+                  Navigator.pop(context); // close bottom sheet
+                  setState(() {});
+                },
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: 16,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: currentGame == _allowedGames[i]
+                        ? const Color.fromRGBO(31, 69, 50, 1) // light green
+                        : const Color.fromRGBO(42, 40, 40, 1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: currentGame == _allowedGames[i]
+                          ? const Color.fromRGBO(31, 164, 106, 1)
+                          : const Color.fromRGBO(76, 72, 72, 1),
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    _localizedGames[_allowedGames[i]]!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+
+            const SizedBox(height: 45),
+          ],
         );
       },
     );
-
-    overlay.insert(_dropdownOverlay!);
-  }
-
-  void _removeDropdown() {
-    _dropdownOverlay?.remove();
-    _dropdownOverlay = null;
   }
 
   @override
@@ -242,7 +260,7 @@ class _BottomBarsState extends State<BottomBars> {
                 ),
                 GestureDetector(
                   key: _gameTrailingKey,
-                  onTap: () => _showGameDropdown(context),
+                  onTap: () => _showGameBottomSheet(context),
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
