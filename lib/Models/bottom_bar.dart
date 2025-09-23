@@ -135,7 +135,6 @@ class _BottomBarsState extends State<BottomBars> {
 
             const SizedBox(height: 8),
 
-            // Centered heading
             Text(
               AppLocalizations.of(context)!.selectGame,
               style: TextStyle(

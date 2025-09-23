@@ -165,88 +165,118 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showGameDropdown(BuildContext context) async {
     if (allowedGames.length == 1) return;
 
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-
-    final selected = await showMenu<String>(
+    await showModalBottomSheet<String>(
       context: context,
-      color: const Color.fromRGBO(0, 0, 0, 1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(
-          color: Color.fromRGBO(102, 102, 102, 0.49),
-          width: 1,
-        ),
+      backgroundColor: const Color.fromRGBO(42, 40, 40, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      position: RelativeRect.fromLTRB(12, kToolbarHeight + 80, 12, 0),
-      constraints: BoxConstraints(
-        minWidth: overlay.size.width - 24,
-        maxWidth: overlay.size.width - 24,
-      ),
-      items: List.generate(allowedGames.length * 2 - 1, (index) {
-        if (index.isOdd) {
-          return const PopupMenuItem<String>(
-            enabled: false,
-            height: 1,
-            child: Divider(
-              height: 1,
-              color: Color.fromRGBO(102, 102, 102, 0.49),
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+
+            // drag handle
+            Container(
+              width: 40,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.grey[700],
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-          );
-        }
 
-        final key = allowedGames[index ~/ 2];
-        final game = localizedGames[key] ?? key.capitalize();
+            const SizedBox(height: 12),
 
-        return PopupMenuItem<String>(
-          value: key,
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    game,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+            Text(
+              AppLocalizations.of(context)!.selectGame,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 16),
+
+            for (int i = 0; i < allowedGames.length; i++) ...[
+              InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
+                  final selected = allowedGames[i];
+
+                  setState(() {
+                    selectedGameKey = selected;
+
+                    if (selected == 'libertycity') {
+                      selectedPlatformKey = 'playstation';
+                      _savePlatform('playstation');
+                      widget.onPlatformChanged?.call('playstation');
+                    } else {
+                      if (!gamePlatforms[selected]!.contains(
+                        selectedPlatformKey,
+                      )) {
+                        selectedPlatformKey = gamePlatforms[selected]!.first;
+                        _savePlatform(selectedPlatformKey);
+                        widget.onPlatformChanged?.call(selectedPlatformKey);
+                      }
+                    }
+                  });
+
+                  _saveGame(selected);
+                  CheatService.updateSelectedGame(selected);
+                  widget.onGameChanged?.call(selected);
+
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: 16,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: selectedGameKey == allowedGames[i]
+                        ? const Color.fromRGBO(31, 69, 50, 1)
+                        : const Color.fromRGBO(42, 40, 40, 1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: selectedGameKey == allowedGames[i]
+                          ? const Color.fromRGBO(31, 164, 106, 1)
+                          : const Color.fromRGBO(76, 72, 72, 1),
+                      width: 1,
                     ),
                   ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        localizedGames[allowedGames[i]] ??
+                            allowedGames[i].capitalize(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
-                if (selectedGameKey == key)
-                  Icon(Icons.check, color: AppColors.primaryButton, size: 20),
-              ],
-            ),
-          ),
+              ),
+            ],
+
+            const SizedBox(height: 45),
+          ],
         );
-      }),
+      },
     );
-
-    if (selected != null) {
-      setState(() {
-        selectedGameKey = selected;
-
-        // Force platform to PlayStation if Liberty City is selected
-        if (selected == 'libertycity') {
-          selectedPlatformKey = 'playstation';
-          _savePlatform('playstation');
-          widget.onPlatformChanged?.call('playstation');
-        } else {
-          // make sure current platform is valid for the new game
-          if (!gamePlatforms[selected]!.contains(selectedPlatformKey)) {
-            selectedPlatformKey = gamePlatforms[selected]!.first;
-            _savePlatform(selectedPlatformKey);
-            widget.onPlatformChanged?.call(selectedPlatformKey);
-          }
-        }
-      });
-
-      _saveGame(selected);
-      CheatService.updateSelectedGame(selected);
-      widget.onGameChanged?.call(selected);
-    }
   }
 
   void _showPlatformDropdown(BuildContext context) async {
