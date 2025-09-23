@@ -42,13 +42,22 @@ class AppLocalizationsHi extends AppLocalizations {
   String get close => 'बंद करें';
 
   @override
+  String get unlock => 'अनलॉक करें';
+
+  @override
+  String get home => 'मुखपृष्ठ';
+
+  @override
+  String get selectGame => 'गेम चुनें';
+
+  @override
   String get searchHint => 'कोई भी चीट खोजें';
 
   @override
   String get cancel => 'रद्द करें';
 
   @override
-  String get favoritesTitle => '❤️ पसंदीदा';
+  String get favoritesTitle => 'पसंदीदा';
 
   @override
   String get loading => 'लोड हो रहा है...';

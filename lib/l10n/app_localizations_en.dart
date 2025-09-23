@@ -42,6 +42,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
+  String get unlock => 'Unlock';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get selectGame => 'Select Game';
+
+  @override
   String get searchHint => 'Search any cheat';
 
   @override

@@ -136,8 +136,8 @@ class _BottomBarsState extends State<BottomBars> {
             const SizedBox(height: 8),
 
             // Centered heading
-            const Text(
-              "Select Game",
+            Text(
+              AppLocalizations.of(context)!.selectGame,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 26,
@@ -148,14 +148,13 @@ class _BottomBarsState extends State<BottomBars> {
 
             const SizedBox(height: 16),
 
-            // List of platforms
             for (int i = 0; i < _allowedGames.length; i++) ...[
               InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () async {
                   final gameProvider = context.read<GameProvider>();
                   await gameProvider.setGame(_allowedGames[i]);
-                  Navigator.pop(context); // close bottom sheet
+                  Navigator.pop(context);
                   setState(() {});
                 },
                 child: Container(
@@ -170,7 +169,7 @@ class _BottomBarsState extends State<BottomBars> {
                   ),
                   decoration: BoxDecoration(
                     color: currentGame == _allowedGames[i]
-                        ? const Color.fromRGBO(31, 69, 50, 1) // light green
+                        ? const Color.fromRGBO(31, 69, 50, 1)
                         : const Color.fromRGBO(42, 40, 40, 1),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
@@ -226,7 +225,6 @@ class _BottomBarsState extends State<BottomBars> {
           final gameProvider = context.read<GameProvider>();
           await gameProvider.setGame(newGame);
 
-          // Important: keep CheatService in sync
           CheatService.updateSelectedGame(newGame);
 
           setState(() {});
@@ -325,15 +323,18 @@ class _BottomBarsState extends State<BottomBars> {
               iconSize: 22,
               selectedFontSize: 11,
               unselectedFontSize: 10,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: AppLocalizations.of(context)!.home,
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.favorite),
-                  label: "Fav",
+                  label: AppLocalizations.of(context)!.favoritesTitle,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.settings),
-                  label: "Settings",
+                  label: AppLocalizations.of(context)!.settings,
                 ),
               ],
             ),

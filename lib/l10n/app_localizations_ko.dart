@@ -42,6 +42,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get close => '닫기';
 
   @override
+  String get unlock => '잠금 해제';
+
+  @override
+  String get home => '홈';
+
+  @override
+  String get selectGame => '게임 선택';
+
+  @override
   String get searchHint => '치트 검색';
 
   @override

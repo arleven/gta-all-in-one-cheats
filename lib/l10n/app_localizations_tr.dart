@@ -42,6 +42,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get close => 'Kapat';
 
   @override
+  String get unlock => 'Kilidi Aç';
+
+  @override
+  String get home => 'Ana Sayfa';
+
+  @override
+  String get selectGame => 'Oyun Seç';
+
+  @override
   String get searchHint => 'Herhangi bir hile ara';
 
   @override

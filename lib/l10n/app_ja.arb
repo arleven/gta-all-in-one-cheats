@@ -11,6 +11,10 @@
     "feedbackMessage": "アプリ改善のためにフィードバックを送っていただけますか？😊",
     "sendFeedback": "フィードバックを送信",
     "close": "閉じる",
+    "unlock": "アンロック",
+"home": "ホーム",
+"selectGame": "ゲームを選択"
+,
   
     "searchHint": "チートを検索",
     "cancel": "キャンセル",

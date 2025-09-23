@@ -42,6 +42,15 @@ class AppLocalizationsTh extends AppLocalizations {
   String get close => 'ปิด';
 
   @override
+  String get unlock => 'ปลดล็อก';
+
+  @override
+  String get home => 'หน้าหลัก';
+
+  @override
+  String get selectGame => 'เลือกเกม';
+
+  @override
   String get searchHint => 'ค้นหาโกงเกม';
 
   @override

@@ -42,6 +42,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get close => 'Schließen';
 
   @override
+  String get unlock => 'Freischalten';
+
+  @override
+  String get home => 'Startseite';
+
+  @override
+  String get selectGame => 'Spiel auswählen';
+
+  @override
   String get searchHint => 'Nach Cheat suchen';
 
   @override

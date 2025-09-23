@@ -42,6 +42,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get close => 'Закрыть';
 
   @override
+  String get unlock => 'Разблокировать';
+
+  @override
+  String get home => 'Главная';
+
+  @override
+  String get selectGame => 'Выберите игру';
+
+  @override
   String get searchHint => 'Найти чит';
 
   @override

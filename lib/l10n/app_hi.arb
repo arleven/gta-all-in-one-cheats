@@ -11,10 +11,13 @@
   "feedbackMessage": "क्या आप हमें सुधार में मदद के लिए फीडबैक भेज सकते हैं? 😊",
   "sendFeedback": "फीडबैक भेजें",
   "close": "बंद करें",
+  "unlock": "अनलॉक करें",
+"home": "मुखपृष्ठ",
+"selectGame": "गेम चुनें",
 
   "searchHint": "कोई भी चीट खोजें",
   "cancel": "रद्द करें",
-  "favoritesTitle": "❤️ पसंदीदा",
+  "favoritesTitle": "पसंदीदा",
   "loading": "लोड हो रहा है...",
   "sectionIconLabel": "सेक्शन",
 

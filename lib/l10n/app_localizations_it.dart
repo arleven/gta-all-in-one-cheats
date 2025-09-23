@@ -42,6 +42,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get close => 'Chiudi';
 
   @override
+  String get unlock => 'Sblocca';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get selectGame => 'Seleziona gioco';
+
+  @override
   String get searchHint => 'Cerca un trucco';
 
   @override

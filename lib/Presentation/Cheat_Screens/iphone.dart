@@ -403,8 +403,10 @@ class _IphoneState extends State<Iphone> {
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                 ),
-                                                child: const Text(
-                                                  'Unlock',
+                                                child: Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.unlock,
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w500,

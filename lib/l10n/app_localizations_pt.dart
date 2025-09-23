@@ -42,6 +42,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get close => 'Fechar';
 
   @override
+  String get unlock => 'Desbloquear';
+
+  @override
+  String get home => 'Início';
+
+  @override
+  String get selectGame => 'Selecionar jogo';
+
+  @override
   String get searchHint => 'Pesquisar trapaça';
 
   @override

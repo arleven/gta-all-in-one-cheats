@@ -442,7 +442,9 @@ class _XboxScreenState extends State<XboxScreen> {
                                                       BorderRadius.circular(12),
                                                 ),
                                                 child: Text(
-                                                  'Unlock',
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.unlock,
                                                   style: const TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w500,

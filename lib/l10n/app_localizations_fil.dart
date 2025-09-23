@@ -42,6 +42,15 @@ class AppLocalizationsFil extends AppLocalizations {
   String get close => 'Isara';
 
   @override
+  String get unlock => 'I-unlock';
+
+  @override
+  String get home => 'Bahay';
+
+  @override
+  String get selectGame => 'Pumili ng Laro';
+
+  @override
   String get searchHint => 'Maghanap ng cheat';
 
   @override

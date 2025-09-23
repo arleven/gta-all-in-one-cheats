@@ -11,6 +11,10 @@
     "feedbackMessage": "¿Te importaría enviarnos tus comentarios para ayudarnos a mejorar? 😊",
     "sendFeedback": "Enviar comentarios",
     "close": "Cerrar",
+    "unlock": "Desbloquear",
+"home": "Inicio",
+"selectGame": "Seleccionar juego"
+,
   
     "searchHint": "Buscar un truco",
     "cancel": "Cancelar",

@@ -42,6 +42,15 @@ class AppLocalizationsMs extends AppLocalizations {
   String get close => 'Tutup';
 
   @override
+  String get unlock => 'Buka Kunci';
+
+  @override
+  String get home => 'Laman Utama';
+
+  @override
+  String get selectGame => 'Pilih Permainan';
+
+  @override
   String get searchHint => 'Cari sebarang cheat';
 
   @override

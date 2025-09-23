@@ -42,6 +42,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get close => 'إغلاق';
 
   @override
+  String get unlock => 'افتح';
+
+  @override
+  String get home => 'الرئيسية';
+
+  @override
+  String get selectGame => 'اختر اللعبة';
+
+  @override
   String get searchHint => 'ابحث عن أي شفرة';
 
   @override

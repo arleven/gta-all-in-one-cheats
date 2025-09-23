@@ -42,6 +42,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get close => '关闭';
 
   @override
+  String get unlock => '解锁';
+
+  @override
+  String get home => '主页';
+
+  @override
+  String get selectGame => '选择游戏';
+
+  @override
   String get searchHint => '搜索任何秘籍';
 
   @override

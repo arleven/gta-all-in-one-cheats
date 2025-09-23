@@ -42,6 +42,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get close => 'Fermer';
 
   @override
+  String get unlock => 'Déverrouiller';
+
+  @override
+  String get home => 'Accueil';
+
+  @override
+  String get selectGame => 'Sélectionner un jeu';
+
+  @override
   String get searchHint => 'Rechercher un code de triche';
 
   @override

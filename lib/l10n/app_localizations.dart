@@ -191,6 +191,24 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get close;
 
+  /// No description provided for @unlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlock;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @selectGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Game'**
+  String get selectGame;
+
   /// No description provided for @searchHint.
   ///
   /// In en, this message translates to:

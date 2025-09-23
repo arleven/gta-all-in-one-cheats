@@ -145,6 +145,7 @@ flutter:
     - assets/images/pc_icon.png
     - assets/images/iphone_icon.png
     - assets/images/version_icon.png
+    - assets/images/splash_image.png
 
 
 flutter_gen:

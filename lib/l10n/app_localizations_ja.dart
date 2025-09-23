@@ -42,6 +42,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get close => '閉じる';
 
   @override
+  String get unlock => 'アンロック';
+
+  @override
+  String get home => 'ホーム';
+
+  @override
+  String get selectGame => 'ゲームを選択';
+
+  @override
   String get searchHint => 'チートを検索';
 
   @override
