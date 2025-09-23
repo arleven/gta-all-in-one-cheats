@@ -18,12 +18,20 @@ class _FavoritesState extends State<Favorites> {
   List<CheatCode> _platformCheats = [];
   bool _isLoading = true;
   String _selectedPlatform = 'xbox';
-
+  String _selectedLangCode = 'en';
   @override
   void initState() {
     super.initState();
     _loadSelectedPlatform();
     _loadSelectedGame();
+    _loadSelectedLanguage();
+  }
+
+  Future<void> _loadSelectedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedLangCode = prefs.getString('selectedLang') ?? 'en';
+    });
   }
 
   Future<void> _loadSelectedPlatform() async {
@@ -40,9 +48,7 @@ class _FavoritesState extends State<Favorites> {
   Future<void> _loadSelectedGame() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
-    CheatService.updateSelectedGame(
-      savedGame,
-    ); // <- tell CheatService which game
+    CheatService.updateSelectedGame(savedGame);
   }
 
   Future<void> _loadFavorites() async {
@@ -137,6 +143,17 @@ class _FavoritesState extends State<Favorites> {
     };
   }
 
+  // 👇 helper like in XboxScreen
+  String _localized(String fallback, CheatCode cheat, String fieldPrefix) {
+    if (_selectedLangCode == 'en') return fallback;
+
+    final translated = cheat.rawData['${fieldPrefix}_$_selectedLangCode'];
+    if (translated != null && translated.toString().trim().isNotEmpty) {
+      return translated.toString();
+    }
+    return fallback;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -171,8 +188,8 @@ class _FavoritesState extends State<Favorites> {
             padding: const EdgeInsets.all(16),
             children: favCheats.map((cheat) {
               return CheatCard(
-                title: cheat.title,
-                desc: cheat.description,
+                title: _localized(cheat.title, cheat, 'title'),
+                desc: _localized(cheat.description, cheat, 'description'),
                 buttons: cheat.codes.split(',').map((b) => b.trim()).toList(),
                 isFavorite: _favorites.contains(cheat.title),
                 onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
@@ -183,7 +200,7 @@ class _FavoritesState extends State<Favorites> {
             }).toList(),
           ),
         ),
-        SizedBox(height: 64),
+        const SizedBox(height: 70),
       ],
     );
   }

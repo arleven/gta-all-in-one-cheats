@@ -158,8 +158,8 @@ class _ReviewToUnlockState extends State<ReviewToUnlcock> {
                       Text(
                         "Review to Unlock",
                         style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
