@@ -7,6 +7,9 @@ import 'package:all_gta/Models/cheat_cards.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:all_gta/Provider/recent_cheat.dart';
+import 'dart:convert';
 
 class Iphone extends StatefulWidget {
   const Iphone({super.key});
@@ -56,9 +59,7 @@ class _IphoneState extends State<Iphone> {
   Future<void> _loadSelectedGame() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
-    CheatService.updateSelectedGame(
-      savedGame,
-    ); // <- tell CheatService which game
+    CheatService.updateSelectedGame(savedGame);
   }
 
   Future<void> _loadReviewUnlockStatus() async {
@@ -165,6 +166,38 @@ class _IphoneState extends State<Iphone> {
       }
     });
     _saveFavorites();
+  }
+
+  Future<void> saveRecentCheat(
+    BuildContext context,
+    CheatCode cheat,
+    String platform,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'recentCheats_${platform.toLowerCase()}';
+
+    List<Map<String, dynamic>> recents = [];
+
+    final stored = prefs.getString(key);
+    if (stored != null) {
+      recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
+    }
+
+    recents.removeWhere((c) => c['title'] == cheat.title);
+    recents.insert(0, {
+      'title': cheat.title,
+      'description': cheat.description,
+      'codes': cheat.codes,
+      'section': cheat.section,
+      'platform': platform,
+    });
+
+    if (recents.length > 15) recents = recents.sublist(0, 15);
+
+    await prefs.setString(key, jsonEncode(recents));
+
+    final provider = Provider.of<RecentCheatsProvider>(context, listen: false);
+    provider.loadRecentCheats();
   }
 
   @override
@@ -386,6 +419,9 @@ class _IphoneState extends State<Iphone> {
                                   onFavoriteToggle: (_) =>
                                       toggleFavorite(cheat.title),
                                   useImages: false,
+                                  onTap: () {
+                                    saveRecentCheat(context, cheat, 'iphone');
+                                  },
                                 );
                               }),
                               SizedBox(height: 40),

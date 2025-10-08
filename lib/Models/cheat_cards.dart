@@ -47,6 +47,8 @@ class _CheatCardState extends State<CheatCard> {
       ),
     );
 
+    widget.onTap?.call();
+
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
       setState(() {
