@@ -191,63 +191,7 @@ class _PcState extends State<Pc> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    keyboardAppearance: Brightness.dark,
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.searchText,
-                      hintStyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(200, 196, 196, 1),
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Color.fromRGBO(200, 196, 196, 1),
-                        size: 35,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.notSelectedbg,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                        horizontal: 20,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(255, 255, 255, 0.1),
-                          width: 2,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(255, 255, 255, 0.1),
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                if (_searchFocusNode.hasFocus || _searchQuery.isNotEmpty)
-                  TextButton(
-                    onPressed: () {
-                      _searchController.clear();
-                      _searchFocusNode.unfocus();
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.cancel,
-                      style: TextStyle(color: AppColors.primaryButton),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             SizedBox(
               height: 40,
               child: ListView.separated(
