@@ -1,3 +1,4 @@
+import 'package:all_gta/Provider/recent_cheat.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Presentation/Onboardings/splash_screen.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
@@ -9,8 +10,11 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => GameProvider()..loadGame(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => GameProvider()..loadGame()),
+        ChangeNotifierProvider(create: (_) => RecentCheatsProvider()),
+      ],
       child: const MyApp(),
     ),
   );

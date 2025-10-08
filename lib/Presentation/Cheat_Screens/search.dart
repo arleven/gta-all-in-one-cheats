@@ -6,12 +6,11 @@ import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
 import 'package:all_gta/Models/image_swiper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:all_gta/Provider/recent_cheat.dart';
 
 class SearchScreen extends StatefulWidget {
   final String platform;
-
   const SearchScreen({super.key, required this.platform});
 
   @override
@@ -26,49 +25,31 @@ class _SearchScreenState extends State<SearchScreen> {
   List<CheatCode> _filteredCheats = [];
   bool _isLoading = true;
   String _searchQuery = '';
-  List<CheatCode> _recentCheats = [];
-
-  Future<void> _loadRecentCheats() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'recentCheats_${widget.platform.toLowerCase()}';
-    final stored = prefs.getString(key);
-
-    if (stored != null) {
-      final List<dynamic> decoded = jsonDecode(stored);
-      setState(() {
-        _recentCheats = decoded.map((data) {
-          return CheatCode(
-            title: data['title'] ?? '',
-            description: data['description'] ?? '',
-            codes: data['codes'] ?? '',
-            section: data['section'] ?? '',
-            rawData: data,
-          );
-        }).toList();
-      });
-    } else {
-      setState(() => _recentCheats = []);
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     _loadCheats();
-    _loadRecentCheats();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RecentCheatsProvider>(
+        context,
+        listen: false,
+      ).setPlatform(widget.platform);
+    });
   }
 
   @override
   void didUpdateWidget(covariant SearchScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.platform != widget.platform) {
-      setState(() {
-        _searchController.clear();
-        _filteredCheats.clear();
-        _searchQuery = '';
-        _recentCheats.clear();
-      });
-      _loadRecentCheats();
+      Provider.of<RecentCheatsProvider>(
+        context,
+        listen: false,
+      ).setPlatform(widget.platform);
+      _searchController.clear();
+      _filteredCheats.clear();
+      setState(() => _searchQuery = '');
+      _loadCheats();
     }
   }
 
@@ -95,8 +76,8 @@ class _SearchScreenState extends State<SearchScreen> {
     }
     setState(() {
       _allCheats = cheats;
-      _isLoading = false;
       _filteredCheats = [];
+      _isLoading = false;
     });
   }
 
@@ -117,19 +98,19 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void _showBottomSheetWithImages(CheatCode cheat) async {
-    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
+  void _showBottomSheetWithImages(CheatCode cheat) {
+    final codes = cheat.codes.split(',').map((c) => c.trim()).toList();
 
-    // Select correct image mapper based on platform
-    String Function(String) imageMapper;
-    if (widget.platform.toLowerCase() == 'xbox') {
-      imageMapper = getXboxImagePath;
-    } else {
-      imageMapper = getPlaystationImagePath;
-    }
+    String Function(String) imageMapper =
+        widget.platform.toLowerCase() == 'xbox'
+        ? getXboxImagePath
+        : getPlaystationImagePath;
 
     final imagePaths = codes.map(imageMapper).toList();
     final codeTexts = codes;
+
+    // ✅ Save to recent before showing
+    Provider.of<RecentCheatsProvider>(context, listen: false).addRecent(cheat);
 
     showModalBottomSheet(
       context: context,
@@ -147,191 +128,203 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    onChanged: _onSearchChanged,
-                    keyboardAppearance: Brightness.dark,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.searchText,
-                      hintStyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(200, 196, 196, 1),
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Color.fromRGBO(200, 196, 196, 1),
-                        size: 35,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.notSelectedbg,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                        horizontal: 20,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(255, 255, 255, 0.1),
-                          width: 2,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(255, 255, 255, 0.1),
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                if (_searchFocusNode.hasFocus || _searchQuery.isNotEmpty)
-                  TextButton(
-                    onPressed: () {
-                      _searchController.clear();
-                      _onSearchChanged('');
-                      _searchFocusNode.unfocus();
-                    },
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(color: AppColors.primaryButton),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 16),
+    return Consumer<RecentCheatsProvider>(
+      builder: (context, recentProvider, child) {
+        final recentCheats = recentProvider.recentCheats;
 
-            // Center text or cheat cards
-            Expanded(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _searchQuery.isEmpty
-                  ? (_recentCheats.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'Search any cheats here',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                              ),
-                              textAlign: TextAlign.center,
+        print(recentCheats);
+
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                // 🔍 Search bar (this part doesn't change)
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _searchFocusNode,
+                        onChanged: _onSearchChanged,
+                        keyboardAppearance: Brightness.dark,
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.searchText,
+                          hintStyle: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(200, 196, 196, 1),
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Color.fromRGBO(200, 196, 196, 1),
+                            size: 30,
+                          ),
+                          filled: true,
+                          fillColor: AppColors.notSelectedbg,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 20,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(255, 255, 255, 0.1),
+                              width: 2,
                             ),
-                          )
-                        : ListView(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(bottom: 12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(255, 255, 255, 0.1),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    if (_searchFocusNode.hasFocus || _searchQuery.isNotEmpty)
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          _onSearchChanged('');
+                          _searchFocusNode.unfocus();
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(color: AppColors.primaryButton),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // 🧠 Cheats List
+                Expanded(
+                  child: _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _searchQuery.isEmpty
+                      ? (recentCheats.isEmpty
+                            ? const Center(
                                 child: Text(
-                                  'Recently Viewed',
+                                  'Search any cheats here',
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.grey,
                                   ),
                                 ),
-                              ),
-                              ..._recentCheats.map((cheat) {
-                                bool useImages =
-                                    widget.platform.toLowerCase() ==
-                                        'playstation' ||
-                                    widget.platform.toLowerCase() == 'xbox';
-
-                                String Function(String)? imageMapper;
-                                if (widget.platform.toLowerCase() ==
-                                    'playstation') {
-                                  imageMapper = getPlaystationImagePath;
-                                } else if (widget.platform.toLowerCase() ==
-                                    'xbox') {
-                                  imageMapper = getXboxImagePath;
-                                }
-
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
+                              )
+                            : ListView(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 12),
+                                    child: Text(
+                                      'Recently Viewed',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                                   ),
-                                  child: CheatCard(
-                                    title: cheat.title,
-                                    desc: cheat.description,
-                                    phoneNum: cheat.phoneNum,
-                                    buttons: cheat.codes
-                                        .split(',')
-                                        .map((b) => b.trim())
-                                        .toList(),
-                                    isFavorite: false,
-                                    onFavoriteToggle: (_) {},
-                                    useImages: useImages,
-                                    imageMapper: imageMapper,
-                                    onTap: useImages
-                                        ? () =>
-                                              _showBottomSheetWithImages(cheat)
-                                        : null,
-                                  ),
-                                );
-                              }).toList(),
-                            ],
-                          ))
-                  : _filteredCheats.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No cheats found for "$_searchQuery"',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: _filteredCheats.length,
-                      itemBuilder: (context, index) {
-                        final cheat = _filteredCheats[index];
-                        bool useImages =
-                            widget.platform.toLowerCase() == 'playstation' ||
-                            widget.platform.toLowerCase() == 'xbox';
+                                  ...recentCheats.map((cheat) {
+                                    bool useImages =
+                                        widget.platform.toLowerCase() ==
+                                            'playstation' ||
+                                        widget.platform.toLowerCase() == 'xbox';
 
-                        String Function(String)? imageMapper;
-                        if (widget.platform.toLowerCase() == 'playstation') {
-                          imageMapper = getPlaystationImagePath;
-                        } else if (widget.platform.toLowerCase() == 'xbox') {
-                          imageMapper = getXboxImagePath;
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: CheatCard(
-                            title: cheat.title,
-                            desc: cheat.description,
-                            phoneNum: cheat.phoneNum,
-                            buttons: cheat.codes
-                                .split(',')
-                                .map((b) => b.trim())
-                                .toList(),
-                            isFavorite: false,
-                            onFavoriteToggle: (_) {},
-                            useImages: useImages,
-                            imageMapper: imageMapper,
-                            onTap: useImages
-                                ? () => _showBottomSheetWithImages(cheat)
-                                : null,
+                                    String Function(String)? imageMapper;
+                                    if (widget.platform.toLowerCase() ==
+                                        'playstation') {
+                                      imageMapper = getPlaystationImagePath;
+                                    } else if (widget.platform.toLowerCase() ==
+                                        'xbox') {
+                                      imageMapper = getXboxImagePath;
+                                    }
+
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                      ),
+                                      child: CheatCard(
+                                        title: cheat.title,
+                                        desc: cheat.description,
+                                        phoneNum: cheat.phoneNum,
+                                        buttons: cheat.codes
+                                            .split(',')
+                                            .map((b) => b.trim())
+                                            .toList(),
+                                        isFavorite: false,
+                                        onFavoriteToggle: (_) {},
+                                        useImages: useImages,
+                                        imageMapper: imageMapper,
+                                        onTap: useImages
+                                            ? () => _showBottomSheetWithImages(
+                                                cheat,
+                                              )
+                                            : null,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ],
+                              ))
+                      : _filteredCheats.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No cheats found for "$_searchQuery"',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                            ),
                           ),
-                        );
-                      },
-                    ),
+                        )
+                      : ListView.builder(
+                          itemCount: _filteredCheats.length,
+                          itemBuilder: (context, index) {
+                            final cheat = _filteredCheats[index];
+                            bool useImages =
+                                widget.platform.toLowerCase() ==
+                                    'playstation' ||
+                                widget.platform.toLowerCase() == 'xbox';
+
+                            String Function(String)? imageMapper;
+                            if (widget.platform.toLowerCase() ==
+                                'playstation') {
+                              imageMapper = getPlaystationImagePath;
+                            } else if (widget.platform.toLowerCase() ==
+                                'xbox') {
+                              imageMapper = getXboxImagePath;
+                            }
+
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: CheatCard(
+                                title: cheat.title,
+                                desc: cheat.description,
+                                phoneNum: cheat.phoneNum,
+                                buttons: cheat.codes
+                                    .split(',')
+                                    .map((b) => b.trim())
+                                    .toList(),
+                                isFavorite: false,
+                                onFavoriteToggle: (_) {},
+                                useImages: useImages,
+                                imageMapper: imageMapper,
+                                onTap: useImages
+                                    ? () => _showBottomSheetWithImages(cheat)
+                                    : null,
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
