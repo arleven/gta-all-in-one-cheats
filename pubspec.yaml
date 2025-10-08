@@ -147,6 +147,10 @@ flutter:
     - assets/images/iphone_icon.png
     - assets/images/version_icon.png
     - assets/images/splash_image.png
+    - assets/images/car_onb.png
+    - assets/images/gun_onb.png
+    - assets/images/world_onb.png
+    - assets/images/fun_onb.png
 
 
 flutter_gen:

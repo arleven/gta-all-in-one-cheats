@@ -1,6 +1,6 @@
+import 'package:all_gta/Presentation/Onboardings/select_category.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Models/theme_colors.dart';
-import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -239,7 +239,7 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
 
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (ctx) => ReviewOnboard(),
+                                builder: (ctx) => SelectCategory(),
                               ),
                             );
                           },

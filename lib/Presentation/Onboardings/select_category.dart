@@ -1,4 +1,8 @@
+import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:flutter/material.dart';
+import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
+import 'package:flutter/gestures.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({super.key});
@@ -10,20 +14,48 @@ class SelectCategory extends StatefulWidget {
 class _SelectCategoryState extends State<SelectCategory> {
   final List<Map<String, dynamic>> categories = [
     {
-      'icon': Icons.directions_car,
-      'title': 'Vehicle Spawns',
+      'image': 'assets/images/fun_onb.png',
+      'title': 'Player',
       'selected': false,
     },
     {
-      'icon': Icons.sports_kabaddi,
-      'title': 'Weapons & Combat',
-      'selected': true,
+      'image': 'assets/images/gun_onb.png',
+      'title': 'Weapons',
+      'selected': false,
     },
-    {'icon': Icons.person, 'title': 'Player Enhancements', 'selected': false},
-    {'icon': Icons.warning, 'title': 'Wanted Level', 'selected': true},
-    {'icon': Icons.public, 'title': 'World & Environment', 'selected': false},
-    {'icon': Icons.emoji_emotions, 'title': 'Fun & Misc', 'selected': false},
+    {
+      'image': 'assets/images/world_onb.png',
+      'title': 'World',
+      'selected': false,
+    },
+    {
+      'image': 'assets/images/car_onb.png',
+      'title': 'Vehicle',
+      'selected': false,
+    },
   ];
+
+  void openWebView(BuildContext context, String url) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => WebViewFullScreen(url: url),
+        transitionsBuilder: (_, animation, __, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+
+          final tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +64,41 @@ class _SelectCategoryState extends State<SelectCategory> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 8),
-            const Text(
-              "Choose Your\nFavorite Categories",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                height: 1.3,
+            const Center(
+              child: Text(
+                "Choose Your\nFavorite Categories",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  height: 1.3,
+                ),
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Tailor your cheat code experience. We'll make your favorite types easier to find.",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
-                height: 1.4,
+            const Center(
+              child: Text(
+                "Tailor your cheat code experience. We'll make your favorite types easier to find.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color.fromRGBO(200, 196, 196, 1),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
+                  height: 1.4,
+                  letterSpacing: 0.32,
+                ),
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 40),
             Expanded(
               child: ListView.separated(
                 itemCount: categories.length,
@@ -71,13 +108,14 @@ class _SelectCategoryState extends State<SelectCategory> {
                   final item = categories[index];
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: Icon(item['icon'], color: Colors.white),
+                    leading: Image.asset(item['image'], height: 24, width: 24),
                     title: Text(
                       item['title'],
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(222, 222, 222, 1),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.32,
                       ),
                     ),
                     trailing: IconButton(
@@ -86,7 +124,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: item['selected']
-                            ? const Color(0xFF00FF9D)
+                            ? AppColors.primaryButton
                             : Colors.white38,
                       ),
                       onPressed: () {
@@ -104,51 +142,72 @@ class _SelectCategoryState extends State<SelectCategory> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00FF9D),
+                  backgroundColor: AppColors.primaryButton,
                   foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (ctx) => ReviewOnboard()),
+                  );
+                },
                 child: const Text(
                   "Continue",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text.rich(
-                TextSpan(
-                  text: "We won’t share this information with anyone. Go to\n",
-                  style: const TextStyle(
-                    color: Colors.white38,
-                    fontSize: 12,
-                    height: 1.5,
+            const SizedBox(height: 32),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: const TextStyle(color: Colors.white60, fontSize: 11),
+                children: [
+                  const TextSpan(
+                    text:
+                        "We won't share this information with anyone. Go to GTA cheat codes's ",
                   ),
-                  children: [
-                    TextSpan(
-                      text: "GTA cheat code’s Terms of Use",
-                      style: const TextStyle(color: Color(0xFF00FF9D)),
+                  TextSpan(
+                    text: "Terms of Use",
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
                     ),
-                    const TextSpan(text: " and "),
-                    TextSpan(
-                      text: "Privacy Policy",
-                      style: const TextStyle(color: Color(0xFF00FF9D)),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        openWebView(
+                          context,
+                          'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                        );
+                      },
+                  ),
+                  const TextSpan(text: " and "),
+                  TextSpan(
+                    text: "Privacy Policy",
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        openWebView(
+                          context,
+                          'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                        );
+                      },
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
           ],
         ),
       ),
