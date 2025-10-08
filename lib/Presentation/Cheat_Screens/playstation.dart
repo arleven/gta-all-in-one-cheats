@@ -10,6 +10,8 @@ import 'package:all_gta/Utils/code_mapper.dart';
 import 'package:all_gta/Models/image_swiper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:all_gta/Provider/recent_cheat.dart';
 
 class Playstation extends StatefulWidget {
   const Playstation({super.key});
@@ -195,7 +197,11 @@ class _PlaystationState extends State<Playstation> {
     );
   }
 
-  Future<void> saveRecentCheat(CheatCode cheat, String platform) async {
+  Future<void> saveRecentCheat(
+    BuildContext context,
+    CheatCode cheat,
+    String platform,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'recentCheats_${platform.toLowerCase()}';
 
@@ -206,10 +212,7 @@ class _PlaystationState extends State<Playstation> {
       recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
     }
 
-    // Remove duplicates
     recents.removeWhere((c) => c['title'] == cheat.title);
-
-    // Insert latest at the top
     recents.insert(0, {
       'title': cheat.title,
       'description': cheat.description,
@@ -218,10 +221,12 @@ class _PlaystationState extends State<Playstation> {
       'platform': platform,
     });
 
-    // Keep max 15 items
     if (recents.length > 15) recents = recents.sublist(0, 15);
 
     await prefs.setString(key, jsonEncode(recents));
+
+    final provider = Provider.of<RecentCheatsProvider>(context, listen: false);
+    provider.loadRecentCheats();
   }
 
   @override
@@ -462,7 +467,12 @@ class _PlaystationState extends State<Playstation> {
                                   useImages: true,
                                   imageMapper: getPlaystationImagePath,
                                   onTap: () {
-                                    saveRecentCheat(cheat, 'playstation');
+                                    saveRecentCheat(
+                                      context,
+                                      cheat,
+                                      'playstation',
+                                    );
+
                                     _showBottomSheetWithImages(cheat);
                                   },
                                 );

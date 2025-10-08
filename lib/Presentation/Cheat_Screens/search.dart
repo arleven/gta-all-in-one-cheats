@@ -31,10 +31,13 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _loadCheats();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<RecentCheatsProvider>(
-        context,
-        listen: false,
-      ).setPlatform(widget.platform);
+      // schedule async work without breaking the callback signature
+      Future.microtask(() async {
+        await Provider.of<RecentCheatsProvider>(
+          context,
+          listen: false,
+        ).setPlatform(widget.platform);
+      });
     });
   }
 
@@ -42,13 +45,11 @@ class _SearchScreenState extends State<SearchScreen> {
   void didUpdateWidget(covariant SearchScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.platform != widget.platform) {
-      Provider.of<RecentCheatsProvider>(
+      final recentProvider = Provider.of<RecentCheatsProvider>(
         context,
         listen: false,
-      ).setPlatform(widget.platform);
-      _searchController.clear();
-      _filteredCheats.clear();
-      setState(() => _searchQuery = '');
+      );
+      recentProvider.setPlatform(widget.platform);
       _loadCheats();
     }
   }
@@ -109,7 +110,6 @@ class _SearchScreenState extends State<SearchScreen> {
     final imagePaths = codes.map(imageMapper).toList();
     final codeTexts = codes;
 
-    // ✅ Save to recent before showing
     Provider.of<RecentCheatsProvider>(context, listen: false).addRecent(cheat);
 
     showModalBottomSheet(
@@ -140,7 +140,6 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // 🔍 Search bar (this part doesn't change)
                 Row(
                   children: [
                     Expanded(
@@ -201,7 +200,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // 🧠 Cheats List
                 Expanded(
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())

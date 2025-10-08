@@ -10,6 +10,8 @@ import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'dart:convert';
+import 'package:all_gta/Provider/recent_cheat.dart';
+import 'package:provider/provider.dart';
 
 class XboxScreen extends StatefulWidget {
   const XboxScreen({super.key});
@@ -187,7 +189,11 @@ class _XboxScreenState extends State<XboxScreen> {
     );
   }
 
-  Future<void> saveRecentCheat(CheatCode cheat, String platform) async {
+  Future<void> saveRecentCheat(
+    BuildContext context,
+    CheatCode cheat,
+    String platform,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'recentCheats_${platform.toLowerCase()}';
 
@@ -198,10 +204,7 @@ class _XboxScreenState extends State<XboxScreen> {
       recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
     }
 
-    // Remove duplicates
     recents.removeWhere((c) => c['title'] == cheat.title);
-
-    // Insert latest at the top
     recents.insert(0, {
       'title': cheat.title,
       'description': cheat.description,
@@ -210,10 +213,12 @@ class _XboxScreenState extends State<XboxScreen> {
       'platform': platform,
     });
 
-    // Keep max 15 items
     if (recents.length > 15) recents = recents.sublist(0, 15);
 
     await prefs.setString(key, jsonEncode(recents));
+
+    final provider = Provider.of<RecentCheatsProvider>(context, listen: false);
+    provider.loadRecentCheats();
   }
 
   @override
@@ -454,7 +459,8 @@ class _XboxScreenState extends State<XboxScreen> {
                                   useImages: true,
                                   imageMapper: getXboxImagePath,
                                   onTap: () {
-                                    saveRecentCheat(cheat, 'xbox');
+                                    saveRecentCheat(context, cheat, 'xbox');
+
                                     _showBottomSheetWithImages(cheat);
                                   },
                                 );

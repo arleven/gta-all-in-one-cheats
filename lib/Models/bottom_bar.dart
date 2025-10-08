@@ -7,6 +7,7 @@ import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/search.dart';
 
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
+import 'package:all_gta/Provider/recent_cheat.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
@@ -210,14 +211,26 @@ class _BottomBarsState extends State<BottomBars> {
     }
 
     final screens = [
-      _getPlatformScreen(),
-      SearchScreen(platform: widget.initialPlatform),
-      Favorites(),
+      KeyedSubtree(
+        key: ValueKey(_selectedPlatformKey),
+        child: _getPlatformScreen(),
+      ),
+      KeyedSubtree(
+        key: ValueKey('search_${_selectedPlatformKey}'),
+        child: SearchScreen(
+          platform: _selectedPlatformKey ?? widget.initialPlatform,
+        ),
+      ),
+      const Favorites(),
       SettingsScreen(
         onPlatformChanged: (newPlatform) async {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('selectedPlatform', newPlatform);
+
           setState(() => _selectedPlatformKey = newPlatform);
+
+          final recentProvider = context.read<RecentCheatsProvider>();
+          await recentProvider.setPlatform(newPlatform);
         },
         onGameChanged: (newGame) async {
           final prefs = await SharedPreferences.getInstance();
@@ -225,9 +238,7 @@ class _BottomBarsState extends State<BottomBars> {
 
           final gameProvider = context.read<GameProvider>();
           await gameProvider.setGame(newGame);
-
           CheatService.updateSelectedGame(newGame);
-
           setState(() {});
         },
       ),
