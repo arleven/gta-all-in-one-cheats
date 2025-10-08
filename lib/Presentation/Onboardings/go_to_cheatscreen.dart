@@ -80,16 +80,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ),
+                  Align(alignment: Alignment.centerLeft),
                   const Spacer(),
 
                   const Text(
@@ -139,7 +130,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 32),
 
                   RichText(
                     textAlign: TextAlign.center,

@@ -60,155 +60,180 @@ class _SelectCategoryState extends State<SelectCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0E0E0E),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF0E0E0E),
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 8),
-            const Center(
-              child: Text(
-                "Choose Your\nFavorite Categories",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  height: 1.3,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Center(
-              child: Text(
-                "Tailor your cheat code experience. We'll make your favorite types easier to find.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromRGBO(200, 196, 196, 1),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  height: 1.4,
-                  letterSpacing: 0.32,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            Expanded(
-              child: ListView.separated(
-                itemCount: categories.length,
-                separatorBuilder: (context, index) =>
-                    const Divider(color: Colors.white12, height: 1),
-                itemBuilder: (context, index) {
-                  final item = categories[index];
-                  return ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Image.asset(item['image'], height: 24, width: 24),
-                    title: Text(
-                      item['title'],
-                      style: const TextStyle(
-                        color: Color.fromRGBO(222, 222, 222, 1),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.32,
-                      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFF0E0E0E),
+              const Color(0xFF0E0E0E),
+              AppColors.bottomGradiant,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.85, 1.0],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 8),
+                const Center(
+                  child: Text(
+                    "Choose Your\nFavorite Categories",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      height: 1.3,
                     ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        item['selected']
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: item['selected']
-                            ? AppColors.primaryButton
-                            : Colors.white38,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          item['selected'] = !item['selected'];
-                        });
-                      },
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Center(
+                  child: Text(
+                    "Tailor your cheat code experience. We'll make your favorite types easier to find.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color.fromRGBO(200, 196, 196, 1),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      height: 1.4,
+                      letterSpacing: 0.32,
                     ),
-                    onTap: () {
-                      setState(() {
-                        item['selected'] = !item['selected'];
-                      });
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: categories.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(color: Colors.white12, height: 1),
+                    itemBuilder: (context, index) {
+                      final item = categories[index];
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset(
+                          item['image'],
+                          height: 24,
+                          width: 24,
+                        ),
+                        title: Text(
+                          item['title'],
+                          style: const TextStyle(
+                            color: Color.fromRGBO(222, 222, 222, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.32,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(
+                            item['selected']
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: item['selected']
+                                ? AppColors.primaryButton
+                                : Colors.white38,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              item['selected'] = !item['selected'];
+                            });
+                          },
+                        ),
+                        onTap: () {
+                          setState(() {
+                            item['selected'] = !item['selected'];
+                          });
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryButton,
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryButton,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (ctx) => ReviewOnboard()),
+                      );
+                    },
+                    child: const Text(
+                      "Continue",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (ctx) => ReviewOnboard()),
-                  );
-                },
-                child: const Text(
-                  "Continue",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                const SizedBox(height: 32),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: const TextStyle(color: Colors.white60, fontSize: 11),
+                    children: [
+                      const TextSpan(
+                        text:
+                            "We won't share this information with anyone. Go to GTA cheat codes's ",
+                      ),
+                      TextSpan(
+                        text: "Terms of Use",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            openWebView(
+                              context,
+                              'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                            );
+                          },
+                      ),
+                      const TextSpan(text: " and "),
+                      TextSpan(
+                        text: "Privacy Policy",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            openWebView(
+                              context,
+                              'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                            );
+                          },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 24),
+              ],
             ),
-            const SizedBox(height: 32),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: const TextStyle(color: Colors.white60, fontSize: 11),
-                children: [
-                  const TextSpan(
-                    text:
-                        "We won't share this information with anyone. Go to GTA cheat codes's ",
-                  ),
-                  TextSpan(
-                    text: "Terms of Use",
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.white,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        openWebView(
-                          context,
-                          'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
-                        );
-                      },
-                  ),
-                  const TextSpan(text: " and "),
-                  TextSpan(
-                    text: "Privacy Policy",
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.white,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        openWebView(
-                          context,
-                          'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
-                        );
-                      },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-          ],
+          ),
         ),
       ),
     );
