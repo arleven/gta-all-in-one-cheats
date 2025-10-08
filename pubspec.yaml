@@ -122,8 +122,9 @@ flutter:
     - assets/images/casual_card.png
     - assets/images/expert_card.png
     - assets/images/adventure.png
-    - assets/videos/onboarding_ani.mov
+    - assets/videos/onboarding_ani.mp4
     - assets/videos/onboarding1_ani.mov
+    - assets/videos/splash.mp4
     - assets/images/welcome.png
     - assets/images/explore_los.png
     - assets/images/get_rich.png

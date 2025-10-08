@@ -20,7 +20,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
     super.initState();
 
     _controller =
-        VideoPlayerController.asset("assets/videos/onboarding_ani.mov")
+        VideoPlayerController.asset("assets/videos/onboarding_ani.mp4")
           ..initialize().then((_) {
             setState(() {});
             _controller.play();
@@ -93,7 +93,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
                   const Spacer(),
 
                   const Text(
-                    'Save Your Go-To Cheats',
+                    'Save All Your Cheats',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,

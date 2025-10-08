@@ -1,5 +1,5 @@
+import 'package:all_gta/Presentation/Onboardings/go_to_cheatscreen.dart';
 import 'package:flutter/material.dart';
-import 'package:all_gta/Presentation/Onboardings/platform_selection.dart';
 import 'package:video_player/video_player.dart';
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
@@ -113,7 +113,7 @@ class _HiddenCheatsScreenState extends State<HiddenCheatsScreen> {
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (ctx) => const PlatformSelectionScreen(),
+                            builder: (ctx) => const GoToCheatsScreen(),
                           ),
                         );
                       },

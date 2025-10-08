@@ -212,7 +212,6 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
                               return;
                             }
 
-                            // Convert selected indexes to game keys
                             final selectedGames = _selectedIndexes
                                 .map((index) {
                                   final gameTitle = _games[index]['title']!;
