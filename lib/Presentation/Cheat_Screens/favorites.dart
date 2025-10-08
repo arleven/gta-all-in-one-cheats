@@ -143,7 +143,6 @@ class _FavoritesState extends State<Favorites> {
     };
   }
 
-  // 👇 helper like in XboxScreen
   String _localized(String fallback, CheatCode cheat, String fieldPrefix) {
     if (_selectedLangCode == 'en') return fallback;
 

@@ -4,6 +4,7 @@ import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/search.dart';
 
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
@@ -210,6 +211,7 @@ class _BottomBarsState extends State<BottomBars> {
 
     final screens = [
       _getPlatformScreen(),
+      SearchScreen(platform: widget.initialPlatform),
       Favorites(),
       SettingsScreen(
         onPlatformChanged: (newPlatform) async {
@@ -326,6 +328,10 @@ class _BottomBarsState extends State<BottomBars> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: AppLocalizations.of(context)!.home,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Search',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.favorite),

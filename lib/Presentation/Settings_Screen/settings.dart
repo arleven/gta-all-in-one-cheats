@@ -177,7 +177,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const SizedBox(height: 12),
 
-            // drag handle
             Container(
               width: 40,
               height: 5,
