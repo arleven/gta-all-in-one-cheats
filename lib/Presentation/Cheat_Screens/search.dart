@@ -30,23 +30,24 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<void> _loadRecentCheats() async {
     final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getString('recentCheats');
+    final key = 'recentCheats_${widget.platform.toLowerCase()}';
+    final stored = prefs.getString(key);
+
     if (stored != null) {
       final List<dynamic> decoded = jsonDecode(stored);
       setState(() {
-        _recentCheats = decoded
-            .map((data) {
-              return CheatCode(
-                title: data['title'] ?? '',
-                description: data['description'] ?? '',
-                codes: data['codes'] ?? '',
-                section: data['section'] ?? '',
-                rawData: data,
-              );
-            })
-            .where((c) => c.rawData['platform'] == widget.platform)
-            .toList();
+        _recentCheats = decoded.map((data) {
+          return CheatCode(
+            title: data['title'] ?? '',
+            description: data['description'] ?? '',
+            codes: data['codes'] ?? '',
+            section: data['section'] ?? '',
+            rawData: data,
+          );
+        }).toList();
       });
+    } else {
+      setState(() => _recentCheats = []);
     }
   }
 
@@ -55,6 +56,20 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _loadCheats();
     _loadRecentCheats();
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.platform != widget.platform) {
+      setState(() {
+        _searchController.clear();
+        _filteredCheats.clear();
+        _searchQuery = '';
+        _recentCheats.clear();
+      });
+      _loadRecentCheats();
+    }
   }
 
   Future<void> _loadCheats() async {
@@ -102,12 +117,18 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  _showBottomSheetWithImages(CheatCode cheat) {
+  void _showBottomSheetWithImages(CheatCode cheat) async {
     final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
 
-    final imagePaths = codes
-        .map((code) => getPlaystationImagePath(code))
-        .toList();
+    // Select correct image mapper based on platform
+    String Function(String) imageMapper;
+    if (widget.platform.toLowerCase() == 'xbox') {
+      imageMapper = getXboxImagePath;
+    } else {
+      imageMapper = getPlaystationImagePath;
+    }
+
+    final imagePaths = codes.map(imageMapper).toList();
     final codeTexts = codes;
 
     showModalBottomSheet(

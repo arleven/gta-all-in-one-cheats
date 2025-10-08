@@ -189,19 +189,19 @@ class _XboxScreenState extends State<XboxScreen> {
 
   Future<void> saveRecentCheat(CheatCode cheat, String platform) async {
     final prefs = await SharedPreferences.getInstance();
+    final key = 'recentCheats_${platform.toLowerCase()}';
+
     List<Map<String, dynamic>> recents = [];
 
-    final stored = prefs.getString('recentCheats');
+    final stored = prefs.getString(key);
     if (stored != null) {
       recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
     }
 
-    // Remove if same title already exists
-    recents.removeWhere(
-      (c) => c['title'] == cheat.title && c['platform'] == platform,
-    );
+    // Remove duplicates
+    recents.removeWhere((c) => c['title'] == cheat.title);
 
-    // Insert at top
+    // Insert latest at the top
     recents.insert(0, {
       'title': cheat.title,
       'description': cheat.description,
@@ -210,10 +210,10 @@ class _XboxScreenState extends State<XboxScreen> {
       'platform': platform,
     });
 
-    // Keep max 15 recent cheats
+    // Keep max 15 items
     if (recents.length > 15) recents = recents.sublist(0, 15);
 
-    await prefs.setString('recentCheats', jsonEncode(recents));
+    await prefs.setString(key, jsonEncode(recents));
   }
 
   @override
