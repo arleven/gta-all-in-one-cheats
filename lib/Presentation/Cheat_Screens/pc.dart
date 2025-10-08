@@ -414,11 +414,7 @@ class _PcState extends State<Pc> {
                                       toggleFavorite(cheat.title),
                                   useImages: false,
                                   onTap: () {
-                                    saveRecentCheat(
-                                      context,
-                                      cheat,
-                                      'iphone',
-                                    ); // or 'pc'
+                                    saveRecentCheat(context, cheat, 'pc');
                                   },
                                 );
                               }),
