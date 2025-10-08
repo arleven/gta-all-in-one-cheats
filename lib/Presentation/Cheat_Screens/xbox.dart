@@ -9,6 +9,7 @@ import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
+import 'dart:convert';
 
 class XboxScreen extends StatefulWidget {
   const XboxScreen({super.key});
@@ -158,9 +159,17 @@ class _XboxScreenState extends State<XboxScreen> {
     _saveFavorites();
   }
 
-  _showBottomSheetWithImages(CheatCode cheat) {
-    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
+  String _selectedLangCode = 'en';
 
+  final Map<String, String> sectionEmojis = {
+    'Player': '🪄',
+    'Weapons': '🔫',
+    'Vehicle': '🚗',
+    'World': '🌍',
+  };
+
+  _showBottomSheetWithImages(CheatCode cheat) async {
+    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
     final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
     final codeTexts = codes;
 
@@ -178,14 +187,34 @@ class _XboxScreenState extends State<XboxScreen> {
     );
   }
 
-  String _selectedLangCode = 'en';
+  Future<void> saveRecentCheat(CheatCode cheat, String platform) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> recents = [];
 
-  final Map<String, String> sectionEmojis = {
-    'Player': '🪄',
-    'Weapons': '🔫',
-    'Vehicle': '🚗',
-    'World': '🌍',
-  };
+    final stored = prefs.getString('recentCheats');
+    if (stored != null) {
+      recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
+    }
+
+    // Remove if same title already exists
+    recents.removeWhere(
+      (c) => c['title'] == cheat.title && c['platform'] == platform,
+    );
+
+    // Insert at top
+    recents.insert(0, {
+      'title': cheat.title,
+      'description': cheat.description,
+      'codes': cheat.codes,
+      'section': cheat.section,
+      'platform': platform,
+    });
+
+    // Keep max 15 recent cheats
+    if (recents.length > 15) recents = recents.sublist(0, 15);
+
+    await prefs.setString('recentCheats', jsonEncode(recents));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -424,8 +453,10 @@ class _XboxScreenState extends State<XboxScreen> {
                                       toggleFavorite(cheat.title),
                                   useImages: true,
                                   imageMapper: getXboxImagePath,
-                                  onTap: () =>
-                                      _showBottomSheetWithImages(cheat),
+                                  onTap: () {
+                                    saveRecentCheat(cheat, 'xbox');
+                                    _showBottomSheetWithImages(cheat);
+                                  },
                                 );
                               }),
                               SizedBox(height: 40),

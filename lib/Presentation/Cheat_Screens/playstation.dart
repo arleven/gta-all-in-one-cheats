@@ -9,6 +9,7 @@ import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
 import 'package:all_gta/Models/image_swiper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
+import 'dart:convert';
 
 class Playstation extends StatefulWidget {
   const Playstation({super.key});
@@ -173,9 +174,8 @@ class _PlaystationState extends State<Playstation> {
     _saveFavorites();
   }
 
-  _showBottomSheetWithImages(CheatCode cheat) {
+  _showBottomSheetWithImages(CheatCode cheat) async {
     final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
-
     final imagePaths = codes
         .map((code) => getPlaystationImagePath(code))
         .toList();
@@ -193,6 +193,35 @@ class _PlaystationState extends State<Playstation> {
         child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codeTexts),
       ),
     );
+  }
+
+  Future<void> saveRecentCheat(CheatCode cheat, String platform) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> recents = [];
+
+    final stored = prefs.getString('recentCheats');
+    if (stored != null) {
+      recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
+    }
+
+    // Remove if same title already exists
+    recents.removeWhere(
+      (c) => c['title'] == cheat.title && c['platform'] == platform,
+    );
+
+    // Insert at top
+    recents.insert(0, {
+      'title': cheat.title,
+      'description': cheat.description,
+      'codes': cheat.codes,
+      'section': cheat.section,
+      'platform': platform,
+    });
+
+    // Keep max 15 recent cheats
+    if (recents.length > 15) recents = recents.sublist(0, 15);
+
+    await prefs.setString('recentCheats', jsonEncode(recents));
   }
 
   @override
@@ -432,8 +461,10 @@ class _PlaystationState extends State<Playstation> {
                                       toggleFavorite(cheat.title),
                                   useImages: true,
                                   imageMapper: getPlaystationImagePath,
-                                  onTap: () =>
-                                      _showBottomSheetWithImages(cheat),
+                                  onTap: () {
+                                    saveRecentCheat(cheat, 'playstation');
+                                    _showBottomSheetWithImages(cheat);
+                                  },
                                 );
                               }),
                               SizedBox(height: 40),
