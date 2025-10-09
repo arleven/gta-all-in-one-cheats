@@ -23,6 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //MARK: Variables
 
   String _version = '';
+  String _selectedLangCode = 'en';
 
   List<String> get platformKeys {
     if (selectedGameKey == 'libertycity') {
@@ -545,6 +546,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
 
+          AppCard(
+            imageUrl: 'assets/images/welcome.png',
+            title: 'Glow light',
+            subtitle: 'Helps in glowing lights',
+            rating: 5,
+            ratingCount: 5,
+            developer: 'Axebox',
+            category: 'category',
+            onTap: () {
+              print('tapped appcard');
+            },
+          ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: Row(
@@ -571,8 +585,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
-
-  String _selectedLangCode = 'en';
 
   Future<void> _updateSelectedLanguage(String langCode) async {
     final prefs = await SharedPreferences.getInstance();
@@ -948,5 +960,116 @@ extension StringCasingExtension on String {
   String capitalize() {
     if (isEmpty) return this;
     return '${this[0].toUpperCase()}${substring(1)}';
+  }
+}
+
+//MARK:- App Card Class
+
+class AppCard extends StatelessWidget {
+  final String imageUrl;
+  final String title;
+  final String subtitle;
+  final double rating;
+  final int ratingCount;
+  final String developer;
+  final String category;
+  final String buttonText;
+  final VoidCallback onTap;
+
+  const AppCard({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.subtitle,
+    required this.rating,
+    required this.ratingCount,
+    required this.developer,
+    required this.category,
+    this.buttonText = "Get",
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: const Color.fromRGBO(35, 35, 35, 1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                imageUrl,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 12),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                  const SizedBox(height: 6),
+                ],
+              ),
+            ),
+
+            const SizedBox(width: 10),
+
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: onTap,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white10,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      buttonText,
+                      style: const TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  "Free",
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
