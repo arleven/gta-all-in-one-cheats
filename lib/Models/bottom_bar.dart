@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
@@ -149,46 +150,65 @@ class _BottomBarsState extends State<BottomBars> {
     ];
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(13, 13, 13, 1),
+      backgroundColor: Color.fromRGBO(0, 0, 0, 1),
 
-      body: Stack(
-        children: [
-          screens[_selectedIndex],
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: (index) => setState(() => _selectedIndex = index),
-              backgroundColor: Colors.black,
-              selectedItemColor: Colors.greenAccent,
-              unselectedItemColor: Colors.white54,
-              type: BottomNavigationBarType.fixed,
-              iconSize: 22,
-              selectedFontSize: 11,
-              unselectedFontSize: 10,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: AppLocalizations.of(context)!.home,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: 'Search',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: AppLocalizations.of(context)!.favoritesTitle,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: AppLocalizations.of(context)!.settings,
-                ),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.bottomGradiant,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+              Colors.black,
+            ],
           ),
-        ],
+        ),
+        child: Stack(
+          children: [
+            screens[_selectedIndex],
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                onTap: (index) => setState(() => _selectedIndex = index),
+                backgroundColor: Colors.black,
+                selectedItemColor: Colors.greenAccent,
+                unselectedItemColor: Colors.white54,
+                type: BottomNavigationBarType.fixed,
+                iconSize: 22,
+                selectedFontSize: 11,
+                unselectedFontSize: 10,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: AppLocalizations.of(context)!.home,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Search',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite),
+                    label: AppLocalizations.of(context)!.favoritesTitle,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: AppLocalizations.of(context)!.settings,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

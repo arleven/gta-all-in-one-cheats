@@ -149,7 +149,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // 🔍 Search bar
                       Row(
                         children: [
                           Expanded(
@@ -215,7 +214,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // 📜 Main content area
                       if (_searchQuery.isEmpty)
                         (recentCheats.isEmpty)
                             ? SizedBox(

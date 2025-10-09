@@ -167,46 +167,47 @@ class _FavoritesState extends State<Favorites> {
         .toList();
 
     return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text(
-            AppLocalizations.of(context)!.favoritesTitle,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          if (favCheats.isEmpty)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Center(
-                child: Text(
-                  "No favorites ${_selectedPlatform.toUpperCase()}",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
+      child: Container(
+        padding: EdgeInsets.only(bottom: 32),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text(
+              AppLocalizations.of(context)!.favoritesTitle,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
               ),
-            )
-          else
-            ...favCheats.map((cheat) {
-              return CheatCard(
-                title: _localized(cheat.title, cheat, 'title'),
-                desc: _localized(cheat.description, cheat, 'description'),
-                buttons: cheat.codes.split(',').map((b) => b.trim()).toList(),
-                isFavorite: _favorites.contains(cheat.title),
-                onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
-                useImages: _shouldUseImages(),
-                imageMapper: _getImageMapper(),
-                onTap: _getOnTapAction(cheat),
-              );
-            }).toList(),
+            ),
+            const SizedBox(height: 8),
 
-          const SizedBox(height: 40),
-        ],
+            if (favCheats.isEmpty)
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: Center(
+                  child: Text(
+                    "No favorites ${_selectedPlatform.toUpperCase()}",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            else
+              ...favCheats.map((cheat) {
+                return CheatCard(
+                  title: _localized(cheat.title, cheat, 'title'),
+                  desc: _localized(cheat.description, cheat, 'description'),
+                  buttons: cheat.codes.split(',').map((b) => b.trim()).toList(),
+                  isFavorite: _favorites.contains(cheat.title),
+                  onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
+                  useImages: _shouldUseImages(),
+                  imageMapper: _getImageMapper(),
+                  onTap: _getOnTapAction(cheat),
+                );
+              }).toList(),
+          ],
+        ),
       ),
     );
   }

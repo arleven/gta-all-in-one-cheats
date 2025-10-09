@@ -376,291 +376,279 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //MARK: Build Method
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.bottomGradiant,
-            Colors.black,
-            Colors.black,
-            Colors.black,
-            Colors.black,
-            Colors.black,
-            Colors.black,
-          ],
-        ),
-      ),
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.only(bottom: 32),
+        child: Stack(
+          children: [
+            ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              children: [
+                // ------------------ APP SETTINGS ------------------
+                Padding(
+                  padding: const EdgeInsets.only(left: 4, bottom: 8),
+                  child: Text(
+                    'App Settings',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
 
-      child: Stack(
-        children: [
-          ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 80),
-            children: [
-              // ------------------ APP SETTINGS ------------------
-              Padding(
-                padding: const EdgeInsets.only(left: 4, bottom: 8),
-                child: Text(
-                  'App Settings',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/platform_icon.png',
+                      title: AppLocalizations.of(context)!.platformTitle,
+                      subtitle: AppLocalizations.of(context)!.platformSubtitle,
+                      trailingText: localizedPlatforms[selectedPlatformKey],
+                      onTap: () {},
+                      onTrailingTap: () => _showPlatformDropdown(context),
+                      trailingKey: _trailingKey,
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/platform_icon.png',
+                      title: AppLocalizations.of(context)!.gameTitle,
+                      subtitle: AppLocalizations.of(context)!.gameSubtitle,
+                      trailingText: localizedGames[selectedGameKey],
+                      onTap: () {},
+                      onTrailingTap: () => _showGameDropdown(context),
+                    ),
+                  ),
+                ),
 
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/platform_icon.png',
-                    title: AppLocalizations.of(context)!.platformTitle,
-                    subtitle: AppLocalizations.of(context)!.platformSubtitle,
-                    trailingText: localizedPlatforms[selectedPlatformKey],
-                    onTap: () {},
-                    onTrailingTap: () => _showPlatformDropdown(context),
-                    trailingKey: _trailingKey,
+                // ------------------ CHECK OUR OTHER APPS ------------------
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4, bottom: 8),
+                  child: Text(
+                    'Check Our Other Apps',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/platform_icon.png',
-                    title: AppLocalizations.of(context)!.gameTitle,
-                    subtitle: AppLocalizations.of(context)!.gameSubtitle,
-                    trailingText: localizedGames[selectedGameKey],
-                    onTap: () {},
-                    onTrailingTap: () => _showGameDropdown(context),
-                  ),
-                ),
-              ),
 
-              // ------------------ CHECK OUR OTHER APPS ------------------
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.only(left: 4, bottom: 8),
-                child: Text(
-                  'Check Our Other Apps',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
+                AppCard(
+                  imageUrl: 'assets/images/welcome.png',
+                  title: 'Glow light',
+                  subtitle: 'Helps in glowing lights',
+                  rating: 5,
+                  ratingCount: 5,
+                  developer: 'Axebox',
+                  category: 'category',
+                  onTap: () {
+                    print('tapped appcard');
+                  },
+                ),
+
+                // ------------------ SETTINGS ------------------
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4, bottom: 8),
+                  child: Text(
+                    'Settings',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
 
-              AppCard(
-                imageUrl: 'assets/images/welcome.png',
-                title: 'Glow light',
-                subtitle: 'Helps in glowing lights',
-                rating: 5,
-                ratingCount: 5,
-                developer: 'Axebox',
-                category: 'category',
-                onTap: () {
-                  print('tapped appcard');
-                },
-              ),
-
-              // ------------------ SETTINGS ------------------
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.only(left: 4, bottom: 8),
-                child: Text(
-                  'Settings',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ),
-              ),
-
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/contact_icon.png',
-                    title: AppLocalizations.of(context)!.contactMeTitle,
-                    subtitle: AppLocalizations.of(context)!.contactMeSubtitle,
-                    onTap: () async {
-                      final Uri emailUri = Uri(
-                        scheme: 'mailto',
-                        path: 'info@arleven.com',
-                        query: Uri.encodeFull(
-                          'subject=Cheats for SA&body=Hi, I would like to share...',
-                        ),
-                      );
-
-                      if (await canLaunchUrl(emailUri)) {
-                        await launchUrl(emailUri);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              AppLocalizations.of(context)!.couldNotOpenMailApp,
-                            ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/contact_icon.png',
+                      title: AppLocalizations.of(context)!.contactMeTitle,
+                      subtitle: AppLocalizations.of(context)!.contactMeSubtitle,
+                      onTap: () async {
+                        final Uri emailUri = Uri(
+                          scheme: 'mailto',
+                          path: 'info@arleven.com',
+                          query: Uri.encodeFull(
+                            'subject=Cheats for SA&body=Hi, I would like to share...',
                           ),
                         );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/privacy_icon.png',
-                    title: AppLocalizations.of(context)!.privacyPolicyTitle,
-                    subtitle: AppLocalizations.of(
-                      context,
-                    )!.privacyPolicySubtitle,
-                    onTap: () {
-                      openWebView(
-                        context,
-                        'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/terms_icon.png',
-                    title: AppLocalizations.of(context)!.termsOfServiceTitle,
-                    subtitle: AppLocalizations.of(
-                      context,
-                    )!.privacyPolicySubtitle,
-                    onTap: () {
-                      openWebView(
-                        context,
-                        'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/language_icon.png',
-                    title: AppLocalizations.of(context)!.changeLanguageTitle,
-                    subtitle: AppLocalizations.of(
-                      context,
-                    )!.changeLanguageSubtitle,
-                    onTap: () => _showLanguageBottomSheet(context),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: const Color.fromRGBO(35, 35, 35, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 5,
-                  ),
-                  child: SettingsTile(
-                    imagePath: 'assets/images/contact_icon.png',
-                    title: AppLocalizations.of(context)!.version,
-                    subtitle: AppLocalizations.of(context)!.version_subtitle,
-                    trailingText: _version,
-                    trailingPlain: true,
-                    onTap: () {},
-                  ),
-                ),
-              ),
 
-              // ------------------ INFO ------------------
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 16,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.info_outline,
-                      size: 18,
-                      color: Colors.white54,
+                        if (await canLaunchUrl(emailUri)) {
+                          await launchUrl(emailUri);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                AppLocalizations.of(
+                                  context,
+                                )!.couldNotOpenMailApp,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context)!.infoText,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          height: 1.4,
-                          fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/privacy_icon.png',
+                      title: AppLocalizations.of(context)!.privacyPolicyTitle,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      )!.privacyPolicySubtitle,
+                      onTap: () {
+                        openWebView(
+                          context,
+                          'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/terms_icon.png',
+                      title: AppLocalizations.of(context)!.termsOfServiceTitle,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      )!.privacyPolicySubtitle,
+                      onTap: () {
+                        openWebView(
+                          context,
+                          'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/language_icon.png',
+                      title: AppLocalizations.of(context)!.changeLanguageTitle,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      )!.changeLanguageSubtitle,
+                      onTap: () => _showLanguageBottomSheet(context),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color: const Color.fromRGBO(35, 35, 35, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    child: SettingsTile(
+                      imagePath: 'assets/images/contact_icon.png',
+                      title: AppLocalizations.of(context)!.version,
+                      subtitle: AppLocalizations.of(context)!.version_subtitle,
+                      trailingText: _version,
+                      trailingPlain: true,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+
+                // ------------------ INFO ------------------
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.info_outline,
+                        size: 18,
+                        color: Colors.white54,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.infoText,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            height: 1.4,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
