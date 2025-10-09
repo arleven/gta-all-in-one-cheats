@@ -245,16 +245,30 @@ class _XboxScreenState extends State<XboxScreen> {
       groupedCheats.putIfAbsent(cheat.section, () => []).add(cheat);
     }
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+    return SafeArea(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Xbox',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Image.asset('assets/images/welcome.png', width: 32, height: 32),
+              ],
+            ),
+            const SizedBox(height: 16),
             SizedBox(
               height: 40,
               child: ListView.separated(

@@ -1,6 +1,7 @@
 import 'package:all_gta/Models/cheat_cards.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:all_gta/Utils/code_mapper.dart';
@@ -165,27 +166,33 @@ class _FavoritesState extends State<Favorites> {
         .where((c) => _favorites.contains(c.title))
         .toList();
 
-    if (favCheats.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "No favorites for ${_selectedPlatform.toUpperCase()}",
-              style: const TextStyle(color: Colors.white, fontSize: 18),
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Text(
+            AppLocalizations.of(context)!.favoritesTitle,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      );
-    }
+          ),
+          const SizedBox(height: 8),
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: favCheats.map((cheat) {
+          if (favCheats.isEmpty)
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Center(
+                child: Text(
+                  "No favorites ${_selectedPlatform.toUpperCase()}",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            )
+          else
+            ...favCheats.map((cheat) {
               return CheatCard(
                 title: _localized(cheat.title, cheat, 'title'),
                 desc: _localized(cheat.description, cheat, 'description'),
@@ -197,10 +204,10 @@ class _FavoritesState extends State<Favorites> {
                 onTap: _getOnTapAction(cheat),
               );
             }).toList(),
-          ),
-        ),
-        const SizedBox(height: 70),
-      ],
+
+          const SizedBox(height: 40),
+        ],
+      ),
     );
   }
 }

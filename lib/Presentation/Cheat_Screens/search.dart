@@ -31,7 +31,6 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _loadCheats();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // schedule async work without breaking the callback signature
       Future.microtask(() async {
         await Provider.of<RecentCheatsProvider>(
           context,
@@ -132,89 +131,109 @@ class _SearchScreenState extends State<SearchScreen> {
       builder: (context, recentProvider, child) {
         final recentCheats = recentProvider.recentCheats;
 
-        print(recentCheats);
-
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        focusNode: _searchFocusNode,
-                        onChanged: _onSearchChanged,
-                        keyboardAppearance: Brightness.dark,
-                        decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.searchText,
-                          hintStyle: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(200, 196, 196, 1),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: Color.fromRGBO(200, 196, 196, 1),
-                            size: 30,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.notSelectedbg,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: 20,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(255, 255, 255, 0.1),
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(255, 255, 255, 0.1),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    if (_searchFocusNode.hasFocus || _searchQuery.isNotEmpty)
-                      TextButton(
-                        onPressed: () {
-                          _searchController.clear();
-                          _onSearchChanged('');
-                          _searchFocusNode.unfocus();
-                        },
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(color: AppColors.primaryButton),
+        return SafeArea(
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      const Text(
+                        'Search',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                Expanded(
-                  child: _isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : _searchQuery.isEmpty
-                      ? (recentCheats.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  'Search any cheats here',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey,
+                      // 🔍 Search bar
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              focusNode: _searchFocusNode,
+                              onChanged: _onSearchChanged,
+                              keyboardAppearance: Brightness.dark,
+                              decoration: InputDecoration(
+                                hintText: AppLocalizations.of(
+                                  context,
+                                )!.searchText,
+                                hintStyle: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(200, 196, 196, 1),
+                                ),
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                  color: Color.fromRGBO(200, 196, 196, 1),
+                                  size: 30,
+                                ),
+                                filled: true,
+                                fillColor: AppColors.notSelectedbg,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                  horizontal: 20,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: const BorderSide(
+                                    color: Color.fromRGBO(255, 255, 255, 0.1),
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: const BorderSide(
+                                    color: Color.fromRGBO(255, 255, 255, 0.1),
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          if (_searchFocusNode.hasFocus ||
+                              _searchQuery.isNotEmpty)
+                            TextButton(
+                              onPressed: () {
+                                _searchController.clear();
+                                _onSearchChanged('');
+                                _searchFocusNode.unfocus();
+                              },
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: AppColors.primaryButton,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // 📜 Main content area
+                      if (_searchQuery.isEmpty)
+                        (recentCheats.isEmpty)
+                            ? SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                child: const Center(
+                                  child: Text(
+                                    'Search any cheats here',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               )
-                            : ListView(
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Padding(
                                     padding: EdgeInsets.only(bottom: 12),
@@ -267,20 +286,26 @@ class _SearchScreenState extends State<SearchScreen> {
                                     );
                                   }).toList(),
                                 ],
-                              ))
-                      : _filteredCheats.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No cheats found for "$_searchQuery"',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey,
+                              )
+                      else if (_filteredCheats.isEmpty)
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: Center(
+                            child: Text(
+                              'No cheats found for "$_searchQuery"',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         )
-                      : ListView.builder(
-                          itemCount: _filteredCheats.length,
-                          itemBuilder: (context, index) {
+                      else
+                        Column(
+                          children: List.generate(_filteredCheats.length, (
+                            index,
+                          ) {
                             final cheat = _filteredCheats[index];
                             bool useImages =
                                 widget.platform.toLowerCase() ==
@@ -315,12 +340,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                     : null,
                               ),
                             );
-                          },
+                          }),
                         ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         );
       },
     );
