@@ -7,6 +7,8 @@ import 'package:all_gta/Presentation/Settings_Screen/webview_screen.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:all_gta/main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:all_gta/Provider/recent_cheat.dart';
 
 class SettingsScreen extends StatefulWidget {
   final ValueChanged<String>? onPlatformChanged;
@@ -203,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             for (int i = 0; i < allowedGames.length; i++) ...[
               InkWell(
                 borderRadius: BorderRadius.circular(12),
-                onTap: () {
+                onTap: () async {
                   final selected = allowedGames[i];
 
                   setState(() {
@@ -226,8 +228,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   _saveGame(selected);
                   CheatService.updateSelectedGame(selected);
-                  widget.onGameChanged?.call(selected);
 
+                  final recentProvider = context.read<RecentCheatsProvider>();
+                  await recentProvider.setGame(selected);
+
+                  widget.onGameChanged?.call(selected);
                   Navigator.pop(context);
                 },
                 child: Container(

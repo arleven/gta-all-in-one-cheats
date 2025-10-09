@@ -77,6 +77,8 @@ class _BottomBarsState extends State<BottomBars> {
     }
 
     CheatService.updateSelectedGame(currentGame);
+    final recentProvider = context.read<RecentCheatsProvider>();
+    await recentProvider.setGame(currentGame);
 
     setState(() {
       _initDone = true;
@@ -153,11 +155,21 @@ class _BottomBarsState extends State<BottomBars> {
               InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('selectedGame', _allowedGames[i]);
+
                   final gameProvider = context.read<GameProvider>();
                   await gameProvider.setGame(_allowedGames[i]);
-                  Navigator.pop(context);
+
+                  CheatService.updateSelectedGame(_allowedGames[i]);
+
+                  final recentProvider = context.read<RecentCheatsProvider>();
+                  await recentProvider.setGame(_allowedGames[i]);
+
                   setState(() {});
+                  Navigator.pop(context);
                 },
+
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(
@@ -239,6 +251,10 @@ class _BottomBarsState extends State<BottomBars> {
           final gameProvider = context.read<GameProvider>();
           await gameProvider.setGame(newGame);
           CheatService.updateSelectedGame(newGame);
+
+          final recentProvider = context.read<RecentCheatsProvider>();
+          await recentProvider.setGame(newGame);
+
           setState(() {});
         },
       ),

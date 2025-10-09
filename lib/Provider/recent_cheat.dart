@@ -5,10 +5,12 @@ import 'package:all_gta/Networking/cheat_codes_model.dart';
 
 class RecentCheatsProvider extends ChangeNotifier {
   String _platform = 'xbox';
+  String _game = 'sanandreas';
   List<CheatCode> _recentCheats = [];
 
   List<CheatCode> get recentCheats => _recentCheats;
   String get platform => _platform;
+  String get game => _game;
 
   RecentCheatsProvider() {
     _initialize();
@@ -17,6 +19,7 @@ class RecentCheatsProvider extends ChangeNotifier {
   Future<void> _initialize() async {
     final prefs = await SharedPreferences.getInstance();
     _platform = prefs.getString('selectedPlatform') ?? 'xbox';
+    _game = prefs.getString('selectedGame') ?? 'sanandreas';
     await loadRecentCheats();
   }
 
@@ -27,9 +30,17 @@ class RecentCheatsProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> setGame(String game) async {
+    if (_game != game) {
+      _game = game;
+      await loadRecentCheats();
+    }
+  }
+
   Future<void> loadRecentCheats() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'recentCheats_${_platform.toLowerCase()}';
+    final key =
+        'recentCheats_${_game.toLowerCase()}_${_platform.toLowerCase()}';
     final stored = prefs.getString(key);
 
     if (stored != null) {
@@ -52,20 +63,16 @@ class RecentCheatsProvider extends ChangeNotifier {
 
   Future<void> addRecent(CheatCode cheat) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'recentCheats_${_platform.toLowerCase()}';
+    final key =
+        'recentCheats_${_game.toLowerCase()}_${_platform.toLowerCase()}';
 
-    // Remove duplicate if already in list
     _recentCheats.removeWhere((c) => c.title == cheat.title);
-
-    // Add at top
     _recentCheats.insert(0, cheat);
 
-    // Keep only 10 recents
     if (_recentCheats.length > 10) {
       _recentCheats = _recentCheats.sublist(0, 10);
     }
 
-    // Save to SharedPrefs
     final encoded = jsonEncode(_recentCheats.map((c) => c.rawData).toList());
     await prefs.setString(key, encoded);
 

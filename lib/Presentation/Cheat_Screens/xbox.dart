@@ -195,7 +195,8 @@ class _XboxScreenState extends State<XboxScreen> {
     String platform,
   ) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'recentCheats_${platform.toLowerCase()}';
+    final game = prefs.getString('selectedGame') ?? 'sanandreas';
+    final key = 'recentCheats_${game.toLowerCase()}_${platform.toLowerCase()}';
 
     List<Map<String, dynamic>> recents = [];
 
