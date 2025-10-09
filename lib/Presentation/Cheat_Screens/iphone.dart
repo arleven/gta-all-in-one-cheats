@@ -10,9 +10,16 @@ import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
 import 'dart:convert';
+import 'package:all_gta/Provider/game_provider.dart';
 
 class Iphone extends StatefulWidget {
-  const Iphone({super.key});
+  final String initialGame;
+  final String initialPlatform;
+  const Iphone({
+    super.key,
+    required this.initialGame,
+    required this.initialPlatform,
+  });
 
   @override
   State<Iphone> createState() => _IphoneState();
@@ -32,16 +39,22 @@ class _IphoneState extends State<Iphone> {
   final Set<String> _lockedSections = {'Weapons', 'Vehicle'};
   bool _hasReviewedUnlocked = false;
   static const String _reviewUnlockKey = 'unlockedReviewed';
+  final GlobalKey _gameTrailingKey = GlobalKey();
+  List<String> _allowedGames = [];
+  bool _initDone = false;
+  String? _selectedPlatformKey;
 
   @override
   void initState() {
     super.initState();
     _loadFavorites();
+    print(_initDone);
     _loadCheats();
     _loadSelectedLanguage();
     _refreshCheatsInBackground();
     _loadReviewUnlockStatus();
     _loadSelectedGame();
+    _bootstrap();
     ARReviewManager.startReviewRequestIfRequired(context);
 
     _searchController.addListener(() {
@@ -89,6 +102,13 @@ class _IphoneState extends State<Iphone> {
 
     return fallback;
   }
+
+  final Map<String, String> _localizedGames = const {
+    'gtav': 'GTA V',
+    'sanandreas': 'San Andreas',
+    'vicecity': 'Vice City',
+    'libertycity': 'Liberty City',
+  };
 
   void _loadCheats() async {
     setState(() => _isLoading = true);
@@ -201,6 +221,146 @@ class _IphoneState extends State<Iphone> {
     provider.loadRecentCheats();
   }
 
+  void _showGameBottomSheet(BuildContext context) {
+    final currentGame = context.read<GameProvider>().selectedGame;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(42, 40, 40, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+
+            buildDragHandle(),
+
+            const SizedBox(height: 8),
+
+            Text(
+              AppLocalizations.of(context)!.selectGame,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 16),
+
+            for (int i = 0; i < _allowedGames.length; i++) ...[
+              InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('selectedGame', _allowedGames[i]);
+
+                  final gameProvider = context.read<GameProvider>();
+                  await gameProvider.setGame(_allowedGames[i]);
+
+                  CheatService.updateSelectedGame(_allowedGames[i]);
+
+                  final recentProvider = context.read<RecentCheatsProvider>();
+                  await recentProvider.setGame(_allowedGames[i]);
+
+                  setState(() {});
+                  Navigator.pop(context);
+                },
+
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: 16,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: currentGame == _allowedGames[i]
+                        ? const Color.fromRGBO(31, 69, 50, 1)
+                        : const Color.fromRGBO(42, 40, 40, 1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: currentGame == _allowedGames[i]
+                          ? const Color.fromRGBO(31, 164, 106, 1)
+                          : const Color.fromRGBO(76, 72, 72, 1),
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    _localizedGames[_allowedGames[i]]!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+
+            const SizedBox(height: 45),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildDragHandle() {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        height: 4,
+        width: 40,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(76, 72, 72, 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _bootstrap() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _allowedGames = prefs.getStringList('selectedGames') ?? ['sanandreas'];
+
+    _selectedPlatformKey =
+        prefs.getString('selectedPlatform') ?? widget.initialPlatform;
+    final savedPlatform = prefs.getString('selectedPlatform');
+    print('Saved platform in prefs: $savedPlatform');
+    print('Initial platform: ${widget.initialPlatform}');
+    print(_selectedPlatformKey);
+
+    final gameProvider = context.read<GameProvider>();
+    await gameProvider.loadGame();
+
+    var currentGame = gameProvider.selectedGame.isNotEmpty
+        ? gameProvider.selectedGame
+        : widget.initialGame;
+
+    if (!_allowedGames.contains(currentGame)) {
+      currentGame = _allowedGames.first;
+      await gameProvider.setGame(currentGame);
+    }
+
+    CheatService.updateSelectedGame(currentGame);
+    final recentProvider = context.read<RecentCheatsProvider>();
+    await recentProvider.setGame(currentGame);
+
+    setState(() {
+      _initDone = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -224,215 +384,252 @@ class _IphoneState extends State<Iphone> {
       groupedCheats.putIfAbsent(cheat.section, () => []).add(cheat);
     }
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 40,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: _allSections.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 10),
-                itemBuilder: (context, index) {
-                  final section = _allSections[index];
-                  final isSelected = section == _selectedSection;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedSection = section;
-                      });
-                    },
+    return SafeArea(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'iPhone',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 26,
+                    ),
+                  ),
+                  GestureDetector(
+                    key: _gameTrailingKey,
+                    onTap: () => _showGameBottomSheet(context),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white24,
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1.4,
-                          color: isSelected
-                              ? AppColors.shadowBorder
-                              : Color.fromRGBO(255, 255, 255, 0.1),
-                        ),
-                        color: isSelected
-                            ? AppColors.primaryButton
-                            : AppColors.notSelectedbg,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        _localized(
-                          section,
-                          _allCheats.firstWhere(
-                            (c) => c.section == section,
-                            orElse: () => CheatCode(
-                              title: '',
-                              section: section,
-                              description: '',
-                              codes: '',
-                              rawData: {},
-                            ),
-                          ),
-                          'section',
-                        ),
-                        style: TextStyle(
-                          color: isSelected
-                              ? Color.fromRGBO(4, 4, 4, 1)
-                              : Color.fromRGBO(200, 196, 196, 1),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                        ),
+                      child: const Icon(
+                        Icons.videogame_asset,
+                        color: Colors.white,
+                        size: 24,
                       ),
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _allSections.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    final section = _allSections[index];
+                    final isSelected = section == _selectedSection;
 
-            Expanded(
-              child: _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryButton,
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedSection = section;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1.4,
+                            color: isSelected
+                                ? AppColors.shadowBorder
+                                : Color.fromRGBO(255, 255, 255, 0.1),
+                          ),
+                          color: isSelected
+                              ? AppColors.primaryButton
+                              : AppColors.notSelectedbg,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          _localized(
+                            section,
+                            _allCheats.firstWhere(
+                              (c) => c.section == section,
+                              orElse: () => CheatCode(
+                                title: '',
+                                section: section,
+                                description: '',
+                                codes: '',
+                                rawData: {},
+                              ),
+                            ),
+                            'section',
+                          ),
+                          style: TextStyle(
+                            color: isSelected
+                                ? Color.fromRGBO(4, 4, 4, 1)
+                                : Color.fromRGBO(200, 196, 196, 1),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                          ),
+                        ),
                       ),
-                    )
-                  : ListView(
-                      children: [
-                        ...groupedCheats.entries.map((entry) {
-                          final cheats = entry.value;
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...cheats.map((cheat) {
-                                final isLocked =
-                                    _lockedSections.contains(entry.key) &&
-                                    !_hasReviewedUnlocked;
+              Expanded(
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryButton,
+                        ),
+                      )
+                    : ListView(
+                        children: [
+                          ...groupedCheats.entries.map((entry) {
+                            final cheats = entry.value;
 
-                                if (isLocked) {
-                                  return Card(
-                                    color: AppColors.notSelectedbg,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 16,
-                                        horizontal: 12,
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...cheats.map((cheat) {
+                                  final isLocked =
+                                      _lockedSections.contains(entry.key) &&
+                                      !_hasReviewedUnlocked;
+
+                                  if (isLocked) {
+                                    return Card(
+                                      color: AppColors.notSelectedbg,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            _localized(
-                                              cheat.title,
-                                              cheat,
-                                              'title',
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 16,
+                                          horizontal: 12,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _localized(
+                                                cheat.title,
+                                                cheat,
+                                                'title',
+                                              ),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
                                             ),
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        const ReviewOnboard(),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 8,
+                                            const SizedBox(height: 12),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const ReviewOnboard(),
                                                     ),
-                                                decoration: BoxDecoration(
-                                                  color: const Color.fromRGBO(
-                                                    31,
-                                                    69,
-                                                    50,
-                                                    1,
-                                                  ),
-                                                  border: Border.all(
-                                                    width: 1.8,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 8,
+                                                      ),
+                                                  decoration: BoxDecoration(
                                                     color: const Color.fromRGBO(
                                                       31,
-                                                      164,
-                                                      106,
+                                                      69,
+                                                      50,
                                                       1,
                                                     ),
+                                                    border: Border.all(
+                                                      width: 1.8,
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                            31,
+                                                            164,
+                                                            106,
+                                                            1,
+                                                          ),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          12,
+                                                        ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                child: Text(
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.unlock,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
+                                                  child: Text(
+                                                    AppLocalizations.of(
+                                                      context,
+                                                    )!.unlock,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }
+                                    );
+                                  }
 
-                                return CheatCard(
-                                  title: _localized(
-                                    cheat.title,
-                                    cheat,
-                                    'title',
-                                  ),
-                                  desc: _localized(
-                                    cheat.description,
-                                    cheat,
-                                    'description',
-                                  ),
-                                  phoneNum: cheat.phoneNum,
-                                  buttons: cheat.codes
-                                      .split(',')
-                                      .map((b) => b.trim())
-                                      .toList(),
-                                  isFavorite: _favorites.contains(cheat.title),
-                                  onFavoriteToggle: (_) =>
-                                      toggleFavorite(cheat.title),
-                                  useImages: false,
-                                  onTap: () {
-                                    saveRecentCheat(context, cheat, 'iphone');
-                                  },
-                                );
-                              }),
-                              SizedBox(height: 40),
-                            ],
-                          );
-                        }),
-                      ],
-                    ),
-            ),
-          ],
+                                  return CheatCard(
+                                    title: _localized(
+                                      cheat.title,
+                                      cheat,
+                                      'title',
+                                    ),
+                                    desc: _localized(
+                                      cheat.description,
+                                      cheat,
+                                      'description',
+                                    ),
+                                    phoneNum: cheat.phoneNum,
+                                    buttons: cheat.codes
+                                        .split(',')
+                                        .map((b) => b.trim())
+                                        .toList(),
+                                    isFavorite: _favorites.contains(
+                                      cheat.title,
+                                    ),
+                                    onFavoriteToggle: (_) =>
+                                        toggleFavorite(cheat.title),
+                                    useImages: false,
+                                    onTap: () {
+                                      saveRecentCheat(context, cheat, 'iphone');
+                                    },
+                                  );
+                                }),
+                                SizedBox(height: 40),
+                              ],
+                            );
+                          }),
+                        ],
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

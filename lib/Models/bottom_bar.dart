@@ -1,4 +1,3 @@
-import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
@@ -14,7 +13,7 @@ import 'package:flutter/material.dart';
 
 import 'package:all_gta/Presentation/Settings_Screen/settings.dart';
 import 'package:provider/provider.dart';
-import 'package:all_gta/Presentation/Settings_Screen/game_provider.dart';
+import 'package:all_gta/Provider/game_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomBars extends StatefulWidget {
@@ -32,185 +31,40 @@ class BottomBars extends StatefulWidget {
 }
 
 class _BottomBarsState extends State<BottomBars> {
-  final GlobalKey _gameTrailingKey = GlobalKey();
-
   int _selectedIndex = 0;
   String? _selectedPlatformKey;
-  List<String> _allowedGames = [];
-  bool _initDone = false;
 
-  final Map<String, String> _localizedGames = const {
-    'gtav': 'GTA V',
-    'sanandreas': 'San Andreas',
-    'vicecity': 'Vice City',
-    'libertycity': 'Liberty City',
-  };
+  bool _initDone = false;
 
   @override
   void initState() {
     super.initState();
-    _bootstrap();
-  }
-
-  Future<void> _bootstrap() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    _allowedGames = prefs.getStringList('selectedGames') ?? ['sanandreas'];
-
-    _selectedPlatformKey =
-        prefs.getString('selectedPlatform') ?? widget.initialPlatform;
-    final savedPlatform = prefs.getString('selectedPlatform');
-    print('Saved platform in prefs: $savedPlatform');
-    print('Initial platform: ${widget.initialPlatform}');
-    print(_selectedPlatformKey);
-
-    final gameProvider = context.read<GameProvider>();
-    await gameProvider.loadGame();
-
-    var currentGame = gameProvider.selectedGame.isNotEmpty
-        ? gameProvider.selectedGame
-        : widget.initialGame;
-
-    if (!_allowedGames.contains(currentGame)) {
-      currentGame = _allowedGames.first;
-      await gameProvider.setGame(currentGame);
-    }
-
-    CheatService.updateSelectedGame(currentGame);
-    final recentProvider = context.read<RecentCheatsProvider>();
-    await recentProvider.setGame(currentGame);
-
-    setState(() {
-      _initDone = true;
-    });
   }
 
   Widget _getPlatformScreen() {
     switch (_selectedPlatformKey) {
       case 'playstation':
-        return Playstation();
+        return Playstation(
+          initialGame: widget.initialGame,
+          initialPlatform: widget.initialPlatform,
+        );
       case 'pc':
-        return Pc();
+        return Pc(
+          initialGame: widget.initialGame,
+          initialPlatform: widget.initialPlatform,
+        );
       case 'iphone':
-        return Iphone();
+        return Iphone(
+          initialGame: widget.initialGame,
+          initialPlatform: widget.initialPlatform,
+        );
       case 'xbox':
       default:
-        return XboxScreen();
-    }
-  }
-
-  final Map<String, String> _platformLabels = const {
-    'playstation': 'Playstation',
-    'pc': 'PC',
-    'xbox': 'Xbox',
-    'iphone': 'iPhone',
-  };
-
-  Widget buildDragHandle() {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        height: 4,
-        width: 40,
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(76, 72, 72, 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-    );
-  }
-
-  void _showGameBottomSheet(BuildContext context) {
-    final currentGame = context.read<GameProvider>().selectedGame;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: const Color.fromRGBO(42, 40, 40, 1),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 12),
-
-            buildDragHandle(),
-
-            const SizedBox(height: 8),
-
-            Text(
-              AppLocalizations.of(context)!.selectGame,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 16),
-
-            for (int i = 0; i < _allowedGames.length; i++) ...[
-              InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('selectedGame', _allowedGames[i]);
-
-                  final gameProvider = context.read<GameProvider>();
-                  await gameProvider.setGame(_allowedGames[i]);
-
-                  CheatService.updateSelectedGame(_allowedGames[i]);
-
-                  final recentProvider = context.read<RecentCheatsProvider>();
-                  await recentProvider.setGame(_allowedGames[i]);
-
-                  setState(() {});
-                  Navigator.pop(context);
-                },
-
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 6,
-                    horizontal: 16,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                    horizontal: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    color: currentGame == _allowedGames[i]
-                        ? const Color.fromRGBO(31, 69, 50, 1)
-                        : const Color.fromRGBO(42, 40, 40, 1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: currentGame == _allowedGames[i]
-                          ? const Color.fromRGBO(31, 164, 106, 1)
-                          : const Color.fromRGBO(76, 72, 72, 1),
-                      width: 1,
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    _localizedGames[_allowedGames[i]]!,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-
-            const SizedBox(height: 45),
-          ],
+        return XboxScreen(
+          initialGame: widget.initialGame,
+          initialPlatform: widget.initialPlatform,
         );
-      },
-    );
+    }
   }
 
   @override

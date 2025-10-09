@@ -4,7 +4,7 @@ import 'package:all_gta/Presentation/Onboardings/splash_screen.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:all_gta/Presentation/Settings_Screen/game_provider.dart';
+import 'package:all_gta/Provider/game_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
