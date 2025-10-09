@@ -33,12 +33,46 @@ class BottomBars extends StatefulWidget {
 class _BottomBarsState extends State<BottomBars> {
   int _selectedIndex = 0;
   String? _selectedPlatformKey;
-
+  List<String> _allowedGames = [];
   bool _initDone = false;
 
   @override
   void initState() {
     super.initState();
+    _bootstrap();
+  }
+
+  Future<void> _bootstrap() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _allowedGames = prefs.getStringList('selectedGames') ?? ['sanandreas'];
+
+    _selectedPlatformKey =
+        prefs.getString('selectedPlatform') ?? widget.initialPlatform;
+    final savedPlatform = prefs.getString('selectedPlatform');
+    print('Saved platform in prefs: $savedPlatform');
+    print('Initial platform: ${widget.initialPlatform}');
+    print(_selectedPlatformKey);
+
+    final gameProvider = context.read<GameProvider>();
+    await gameProvider.loadGame();
+
+    var currentGame = gameProvider.selectedGame.isNotEmpty
+        ? gameProvider.selectedGame
+        : widget.initialGame;
+
+    if (!_allowedGames.contains(currentGame)) {
+      currentGame = _allowedGames.first;
+      await gameProvider.setGame(currentGame);
+    }
+
+    CheatService.updateSelectedGame(currentGame);
+    final recentProvider = context.read<RecentCheatsProvider>();
+    await recentProvider.setGame(currentGame);
+
+    setState(() {
+      _initDone = true;
+    });
   }
 
   Widget _getPlatformScreen() {
@@ -46,23 +80,23 @@ class _BottomBarsState extends State<BottomBars> {
       case 'playstation':
         return Playstation(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialPlatform,
+          initialPlatform: widget.initialGame,
         );
       case 'pc':
         return Pc(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialPlatform,
+          initialPlatform: widget.initialGame,
         );
       case 'iphone':
         return Iphone(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialPlatform,
+          initialPlatform: widget.initialGame,
         );
       case 'xbox':
       default:
         return XboxScreen(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialPlatform,
+          initialPlatform: widget.initialGame,
         );
     }
   }

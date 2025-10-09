@@ -378,6 +378,15 @@ class _PcState extends State<Pc> {
       groupedCheats.putIfAbsent(cheat.section, () => []).add(cheat);
     }
 
+    if (!_initDone) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CircularProgressIndicator(color: AppColors.primaryButton),
+        ),
+      );
+    }
+
     return SafeArea(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
