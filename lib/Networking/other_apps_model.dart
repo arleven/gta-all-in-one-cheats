@@ -4,6 +4,7 @@ class OtherApp {
   final String title;
   final String subtitle;
   final String appStoreUrl;
+  final String subText;
 
   OtherApp({
     required this.id,
@@ -11,6 +12,7 @@ class OtherApp {
     required this.title,
     required this.subtitle,
     required this.appStoreUrl,
+    required this.subText,
   });
 
   factory OtherApp.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class OtherApp {
       title: json['title'] ?? '',
       subtitle: json['subtitle'] ?? '',
       appStoreUrl: json['appStoreUrl'] ?? '',
+      subText: json['subText'] ?? '',
     );
   }
 }

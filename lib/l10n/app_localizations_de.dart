@@ -42,7 +42,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get close => 'Schließen';
 
   @override
-  String get unlock => 'Freischalten';
+  String get unlock => 'Kostenlos freischalten';
 
   @override
   String get home => 'Startseite';

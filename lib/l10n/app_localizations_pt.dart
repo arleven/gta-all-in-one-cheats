@@ -42,7 +42,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get close => 'Fechar';
 
   @override
-  String get unlock => 'Desbloquear';
+  String get unlock => 'Desbloquear Gratuitamente';
 
   @override
   String get home => 'Início';

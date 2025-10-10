@@ -42,7 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get unlock => 'Unlock';
+  String get unlock => 'Unlock for Free';
 
   @override
   String get home => 'Home';

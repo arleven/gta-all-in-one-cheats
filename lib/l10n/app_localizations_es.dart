@@ -42,7 +42,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get close => 'Cerrar';
 
   @override
-  String get unlock => 'Desbloquear';
+  String get unlock => 'Desbloquear gratis';
 
   @override
   String get home => 'Inicio';

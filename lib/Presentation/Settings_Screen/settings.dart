@@ -473,6 +473,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             );
                           }
                         },
+                        subText: app.subText,
                       ),
                     ),
                   ],
@@ -1049,6 +1050,7 @@ class AppCard extends StatelessWidget {
   final String subtitle;
   final String buttonText;
   final VoidCallback onTap;
+  final String subText;
 
   const AppCard({
     super.key,
@@ -1057,6 +1059,7 @@ class AppCard extends StatelessWidget {
     required this.subtitle,
     this.buttonText = "Get",
     required this.onTap,
+    required this.subText,
   });
 
   @override
@@ -1146,8 +1149,8 @@ class AppCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  "Free",
+                Text(
+                  subText,
                   style: TextStyle(
                     color: Colors.white54,
                     fontSize: 12,

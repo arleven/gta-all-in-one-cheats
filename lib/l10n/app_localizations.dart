@@ -194,7 +194,7 @@ abstract class AppLocalizations {
   /// No description provided for @unlock.
   ///
   /// In en, this message translates to:
-  /// **'Unlock'**
+  /// **'Unlock for Free'**
   String get unlock;
 
   /// No description provided for @home.

@@ -42,7 +42,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get close => 'إغلاق';
 
   @override
-  String get unlock => 'افتح';
+  String get unlock => 'افتح مجانًا';
 
   @override
   String get home => 'الرئيسية';

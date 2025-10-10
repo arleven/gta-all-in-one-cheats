@@ -42,7 +42,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get close => 'बंद करें';
 
   @override
-  String get unlock => 'अनलॉक करें';
+  String get unlock => 'मुफ़्त खोलें';
 
   @override
   String get home => 'मुखपृष्ठ';

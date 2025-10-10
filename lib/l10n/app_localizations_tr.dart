@@ -42,7 +42,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get close => 'Kapat';
 
   @override
-  String get unlock => 'Kilidi Aç';
+  String get unlock => 'Ücretsiz Aç';
 
   @override
   String get home => 'Ana Sayfa';

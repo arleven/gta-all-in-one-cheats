@@ -42,7 +42,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get close => 'ปิด';
 
   @override
-  String get unlock => 'ปลดล็อก';
+  String get unlock => 'ปลดล็อกฟรี';
 
   @override
   String get home => 'หน้าหลัก';

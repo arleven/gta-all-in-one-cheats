@@ -42,7 +42,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get close => '閉じる';
 
   @override
-  String get unlock => 'アンロック';
+  String get unlock => '無料でアンロック';
 
   @override
   String get home => 'ホーム';

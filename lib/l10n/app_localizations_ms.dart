@@ -42,7 +42,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get close => 'Tutup';
 
   @override
-  String get unlock => 'Buka Kunci';
+  String get unlock => 'Buka Kunci Percuma';
 
   @override
   String get home => 'Laman Utama';

@@ -42,7 +42,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get close => 'Isara';
 
   @override
-  String get unlock => 'I-unlock';
+  String get unlock => 'I-unlock nang libre';
 
   @override
   String get home => 'Bahay';

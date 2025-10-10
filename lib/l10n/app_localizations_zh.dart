@@ -42,7 +42,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get close => '关闭';
 
   @override
-  String get unlock => '解锁';
+  String get unlock => '免费解锁';
 
   @override
   String get home => '主页';

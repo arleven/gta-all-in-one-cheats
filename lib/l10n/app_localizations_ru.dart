@@ -42,7 +42,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get close => 'Закрыть';
 
   @override
-  String get unlock => 'Разблокировать';
+  String get unlock => 'Разблокировать бесплатно';
 
   @override
   String get home => 'Главная';
