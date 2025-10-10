@@ -200,53 +200,62 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            if (_selectedIndexes.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Please select at least one game to continue',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-
-                            final selectedGames = _selectedIndexes
-                                .map((index) {
-                                  final gameTitle = _games[index]['title']!;
-                                  switch (gameTitle) {
-                                    case 'GTA V':
-                                      return 'gtav';
-                                    case 'San Andreas':
-                                      return 'sanandreas';
-                                    case 'Vice City':
-                                      return 'vicecity';
-                                    case 'Liberty City':
-                                      return 'libertycity';
-                                    default:
-                                      return '';
+                          onPressed: _selectedIndexes.isEmpty
+                              ? null
+                              : () async {
+                                  if (_selectedIndexes.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Please select at least one game to continue',
+                                        ),
+                                      ),
+                                    );
+                                    return;
                                   }
-                                })
-                                .where((key) => key.isNotEmpty)
-                                .toList();
 
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setStringList(
-                              'selectedGames',
-                              selectedGames,
-                            );
+                                  final selectedGames = _selectedIndexes
+                                      .map((index) {
+                                        final gameTitle =
+                                            _games[index]['title']!;
+                                        switch (gameTitle) {
+                                          case 'GTA V':
+                                            return 'gtav';
+                                          case 'San Andreas':
+                                            return 'sanandreas';
+                                          case 'Vice City':
+                                            return 'vicecity';
+                                          case 'Liberty City':
+                                            return 'libertycity';
+                                          default:
+                                            return '';
+                                        }
+                                      })
+                                      .where((key) => key.isNotEmpty)
+                                      .toList();
 
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (ctx) => SelectCategory(),
-                              ),
-                            );
-                          },
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setStringList(
+                                    'selectedGames',
+                                    selectedGames,
+                                  );
+
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (ctx) => SelectCategory(),
+                                    ),
+                                  );
+                                },
 
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryButton,
+                            backgroundColor: _selectedIndexes.isEmpty
+                                ? Colors.greenAccent.shade100
+                                : AppColors.primaryButton,
                             foregroundColor: Colors.black,
+                            disabledBackgroundColor:
+                                Colors.greenAccent.shade100,
+                            disabledForegroundColor: Colors.black45,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),

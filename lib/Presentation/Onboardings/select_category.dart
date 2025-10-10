@@ -166,19 +166,26 @@ class _SelectCategoryState extends State<SelectCategory> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    onPressed: categories.any((c) => c['selected'] == true)
+                        ? () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (ctx) => ReviewOnboard(),
+                              ),
+                            );
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryButton,
+                      backgroundColor:
+                          categories.any((c) => c['selected'] == true)
+                          ? AppColors.primaryButton
+                          : Colors.greenAccent.shade100,
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (ctx) => ReviewOnboard()),
-                      );
-                    },
                     child: const Text(
                       "Continue",
                       style: TextStyle(
@@ -188,6 +195,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 32),
                 RichText(
                   textAlign: TextAlign.center,
