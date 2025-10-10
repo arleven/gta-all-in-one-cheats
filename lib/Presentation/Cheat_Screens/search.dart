@@ -8,6 +8,7 @@ import 'package:all_gta/Models/image_swiper.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
   final String platform;
@@ -25,11 +26,14 @@ class _SearchScreenState extends State<SearchScreen> {
   List<CheatCode> _filteredCheats = [];
   bool _isLoading = true;
   String _searchQuery = '';
+  Set<String> _favorites = {};
+  static const String _prefsKeyPrefix = 'favoriteCheats_';
 
   @override
   void initState() {
     super.initState();
     _loadCheats();
+    _loadFavorites();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.microtask(() async {
         await Provider.of<RecentCheatsProvider>(
@@ -38,6 +42,32 @@ class _SearchScreenState extends State<SearchScreen> {
         ).setPlatform(widget.platform);
       });
     });
+  }
+
+  Future<void> _loadFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefsKeyPrefix${widget.platform.toLowerCase()}';
+    final savedList = prefs.getStringList(key) ?? [];
+    setState(() {
+      _favorites = savedList.toSet();
+    });
+  }
+
+  Future<void> _saveFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefsKeyPrefix${widget.platform.toLowerCase()}';
+    await prefs.setStringList(key, _favorites.toList());
+  }
+
+  void _toggleFavorite(String title) async {
+    setState(() {
+      if (_favorites.contains(title)) {
+        _favorites.remove(title);
+      } else {
+        _favorites.add(title);
+      }
+    });
+    await _saveFavorites();
   }
 
   @override
@@ -271,8 +301,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                             .split(',')
                                             .map((b) => b.trim())
                                             .toList(),
-                                        isFavorite: false,
-                                        onFavoriteToggle: (_) {},
+                                        isFavorite: _favorites.contains(
+                                          cheat.title,
+                                        ),
+                                        onFavoriteToggle: (_) =>
+                                            _toggleFavorite(cheat.title),
+
                                         useImages: useImages,
                                         imageMapper: imageMapper,
                                         onTap: useImages
@@ -329,8 +363,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     .split(',')
                                     .map((b) => b.trim())
                                     .toList(),
-                                isFavorite: false,
-                                onFavoriteToggle: (_) {},
+                                isFavorite: _favorites.contains(cheat.title),
+                                onFavoriteToggle: (_) =>
+                                    _toggleFavorite(cheat.title),
+
                                 useImages: useImages,
                                 imageMapper: imageMapper,
                                 onTap: useImages
