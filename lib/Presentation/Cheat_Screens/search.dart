@@ -290,9 +290,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     }
 
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 8,
-                                      ),
+                                      padding: const EdgeInsets.symmetric(),
                                       child: CheatCard(
                                         title: cheat.title,
                                         desc: cheat.description,
