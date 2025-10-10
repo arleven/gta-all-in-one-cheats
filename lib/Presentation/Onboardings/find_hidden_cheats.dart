@@ -146,7 +146,7 @@ class _HiddenCheatsScreenState extends State<HiddenCheatsScreen> {
                             ..onTap = () {
                               openWebView(
                                 context,
-                                'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                                'https://arleven.com/projects/Cheatpad/tnc',
                               );
                             },
                         ),
@@ -161,7 +161,7 @@ class _HiddenCheatsScreenState extends State<HiddenCheatsScreen> {
                             ..onTap = () {
                               openWebView(
                                 context,
-                                'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                                'https://arleven.com/projects/Cheatpad/privacy',
                               );
                             },
                         ),

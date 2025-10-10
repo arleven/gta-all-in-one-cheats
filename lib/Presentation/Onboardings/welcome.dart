@@ -144,7 +144,7 @@ class _GtaWelcomeScreenState extends State<GtaWelcomeScreen> {
                               ..onTap = () {
                                 openWebView(
                                   context,
-                                  'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                                  'https://arleven.com/projects/Cheatpad/tnc',
                                 );
                               },
                           ),
@@ -159,7 +159,7 @@ class _GtaWelcomeScreenState extends State<GtaWelcomeScreen> {
                               ..onTap = () {
                                 openWebView(
                                   context,
-                                  'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                                  'https://arleven.com/projects/Cheatpad/privacy',
                                 );
                               },
                           ),

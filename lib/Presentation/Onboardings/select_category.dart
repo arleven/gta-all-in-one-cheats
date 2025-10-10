@@ -216,7 +216,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                           ..onTap = () {
                             openWebView(
                               context,
-                              'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                              'https://arleven.com/projects/Cheatpad/tnc',
                             );
                           },
                       ),
@@ -231,7 +231,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                           ..onTap = () {
                             openWebView(
                               context,
-                              'https://arleven.com/projects/ALL%20GTA%20Cheats/privacy',
+                              'https://arleven.com/projects/Cheatpad/privacy',
                             );
                           },
                       ),

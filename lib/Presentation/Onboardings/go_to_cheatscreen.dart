@@ -151,7 +151,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
                             ..onTap = () {
                               openWebView(
                                 context,
-                                'https://arleven.com/projects/ALL%20GTA%20Cheats/tnc',
+                                'https://arleven.com/projects/Cheatpad/tnc',
                               );
                             },
                         ),
@@ -166,7 +166,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
                             ..onTap = () {
                               openWebView(
                                 context,
-                                'https://arleven.com/projects/San%20Andreas/privacy',
+                                'https://arleven.com/projects/Cheatpad/privacy',
                               );
                             },
                         ),
