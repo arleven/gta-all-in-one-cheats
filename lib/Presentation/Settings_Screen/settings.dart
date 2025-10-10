@@ -9,6 +9,8 @@ import 'package:all_gta/main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
+import 'package:all_gta/Networking/other_apps_model.dart';
+import 'package:all_gta/Networking/other_app_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   final ValueChanged<String>? onPlatformChanged;
@@ -441,34 +443,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // ------------------ CHECK OUR OTHER APPS ------------------
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, bottom: 8),
-                  child: Text(
-                    'Check Our Other Apps',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
+                FutureBuilder<List<OtherApp>>(
+                  future: OtherAppsService.fetchOtherApps(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Text(
+                          'Failed to load apps',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const SizedBox();
+                    }
 
-                AppCard(
-                  imageUrl: 'assets/images/welcome.png',
-                  title: 'Glow light',
-                  subtitle: 'Helps in glowing lights',
-                  rating: 5,
-                  ratingCount: 5,
-                  developer: 'Axebox',
-                  category: 'category',
-                  onTap: () {
-                    print('tapped appcard');
+                    final apps = snapshot.data!;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 32),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 4, bottom: 8),
+                          child: Text(
+                            'Check Our Other Apps',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        ...apps.map(
+                          (app) => AppCard(
+                            imageUrl: app.imageUrl,
+                            title: app.title,
+                            subtitle: app.subtitle,
+                            onTap: () async {
+                              final url = Uri.parse(app.appStoreUrl);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    );
                   },
                 ),
 
                 // ------------------ SETTINGS ------------------
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.only(left: 4, bottom: 8),
                   child: Text(
@@ -1036,10 +1066,7 @@ class AppCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final double rating;
-  final int ratingCount;
-  final String developer;
-  final String category;
+
   final String buttonText;
   final VoidCallback onTap;
 
@@ -1048,10 +1075,7 @@ class AppCard extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.subtitle,
-    required this.rating,
-    required this.ratingCount,
-    required this.developer,
-    required this.category,
+
     this.buttonText = "Get",
     required this.onTap,
   });
@@ -1068,7 +1092,7 @@ class AppCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
+              child: Image.network(
                 imageUrl,
                 width: 65,
                 height: 65,

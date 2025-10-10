@@ -117,7 +117,7 @@ class _BottomBarsState extends State<BottomBars> {
         child: _getPlatformScreen(),
       ),
       KeyedSubtree(
-        key: ValueKey('search_${_selectedPlatformKey}'),
+        key: ValueKey('search_$_selectedPlatformKey'),
         child: SearchScreen(
           platform: _selectedPlatformKey ?? widget.initialPlatform,
         ),

@@ -282,7 +282,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             : null,
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               )
                       else if (_filteredCheats.isEmpty)

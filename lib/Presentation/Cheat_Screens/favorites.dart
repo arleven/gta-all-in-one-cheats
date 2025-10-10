@@ -205,7 +205,7 @@ class _FavoritesState extends State<Favorites> {
                   imageMapper: _getImageMapper(),
                   onTap: _getOnTapAction(cheat),
                 );
-              }).toList(),
+              }),
           ],
         ),
       ),
