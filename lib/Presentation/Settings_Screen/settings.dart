@@ -1047,7 +1047,6 @@ class AppCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-
   final String buttonText;
   final VoidCallback onTap;
 
@@ -1056,7 +1055,6 @@ class AppCard extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.subtitle,
-
     this.buttonText = "Get",
     required this.onTap,
   });
@@ -1078,6 +1076,24 @@ class AppCard extends StatelessWidget {
                 width: 65,
                 height: 65,
                 fit: BoxFit.cover,
+
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Image.asset(
+                    'assets/images/placeholder.png',
+                    width: 65,
+                    height: 65,
+                    fit: BoxFit.cover,
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/images/placeholder.png',
+                    width: 65,
+                    height: 65,
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
             const SizedBox(width: 12),
@@ -1094,7 +1110,7 @@ class AppCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: const TextStyle(color: Colors.white70, fontSize: 12),

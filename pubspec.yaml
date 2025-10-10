@@ -151,6 +151,7 @@ flutter:
     - assets/images/gun_onb.png
     - assets/images/world_onb.png
     - assets/images/fun_onb.png
+    - assets/images/placeholder.png
 
 
 flutter_gen:
