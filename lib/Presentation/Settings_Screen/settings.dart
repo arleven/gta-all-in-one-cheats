@@ -9,7 +9,6 @@ import 'package:all_gta/main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
-import 'package:all_gta/Networking/other_apps_model.dart';
 import 'package:all_gta/Networking/other_app_service.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -378,6 +377,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //MARK: Build Method
   @override
   Widget build(BuildContext context) {
+    final apps = OtherAppsService.apps;
+
     return SafeArea(
       child: Container(
         padding: EdgeInsets.only(bottom: 32),
@@ -443,58 +444,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // ------------------ CHECK OUR OTHER APPS ------------------
-                FutureBuilder<List<OtherApp>>(
-                  future: OtherAppsService.fetchOtherApps(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text(
-                          'Failed to load apps',
-                          style: TextStyle(color: Colors.white),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 32),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 4, bottom: 8),
+                      child: Text(
+                        'Check Our Other Apps',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
                         ),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const SizedBox();
-                    }
-
-                    final apps = snapshot.data!;
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 32),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 4, bottom: 8),
-                          child: Text(
-                            'Check Our Other Apps',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        ...apps.map(
-                          (app) => AppCard(
-                            imageUrl: app.imageUrl,
-                            title: app.title,
-                            subtitle: app.subtitle,
-                            onTap: () async {
-                              final url = Uri.parse(app.appStoreUrl);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(
-                                  url,
-                                  mode: LaunchMode.externalApplication,
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                      ),
+                    ),
+                    ...apps.map(
+                      (app) => AppCard(
+                        imageUrl: app.imageUrl,
+                        title: app.title,
+                        subtitle: app.subtitle,
+                        onTap: () async {
+                          final url = Uri.parse(app.appStoreUrl);
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(
+                              url,
+                              mode: LaunchMode.externalApplication,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
 
                 // ------------------ SETTINGS ------------------

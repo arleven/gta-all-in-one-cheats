@@ -6,14 +6,21 @@ class OtherAppsService {
   static const String sheetUrl =
       'https://script.google.com/macros/s/AKfycbxwEKaXpOjWb_IgMeBdCx2TTwuZWX-iIoqlzeXqLfWCY_oPhdZnFxUSMXaIHt2_jOQ/exec';
 
-  static Future<List<OtherApp>> fetchOtherApps() async {
-    final response = await http.get(Uri.parse(sheetUrl));
+  static List<OtherApp> _apps = [];
 
-    if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      return data.map((e) => OtherApp.fromJson(e)).toList();
-    } else {
-      throw Exception('Failed to load apps');
+  static List<OtherApp> get apps => _apps;
+
+  static Future<void> fetchOtherApps() async {
+    try {
+      final response = await http.get(Uri.parse(sheetUrl));
+      if (response.statusCode == 200) {
+        List data = jsonDecode(response.body);
+        _apps = data.map((e) => OtherApp.fromJson(e)).toList();
+      } else {
+        print("Failed to load apps: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error fetching apps: $e");
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:all_gta/Presentation/Onboardings/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:all_gta/Models/bottom_bar.dart';
+import 'package:all_gta/Networking/other_app_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,6 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initNotificationsAndNavigate() async {
+    await OtherAppsService.fetchOtherApps();
+
     await Future.delayed(const Duration(seconds: 3));
 
     final prefs = await SharedPreferences.getInstance();
