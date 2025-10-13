@@ -362,7 +362,7 @@ class _IphoneState extends State<Iphone> {
     });
   }
 
-  _showBottomSheetSimple(CheatCode cheat) async {
+  _showBottomSheetSimple(CheatCode cheat) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -371,11 +371,19 @@ class _IphoneState extends State<Iphone> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.6,
-        child: SimpleCheatViewer(
-          videourl: cheat.youtube,
-          desc: cheat.description,
-          code: cheat.codes,
+        heightFactor: 0.60,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: SimpleCheatViewer(
+                title: cheat.title,
+                videourl: cheat.youtube,
+                desc: cheat.description,
+                code: cheat.codes,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,8 +5,29 @@ class SimpleCheatViewer extends StatelessWidget {
   final String? videourl;
   final String? desc;
   final String? code;
+  final String? title;
 
-  const SimpleCheatViewer({this.videourl, this.desc, this.code, super.key});
+  const SimpleCheatViewer({
+    this.videourl,
+    this.desc,
+    this.code,
+    this.title,
+    super.key,
+  });
+
+  Widget buildDragHandle() {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10, bottom: 12),
+        height: 4,
+        width: 40,
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(76, 72, 72, 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +54,25 @@ class SimpleCheatViewer extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          buildDragHandle(),
+
+          if (title != null && title!.isNotEmpty) ...[
+            Center(
+              child: Text(
+                title!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+
           if (youtubeController != null)
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
@@ -67,7 +105,7 @@ class SimpleCheatViewer extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               desc!,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
               style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 15,
@@ -78,14 +116,16 @@ class SimpleCheatViewer extends StatelessWidget {
 
           if (code != null && code!.isNotEmpty) ...[
             const SizedBox(height: 20),
-            Text(
-              code!,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+            Center(
+              child: Text(
+                code!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
           ],
