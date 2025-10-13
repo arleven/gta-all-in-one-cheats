@@ -3,14 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 
 class SlidingImageViewer extends StatefulWidget {
   final List<String> imagePaths;
   final List<String> codeTexts;
+  final String? videoUrl;
 
   const SlidingImageViewer({
     required this.imagePaths,
     required this.codeTexts,
+    this.videoUrl,
     super.key,
   });
 
@@ -24,11 +27,22 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   int _currentIndex = 0;
   int _currentSpeedMultiplier = 1;
   final FlutterTts _flutterTts = FlutterTts();
+  VideoPlayerController? _videoController;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController(viewportFraction: 0.5);
+
+    if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
+      _videoController =
+          VideoPlayerController.networkUrl(
+              Uri.parse('https://www.youtube.com/watch?v=bsKuFbSPXfg&t=34s'),
+            )
+            ..initialize().then((_) {
+              setState(() {});
+            });
+    }
 
     _loadSavedSpeed().then((_) {
       _setupTts().then((_) {
@@ -46,7 +60,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     if (savedSpeed != null) {
       _currentSpeedMultiplier = savedSpeed;
     }
-    setState(() {}); // refresh UI to show selected speed
+    setState(() {});
   }
 
   Future<void> _saveSpeed(int speed) async {
@@ -128,7 +142,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     setState(() {
       _currentSpeedMultiplier = speedMultiplier;
     });
-    _saveSpeed(speedMultiplier); // save the selected speed
+    _saveSpeed(speedMultiplier);
     _startAutoSlider();
   }
 
@@ -137,6 +151,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     _autoSlideTimer?.cancel();
     _controller.dispose();
     _flutterTts.stop();
+    _videoController?.dispose();
     super.dispose();
   }
 
@@ -159,17 +174,63 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     );
   }
 
+  Widget _buildVideoPlayer() {
+    if (_videoController == null) return const SizedBox();
+    if (!_videoController!.value.isInitialized) {
+      return Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          AspectRatio(aspectRatio: 1, child: VideoPlayer(_videoController!)),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                if (_videoController!.value.isPlaying) {
+                  _videoController!.pause();
+                } else {
+                  _videoController!.play();
+                }
+              });
+            },
+            child: Icon(
+              _videoController!.value.isPlaying
+                  ? Icons.pause_circle
+                  : Icons.play_circle,
+              size: 48,
+              color: Colors.white70,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) ...[
+          _buildVideoPlayer(),
+          const SizedBox(height: 12),
+        ],
+
         Expanded(
           child: PageView.builder(
             controller: _controller,
             itemCount: widget.imagePaths.length,
-            onPageChanged: (index) {
-              _currentIndex = index;
-            },
+            onPageChanged: (index) => _currentIndex = index,
             itemBuilder: (context, index) {
               return AnimatedBuilder(
                 animation: _controller,
@@ -220,6 +281,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
             },
           ),
         ),
+
         const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
