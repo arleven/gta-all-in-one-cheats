@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
 import 'dart:convert';
 import 'package:all_gta/Provider/game_provider.dart';
+import 'package:all_gta/Models/simple_cheat_viewer.dart';
 
 class Pc extends StatefulWidget {
   final String initialGame;
@@ -75,9 +76,7 @@ class _PcState extends State<Pc> {
   Future<void> _loadSelectedGame() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
-    CheatService.updateSelectedGame(
-      savedGame,
-    ); // <- tell CheatService which game
+    CheatService.updateSelectedGame(savedGame);
   }
 
   Future<void> _loadReviewUnlockStatus() async {
@@ -355,6 +354,25 @@ class _PcState extends State<Pc> {
     });
   }
 
+  _showBottomSheetSimple(CheatCode cheat) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.black87,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.6,
+        child: SimpleCheatViewer(
+          videourl: cheat.youtube,
+          desc: cheat.description,
+          code: cheat.codes,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -620,6 +638,7 @@ class _PcState extends State<Pc> {
                                         toggleFavorite(cheat.title),
                                     useImages: false,
                                     onTap: () {
+                                      _showBottomSheetSimple(cheat);
                                       saveRecentCheat(context, cheat, 'pc');
                                     },
                                   );
