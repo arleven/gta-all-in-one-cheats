@@ -4,6 +4,7 @@ class CheatCode {
   final String codes;
   final String section;
   final String? phoneNum;
+  final String? youtube;
   final Map<String, dynamic> rawData;
 
   CheatCode({
@@ -12,6 +13,7 @@ class CheatCode {
     required this.codes,
     required this.section,
     this.phoneNum,
+    this.youtube,
     required this.rawData,
   });
 
@@ -22,6 +24,7 @@ class CheatCode {
       codes: json['codes'] ?? '',
       section: json['section'] ?? '',
       phoneNum: json['phoneNum'] as String?,
+      youtube: json['youtube'] as String?,
       rawData: json,
     );
   }
@@ -36,6 +39,10 @@ class CheatCode {
 
     if (phoneNum != null && phoneNum!.isNotEmpty) {
       data['phoneNum'] = phoneNum!;
+    }
+
+    if (youtube != null && youtube!.isNotEmpty) {
+      data['youtube'] = youtube!;
     }
 
     return data;

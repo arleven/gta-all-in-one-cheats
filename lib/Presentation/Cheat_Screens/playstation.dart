@@ -238,7 +238,11 @@ class _PlaystationState extends State<Playstation> {
       ),
       builder: (_) => FractionallySizedBox(
         heightFactor: 0.65,
-        child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codeTexts),
+        child: SlidingImageViewer(
+          imagePaths: imagePaths,
+          codeTexts: codeTexts,
+          videourl: cheat.youtube,
+        ),
       ),
     );
   }

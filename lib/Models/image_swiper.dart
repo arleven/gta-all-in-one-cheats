@@ -8,10 +8,12 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class SlidingImageViewer extends StatefulWidget {
   final List<String> imagePaths;
   final List<String> codeTexts;
+  final String? videourl;
 
   const SlidingImageViewer({
     required this.imagePaths,
     required this.codeTexts,
+    this.videourl,
 
     super.key,
   });

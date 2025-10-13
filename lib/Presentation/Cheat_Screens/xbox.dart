@@ -202,7 +202,11 @@ class _XboxScreenState extends State<XboxScreen> {
       ),
       builder: (_) => FractionallySizedBox(
         heightFactor: 0.5,
-        child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codeTexts),
+        child: SlidingImageViewer(
+          imagePaths: imagePaths,
+          codeTexts: codeTexts,
+          videourl: cheat.youtube,
+        ),
       ),
     );
   }
