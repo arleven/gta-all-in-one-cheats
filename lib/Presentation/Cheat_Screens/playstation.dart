@@ -237,7 +237,7 @@ class _PlaystationState extends State<Playstation> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.5,
+        heightFactor: 0.65,
         child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codeTexts),
       ),
     );

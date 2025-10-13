@@ -89,6 +89,13 @@ PODS:
   - Flutter (1.0.0)
   - flutter_email_sender (0.0.1):
     - Flutter
+  - flutter_inappwebview_ios (0.0.1):
+    - Flutter
+    - flutter_inappwebview_ios/Core (= 0.0.1)
+    - OrderedSet (~> 6.0.3)
+  - flutter_inappwebview_ios/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 6.0.3)
   - flutter_jailbreak_detection (1.0.0):
     - Flutter
     - IOSSecuritySuite
@@ -164,6 +171,7 @@ PODS:
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
+  - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
   - PromisesObjC (2.4.0)
@@ -203,6 +211,7 @@ DEPENDENCIES:
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
   - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
+  - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_jailbreak_detection (from `.symlinks/plugins/flutter_jailbreak_detection/ios`)
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
@@ -238,6 +247,7 @@ SPEC REPOS:
     - GoogleUtilities
     - IOSSecuritySuite
     - nanopb
+    - OrderedSet
     - PromisesObjC
     - PromisesSwift
     - PurchasesHybridCommon
@@ -264,6 +274,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_email_sender:
     :path: ".symlinks/plugins/flutter_email_sender/ios"
+  flutter_inappwebview_ios:
+    :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_jailbreak_detection:
     :path: ".symlinks/plugins/flutter_jailbreak_detection/ios"
   flutter_localization:
@@ -314,6 +326,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: 4e784acda213108aafef536535cdfc03504acc42
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_email_sender: aa1e9772696691d02cd91fea829856c11efb8e58
+  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_jailbreak_detection: a74360daaf5cbc80639959463b4b1395873c90b5
   flutter_localization: 72299fb6cb4e51cae587bd953ed0b958040b71e6
   flutter_native_timezone: 5fe32678d72d1894880e94303ef41c2919f014e5
@@ -326,6 +339,7 @@ SPEC CHECKSUMS:
   in_app_review: 5596fe56fab799e8edb3561c03d053363ab13457
   IOSSecuritySuite: ba76f34cb367b9230934ac37904e26a40d033e3d
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
