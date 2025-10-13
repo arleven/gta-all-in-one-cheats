@@ -206,6 +206,7 @@ class _XboxScreenState extends State<XboxScreen> {
           imagePaths: imagePaths,
           codeTexts: codeTexts,
           videourl: cheat.youtube,
+          desc: cheat.description,
         ),
       ),
     );

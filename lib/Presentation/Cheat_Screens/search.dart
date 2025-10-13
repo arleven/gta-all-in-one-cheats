@@ -154,6 +154,7 @@ class _SearchScreenState extends State<SearchScreen> {
           imagePaths: imagePaths,
           codeTexts: codeTexts,
           videourl: cheat.youtube,
+          desc: cheat.description,
         ),
       ),
     );

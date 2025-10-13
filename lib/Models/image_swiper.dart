@@ -9,12 +9,13 @@ class SlidingImageViewer extends StatefulWidget {
   final List<String> imagePaths;
   final List<String> codeTexts;
   final String? videourl;
+  final String? desc;
 
   const SlidingImageViewer({
     required this.imagePaths,
     required this.codeTexts,
     this.videourl,
-
+    this.desc,
     super.key,
   });
 
@@ -28,24 +29,28 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   int _currentIndex = 0;
   int _currentSpeedMultiplier = 1;
   final FlutterTts _flutterTts = FlutterTts();
-  late YoutubePlayerController _youtubeController;
+  YoutubePlayerController? _youtubeController;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController(viewportFraction: 0.5);
 
-    const videoUrl = 'https://www.youtube.com/watch?v=bsKuFbSPXfg&t=34s';
-    final videoId = YoutubePlayer.convertUrlToId(videoUrl)!;
-
-    _youtubeController = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-        enableCaption: false,
-      ),
-    )..addListener(_onVideoStateChanged);
+    if (widget.videourl != null && widget.videourl!.isNotEmpty) {
+      final videoId = YoutubePlayer.convertUrlToId(
+        'https://www.youtube.com/watch?v=bsKuFbSPXfg&t=37s',
+      );
+      if (videoId != null) {
+        _youtubeController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
+            enableCaption: false,
+          ),
+        )..addListener(_onVideoStateChanged);
+      }
+    }
 
     _loadSavedSpeed().then((_) {
       _setupTts().then((_) {
@@ -58,15 +63,14 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   }
 
   void _onVideoStateChanged() {
-    final playerState = _youtubeController.value.playerState;
+    if (_youtubeController == null) return;
+    final playerState = _youtubeController!.value.playerState;
 
     if (playerState == PlayerState.playing) {
-      // Stop auto-slide + TTS when video plays
       _autoSlideTimer?.cancel();
       _flutterTts.stop();
     } else if (playerState == PlayerState.paused ||
         playerState == PlayerState.ended) {
-      // Resume auto-slide when video stops or finishes
       if (_autoSlideTimer == null || !_autoSlideTimer!.isActive) {
         _startAutoSlider();
       }
@@ -96,16 +100,13 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
   void _speakCode(String code) async {
     await _flutterTts.stop();
-
     final words = code.split(' ').map((word) {
       if (word.length == 1) {
         return word.toLowerCase();
       }
       return word;
     }).toList();
-
-    final spokenText = words.join(' ');
-    await _flutterTts.speak(spokenText);
+    await _flutterTts.speak(words.join(' '));
   }
 
   void _startAutoSlider() {
@@ -130,7 +131,6 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
       Duration(milliseconds: (secondsPerSlide * 1000).toInt()),
       (timer) {
         if (!mounted) return;
-
         if (_currentIndex < widget.imagePaths.length - 1) {
           _currentIndex++;
           _controller.animateToPage(
@@ -158,9 +158,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   }
 
   void _changeSpeed(int speedMultiplier) {
-    setState(() {
-      _currentSpeedMultiplier = speedMultiplier;
-    });
+    setState(() => _currentSpeedMultiplier = speedMultiplier);
     _saveSpeed(speedMultiplier);
     _startAutoSlider();
   }
@@ -170,8 +168,8 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     _autoSlideTimer?.cancel();
     _controller.dispose();
     _flutterTts.stop();
-    _youtubeController.removeListener(_onVideoStateChanged);
-    _youtubeController.dispose();
+    _youtubeController?.removeListener(_onVideoStateChanged);
+    _youtubeController?.dispose();
     super.dispose();
   }
 
@@ -195,8 +193,9 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   }
 
   Widget _buildVideoPlayer() {
-    final screenWidth = MediaQuery.of(context).size.width;
+    if (_youtubeController == null) return const SizedBox.shrink();
 
+    final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ClipRRect(
@@ -204,12 +203,9 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
         child: Container(
           width: screenWidth * 0.9,
           height: screenWidth * 0.5,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(16),
-          ),
+          color: Colors.black,
           child: YoutubePlayer(
-            controller: _youtubeController,
+            controller: _youtubeController!,
             showVideoProgressIndicator: true,
             progressIndicatorColor: Colors.greenAccent,
             bottomActions: [
@@ -239,7 +235,27 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
       height: bottomSheetMaxHeight,
       child: Column(
         children: [
-          _buildVideoPlayer(),
+          if (_youtubeController != null) _buildVideoPlayer(),
+
+          if (widget.desc != null &&
+              widget.desc!.isNotEmpty &&
+              widget.videourl != null &&
+              widget.videourl!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 12.0,
+              ),
+              child: Text(
+                widget.desc!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 15,
+                  height: 1.4,
+                ),
+              ),
+            ),
 
           const SizedBox(height: 12),
 
@@ -258,16 +274,16 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
                       final currentPage =
                           _controller.page ??
                           _controller.initialPage.toDouble();
-                      value = currentPage - index;
-                      value = (1 - (value.abs() * 0.3))
-                          .clamp(0.7, 1.0)
-                          .toDouble();
+                      value = (1 - ((currentPage - index).abs() * 0.3)).clamp(
+                        0.7,
+                        1.0,
+                      );
                     }
 
                     final isFocused = (_controller.page?.round() ?? 0) == index;
 
                     return Transform.scale(
-                      scale: value * 0.99,
+                      scale: value * 0.80,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Stack(

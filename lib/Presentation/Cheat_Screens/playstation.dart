@@ -242,6 +242,7 @@ class _PlaystationState extends State<Playstation> {
           imagePaths: imagePaths,
           codeTexts: codeTexts,
           videourl: cheat.youtube,
+          desc: cheat.description,
         ),
       ),
     );
