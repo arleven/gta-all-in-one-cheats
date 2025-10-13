@@ -201,12 +201,13 @@ class _XboxScreenState extends State<XboxScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.5,
+        heightFactor: 0.75,
         child: SlidingImageViewer(
           imagePaths: imagePaths,
           codeTexts: codeTexts,
           videourl: cheat.youtube,
           desc: cheat.description,
+          title: cheat.title,
         ),
       ),
     );

@@ -138,7 +138,12 @@ class _FavoritesState extends State<Favorites> {
         ),
         builder: (_) => FractionallySizedBox(
           heightFactor: 0.5,
-          child: SlidingImageViewer(imagePaths: imagePaths, codeTexts: codes),
+          child: SlidingImageViewer(
+            imagePaths: imagePaths,
+            codeTexts: codes,
+            title: cheat.title,
+            videourl: cheat.youtube,
+          ),
         ),
       );
     };

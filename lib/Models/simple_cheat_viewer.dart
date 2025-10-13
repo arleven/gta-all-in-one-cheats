@@ -5,13 +5,13 @@ class SimpleCheatViewer extends StatelessWidget {
   final String? videourl;
   final String? desc;
   final String? code;
-  final String? title;
+  final String title;
 
   const SimpleCheatViewer({
     this.videourl,
     this.desc,
     this.code,
-    this.title,
+    required this.title,
     super.key,
   });
 
@@ -58,10 +58,10 @@ class SimpleCheatViewer extends StatelessWidget {
         children: [
           buildDragHandle(),
 
-          if (title != null && title!.isNotEmpty) ...[
+          if (title.isNotEmpty) ...[
             Center(
               child: Text(
-                title!,
+                title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,

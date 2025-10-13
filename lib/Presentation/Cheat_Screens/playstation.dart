@@ -237,12 +237,13 @@ class _PlaystationState extends State<Playstation> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.65,
+        heightFactor: 0.75,
         child: SlidingImageViewer(
           imagePaths: imagePaths,
           codeTexts: codeTexts,
           videourl: cheat.youtube,
           desc: cheat.description,
+          title: cheat.title,
         ),
       ),
     );

@@ -10,12 +10,14 @@ class SlidingImageViewer extends StatefulWidget {
   final List<String> codeTexts;
   final String? videourl;
   final String? desc;
+  final String title;
 
   const SlidingImageViewer({
     required this.imagePaths,
     required this.codeTexts,
     this.videourl,
     this.desc,
+    required this.title,
     super.key,
   });
 
@@ -227,6 +229,20 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     );
   }
 
+  Widget buildDragHandle() {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10, bottom: 12),
+        height: 4,
+        width: 40,
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(76, 72, 72, 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bottomSheetMaxHeight = MediaQuery.of(context).size.height * 0.8;
@@ -235,6 +251,22 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
       height: bottomSheetMaxHeight,
       child: Column(
         children: [
+          buildDragHandle(),
+
+          if (widget.title.isNotEmpty) ...[
+            Center(
+              child: Text(
+                widget.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
           if (_youtubeController != null) _buildVideoPlayer(),
 
           if (widget.desc != null &&
@@ -248,7 +280,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
               ),
               child: Text(
                 widget.desc!,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 15,
