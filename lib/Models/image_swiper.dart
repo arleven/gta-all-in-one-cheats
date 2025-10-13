@@ -43,7 +43,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
         mute: false,
         enableCaption: false,
       ),
-    );
+    )..addListener(_onVideoStateChanged);
 
     _loadSavedSpeed().then((_) {
       _setupTts().then((_) {
@@ -53,6 +53,22 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
         });
       });
     });
+  }
+
+  void _onVideoStateChanged() {
+    final playerState = _youtubeController.value.playerState;
+
+    if (playerState == PlayerState.playing) {
+      // Stop auto-slide + TTS when video plays
+      _autoSlideTimer?.cancel();
+      _flutterTts.stop();
+    } else if (playerState == PlayerState.paused ||
+        playerState == PlayerState.ended) {
+      // Resume auto-slide when video stops or finishes
+      if (_autoSlideTimer == null || !_autoSlideTimer!.isActive) {
+        _startAutoSlider();
+      }
+    }
   }
 
   Future<void> _loadSavedSpeed() async {
@@ -152,7 +168,8 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     _autoSlideTimer?.cancel();
     _controller.dispose();
     _flutterTts.stop();
-
+    _youtubeController.removeListener(_onVideoStateChanged);
+    _youtubeController.dispose();
     super.dispose();
   }
 
@@ -287,7 +304,6 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
           const SizedBox(height: 12),
 
-          // Speed buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -301,7 +317,6 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
           const SizedBox(height: 12),
 
-          // Restart button
           IconButton(
             icon: const Icon(
               Icons.restart_alt,
