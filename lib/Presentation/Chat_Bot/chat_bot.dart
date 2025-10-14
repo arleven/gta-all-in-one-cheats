@@ -1,14 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:all_gta/Models/theme_colors.dart';
-import 'package:all_gta/Presentation/Chat_Bot/chat_history.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:all_gta/Networking/api_endpoints.dart';
+import 'package:flutter/material.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatBot extends StatefulWidget {
   final String initialQuestions;
-
   const ChatBot({super.key, required this.initialQuestions});
 
   @override
@@ -17,88 +15,48 @@ class ChatBot extends StatefulWidget {
 
 class _ChatBotState extends State<ChatBot> {
   final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _messages = [];
-  List<ChatSession> chatSessions = [];
-  final _scrollController = ScrollController();
-  bool _isSendEnabled = false;
 
-  final String _persona = "GTA San Andreas";
-
+  late OpenAI openAI;
   String? _userId;
+  bool _isSendEnabled = false;
 
   @override
   void initState() {
     super.initState();
+    print(_userId);
+    openAI = OpenAI.instance.build(
+      token: ApiEndpoints.chatbotkey,
+      baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 60)),
+      enableLog: true,
+    );
+
+    _initUserId();
+
+    _messages.add({
+      "sender": "bot",
+      "message":
+          "Hey there! 👋 Please tell me what you want to know about ${widget.initialQuestions}.",
+    });
+
     _controller.addListener(() {
       setState(() {
         _isSendEnabled = _controller.text.trim().isNotEmpty;
       });
     });
-    _initUserId();
-
-    _messages.add({"sender": "bot", "message": "${widget.initialQuestions}."});
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
 
   Future<void> _initUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    String? storedId = prefs.getString("userId");
-
-    if (storedId == null || storedId.isEmpty) {
-      storedId = const Uuid().v4();
-      await prefs.setString("userId", storedId);
+    String? id = prefs.getString("userId");
+    if (id == null) {
+      id = const Uuid().v4();
+      await prefs.setString("userId", id);
     }
-
-    setState(() {
-      _userId = storedId;
-    });
-  }
-
-  @override
-  void dispose() {
-    final hasUserMessage = _messages.any(
-      (m) => m["sender"] == "user" && m["message"]!.trim().isNotEmpty,
-    );
-    final hasBotReply = _messages.any(
-      (m) =>
-          m["sender"] == "bot" &&
-          m["message"]!.trim().isNotEmpty &&
-          m["message"] != widget.initialQuestions,
-    );
-
-    if (hasUserMessage && hasBotReply) {
-      ChatStorage.saveSession(ChatSession(messages: _messages));
-    }
-    super.dispose();
-  }
-
-  void _sendMessage() {
-    final text = _controller.text.trim();
-    if (text.isEmpty) return;
-    if (!_isSendEnabled) return;
-    setState(() {
-      _messages.add({"sender": "user", "message": text});
-      _controller.clear();
-    });
-
-    _scrollToBottom();
-
-    setState(() {
-      _messages.add({"sender": "bot", "message": "..."});
-    });
-    _scrollToBottom();
-
-    fetchBotReply(text, context).then((reply) {
-      setState(() {
-        _messages.removeLast();
-        _messages.add({
-          "sender": "bot",
-          "message": reply ?? "Sorry, something went wrong.",
-        });
-      });
-      _scrollToBottom();
-    });
+    setState(() => _userId = id);
   }
 
   void _scrollToBottom() {
@@ -113,49 +71,60 @@ class _ChatBotState extends State<ChatBot> {
     });
   }
 
-  Future<String?> fetchBotReply(
-    String latestUserMessage,
-    BuildContext context,
-  ) async {
-    if (_userId == null) return "Error: User ID not ready";
+  void _sendMessage() {
+    final text = _controller.text.trim();
+    if (text.isEmpty || !_isSendEnabled) return;
 
-    final String persona = _persona;
-    final String messageWithCode =
-        "$latestUserMessage [CODE: ${widget.initialQuestions}]";
-    final url = Uri.parse(
-      'https://quiz-api-pudf.onrender.com/v1/apps/6836d0bb4c85b017bc545b4f/chat',
-    );
+    setState(() {
+      _messages.add({"sender": "user", "message": text});
+      _controller.clear();
+      _messages.add({"sender": "bot", "message": "..."});
+    });
 
-    final payload = {
-      "userId": _userId,
-      "persona": persona,
-      "message": messageWithCode,
-    };
+    _scrollToBottom();
 
-    print("Sending payload: ${jsonEncode(payload)}");
+    _fetchBotReply(text).then((reply) {
+      setState(() {
+        _messages.removeLast();
+        _messages.add({"sender": "bot", "message": reply});
+      });
+      _scrollToBottom();
+    });
+  }
 
+  Future<String> _fetchBotReply(String userMessage) async {
     try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(payload),
+      final chatRequest = ChatCompleteText(
+        model: Gpt4ChatModel(),
+        messages: [
+          {
+            "role": "system",
+            "content":
+                "You are an expert AI assistant for Grand Theft Auto games. Always tailor responses for the specified platform and GTA version. Give cheats, gameplay help, or mission tips that work for that setup.",
+          },
+          {
+            "role": "user",
+            "content":
+                "Platform and Game Context: ${widget.initialQuestions}. The user wants help related to this setup.",
+          },
+          ..._messages.map(
+            (msg) => {
+              "role": msg["sender"] == "user" ? "user" : "assistant",
+              "content": msg["message"] ?? "",
+            },
+          ),
+          {"role": "user", "content": userMessage},
+        ],
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final String? botReply = data["data"]?["response"];
-        return botReply?.isNotEmpty == true
-            ? botReply
-            : "Sorry, no response from the bot.";
-      } else {
-        return "Sorry, the chatbot is unavailable. (Error: ${response.statusCode})";
-      }
+      final response = await openAI.onChatCompletion(request: chatRequest);
+      final reply =
+          response?.choices.first.message?.content.trim() ??
+          "Sorry, I couldn't get a response.";
+      return reply;
     } catch (e) {
-      print("Request failed: $e");
-      return "Network error. Please try again.";
+      print("ChatGPT SDK error: $e");
+      return "Something went wrong while talking to the AI.";
     }
   }
 
@@ -164,217 +133,108 @@ class _ChatBotState extends State<ChatBot> {
     final isTablet = MediaQuery.of(context).size.width > 600;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 32 : 16,
-                  vertical: 16,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        "Close",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    const Text(
-                      "AI Chat",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        builder: (context) {
-                          return const FractionallySizedBox(
-                            heightFactor: 0.95,
-                            child: ChatHistorySheet(),
-                          );
-                        },
-                      ),
-                      child: const Text(
-                        "History",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 32 : 16,
+                vertical: 16,
               ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return SingleChildScrollView(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(10),
-                      reverse: false,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ..._messages.map((msg) {
-                            final isUser = msg["sender"] == "user";
-                            return Row(
-                              mainAxisAlignment: isUser
-                                  ? MainAxisAlignment.end
-                                  : MainAxisAlignment.start,
-                              children: [
-                                if (!isUser)
-                                  CircleAvatar(
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).cardColor,
-                                    child: Icon(
-                                      Icons.person,
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: isUser
-                                          ? Theme.of(context).cardColor
-                                          : AppColors.primaryButton,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: Text(
-                                      msg["message"] ?? '',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                          if (_messages.isNotEmpty &&
-                              _messages.last["sender"] == "bot")
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(children: [const SizedBox(width: 8)]),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Divider(
-                height: 1,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Close", style: TextStyle(fontSize: 16)),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _controller,
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Theme.of(context).cardColor,
-                            hintText: "E.g., queries for question...",
-                            hintStyle: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.color,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          onSubmitted: (_) => _sendMessage(),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: _isSendEnabled
-                              ? AppColors.primaryButton
-                              : Colors.grey,
-                        ),
-                        onPressed: _isSendEnabled ? _sendMessage : null,
-                      ),
-                    ],
+                  const Text(
+                    "Chatbot",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22,
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 64),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(10),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final msg = _messages[index];
+                  final isUser = msg["sender"] == "user";
+
+                  return Align(
+                    alignment: isUser
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: isUser
+                            ? AppColors.primaryButton
+                            : Color.fromRGBO(42, 40, 40, 1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        msg["message"] ?? "",
+                        style: TextStyle(
+                          color: isUser ? Colors.black : Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const Divider(height: 1, color: Colors.white24),
+
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white10,
+                        hintText: "Ask about cheats, missions, etc...",
+                        hintStyle: const TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      onSubmitted: (_) => _sendMessage(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      color: _isSendEnabled
+                          ? AppColors.primaryButton
+                          : Colors.grey[700],
+                    ),
+                    onPressed: _isSendEnabled ? _sendMessage : null,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-
-  Future<void> resetChatSession(BuildContext context) async {
-    if (_userId == null) return;
-
-    final url = Uri.parse(
-      'https://quiz-api-pudf.onrender.com/v1/apps/6836d0bb4c85b017bc545b4f/reset',
-    );
-    final payload = {"userId": _userId};
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(payload),
-      );
-
-      if (response.statusCode == 200) {
-        print("Chat reset successful");
-      } else {
-        print(
-          "Failed to reset chat. Status: ${response.statusCode}, body: ${response.body}",
-        );
-      }
-    } catch (e) {
-      print("Reset request failed: $e");
-    }
-  }
-
-  // Widget _suggestionChip(String text) {
-  //   return ActionChip(
-  //     label: Text(text, style: TextStyle(color: Theme.of(context).cardColor)),
-  //     backgroundColor: ThemeColors.lightButtonColor(context),
-  //     onPressed: () {
-  //       _controller.text = text;
-  //       _sendMessage();
-  //     },
-  //   );
-  // }
 }

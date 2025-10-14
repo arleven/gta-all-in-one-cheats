@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/Presentation/Chat_Bot/chat_bot.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
@@ -179,7 +180,14 @@ class _BottomBarsState extends State<BottomBars> {
               top: MediaQuery.of(context).size.height / 1.9 - 28,
               child: GestureDetector(
                 onTap: () {
-                  print("Chat icon tapped!");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => ChatBot(
+                        initialQuestions:
+                            '${widget.initialPlatform} ${widget.initialGame}',
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
