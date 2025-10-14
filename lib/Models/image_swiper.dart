@@ -330,9 +330,9 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
                     final isFocused = (_controller.page?.round() ?? 0) == index;
 
                     return Transform.scale(
-                      scale: value * 0.80,
+                      scale: value * 0.85,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: Stack(
                           children: [
                             ClipRRect(
