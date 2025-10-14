@@ -262,36 +262,94 @@ class _ChatBotState extends State<ChatBot> {
             Expanded(
               child: ListView.builder(
                 controller: _scrollController,
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(12),
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final msg = _messages[index];
                   final isUser = msg["sender"] == "user";
 
-                  return Align(
-                    alignment: isUser
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: isUser
-                            ? AppColors.primaryButton
-                            : const Color.fromRGBO(42, 40, 40, 1),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        msg["message"] ?? "",
-                        style: TextStyle(
-                          color: isUser ? Colors.black : Colors.white,
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      mainAxisAlignment: isUser
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!isUser) ...[
+                          Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryButton,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Icon(
+                              Icons.smart_toy,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: isUser
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
+                            children: [
+                              if (!isUser)
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 4),
+                                ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 16,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isUser
+                                      ? AppColors.primaryButton
+                                      : const Color.fromRGBO(42, 40, 40, 1),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Text(
+                                  msg["message"] ?? "",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: isUser ? Colors.black : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                        if (isUser) ...[
+                          const SizedBox(width: 8),
+
+                          Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[700],
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   );
                 },
               ),
             ),
+
             const Divider(height: 1, color: Colors.white24),
             Padding(
               padding: const EdgeInsets.all(12),

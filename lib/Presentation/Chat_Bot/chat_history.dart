@@ -131,13 +131,12 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                   const Expanded(
                     child: Center(
                       child: DefaultTextStyle(
-                        child: Text("Chat History"),
-
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
+                        child: Text("Chat History"),
                       ),
                     ),
                   ),
@@ -162,20 +161,19 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                           ),
                           const SizedBox(height: 16),
                           const DefaultTextStyle(
-                            child: Text("No chat history yet"),
-
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white70,
                             ),
+                            child: Text("No chat history yet"),
                           ),
                           const SizedBox(height: 8),
                           const DefaultTextStyle(
-                            child: Text("Your chat sessions will appear here"),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white54,
                             ),
+                            child: Text("Your chat sessions will appear here"),
                           ),
                         ],
                       ),
