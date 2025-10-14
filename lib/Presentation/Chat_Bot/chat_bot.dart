@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/api_endpoints.dart';
+import 'package:all_gta/Presentation/Chat_Bot/chat_history.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,13 @@ import 'package:uuid/uuid.dart';
 
 class ChatBot extends StatefulWidget {
   final String initialQuestions;
-  const ChatBot({super.key, required this.initialQuestions});
+  final ChatSession? existingSession;
+
+  const ChatBot({
+    super.key,
+    required this.initialQuestions,
+    this.existingSession,
+  });
 
   @override
   State<ChatBot> createState() => _ChatBotState();
@@ -21,11 +28,13 @@ class _ChatBotState extends State<ChatBot> {
   late OpenAI openAI;
   String? _userId;
   bool _isSendEnabled = false;
+  String? _sessionId;
+  bool _isNewSession = true;
 
   @override
   void initState() {
     super.initState();
-    print(_userId);
+    print(_isNewSession);
     openAI = OpenAI.instance.build(
       token: ApiEndpoints.chatbotkey,
       baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 60)),
@@ -33,13 +42,6 @@ class _ChatBotState extends State<ChatBot> {
     );
 
     _initUserId();
-
-    _messages.add({
-      "sender": "bot",
-      "message":
-          "Hey there! 👋 Please tell me what you want to know about ${widget.initialQuestions}.",
-    });
-
     _controller.addListener(() {
       setState(() {
         _isSendEnabled = _controller.text.trim().isNotEmpty;
@@ -52,11 +54,72 @@ class _ChatBotState extends State<ChatBot> {
   Future<void> _initUserId() async {
     final prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString("userId");
+
     if (id == null) {
       id = const Uuid().v4();
       await prefs.setString("userId", id);
+      print("🆕 Created new userId: $id");
+    } else {
+      print("✅ Existing userId: $id");
     }
+
     setState(() => _userId = id);
+    await _loadChatHistory();
+  }
+
+  Future<void> _loadChatHistory() async {
+    if (_userId == null) return;
+
+    if (widget.existingSession != null) {
+      setState(() {
+        _messages.addAll(widget.existingSession!.messages);
+        _sessionId = widget.existingSession!.timestamp.millisecondsSinceEpoch
+            .toString();
+        _isNewSession = false;
+      });
+      return;
+    }
+
+    _sessionId = DateTime.now().millisecondsSinceEpoch.toString();
+    _isNewSession = true;
+
+    setState(() {
+      _messages.add({
+        "sender": "bot",
+        "message":
+            "Hey there! 👋 Please tell me what you want to know about ${widget.initialQuestions}.",
+      });
+    });
+  }
+
+  Future<void> _saveChatSession() async {
+    if (_userId == null || _sessionId == null) return;
+
+    if (_messages.length <= 1) return;
+
+    final session = ChatSession(
+      id: _sessionId!,
+      messages: List<Map<String, String>>.from(_messages),
+      title: _generateSessionTitle(),
+      timestamp: DateTime.now(),
+    );
+
+    await ChatStorage.saveSession(session);
+  }
+
+  String _generateSessionTitle() {
+    final firstUserMessage = _messages.firstWhere(
+      (msg) => msg["sender"] == "user",
+      orElse: () => {"message": ""},
+    )["message"];
+
+    if (firstUserMessage != null && firstUserMessage.isNotEmpty) {
+      return firstUserMessage.length > 30
+          ? "${firstUserMessage.substring(0, 30)}..."
+          : firstUserMessage;
+    }
+
+    return widget.initialQuestions;
   }
 
   void _scrollToBottom() {
@@ -82,6 +145,7 @@ class _ChatBotState extends State<ChatBot> {
     });
 
     _scrollToBottom();
+    _saveChatSession();
 
     _fetchBotReply(text).then((reply) {
       setState(() {
@@ -89,6 +153,7 @@ class _ChatBotState extends State<ChatBot> {
         _messages.add({"sender": "bot", "message": reply});
       });
       _scrollToBottom();
+      _saveChatSession();
     });
   }
 
@@ -129,6 +194,12 @@ class _ChatBotState extends State<ChatBot> {
   }
 
   @override
+  void dispose() {
+    _saveChatSession();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 600;
 
@@ -145,9 +216,15 @@ class _ChatBotState extends State<ChatBot> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Close", style: TextStyle(fontSize: 16)),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      _saveChatSession();
+                      Navigator.pop(context);
+                    },
                   ),
                   const Text(
                     "Chatbot",
@@ -157,7 +234,27 @@ class _ChatBotState extends State<ChatBot> {
                       fontSize: 22,
                     ),
                   ),
-                  const SizedBox(width: 64),
+                  IconButton(
+                    icon: const Icon(Icons.history, color: Colors.white),
+                    onPressed: () async {
+                      _saveChatSession();
+                      final result = await Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => ChatHistorySheet()),
+                      );
+
+                      if (result != null && result is ChatSession) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatBot(
+                              initialQuestions: widget.initialQuestions,
+                              existingSession: result,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -181,7 +278,7 @@ class _ChatBotState extends State<ChatBot> {
                       decoration: BoxDecoration(
                         color: isUser
                             ? AppColors.primaryButton
-                            : Color.fromRGBO(42, 40, 40, 1),
+                            : const Color.fromRGBO(42, 40, 40, 1),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
@@ -195,9 +292,7 @@ class _ChatBotState extends State<ChatBot> {
                 },
               ),
             ),
-
             const Divider(height: 1, color: Colors.white24),
-
             Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
