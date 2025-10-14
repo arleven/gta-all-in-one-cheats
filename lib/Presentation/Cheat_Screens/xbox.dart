@@ -196,18 +196,24 @@ class _XboxScreenState extends State<XboxScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
         heightFactor: 0.75,
-        child: SlidingImageViewer(
-          imagePaths: imagePaths,
-          codeTexts: codeTexts,
-          videourl: cheat.youtube,
-          desc: cheat.description,
-          title: cheat.title,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SlidingImageViewer(
+            imagePaths: imagePaths,
+            codeTexts: codeTexts,
+            videourl: cheat.youtube,
+            desc: cheat.description,
+            title: cheat.title,
+          ),
         ),
       ),
     );

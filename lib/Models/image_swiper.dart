@@ -30,6 +30,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   Timer? _autoSlideTimer;
   int _currentIndex = 0;
   int _currentSpeedMultiplier = 1;
+  bool _isPlaying = false;
   final FlutterTts _flutterTts = FlutterTts();
   YoutubePlayerController? _youtubeController;
 
@@ -46,20 +47,23 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
         _youtubeController = YoutubePlayerController(
           initialVideoId: videoId,
           flags: const YoutubePlayerFlags(
-            autoPlay: false,
+            autoPlay: true,
             mute: false,
             enableCaption: false,
+            loop: true,
           ),
         )..addListener(_onVideoStateChanged);
       }
     }
 
-    _loadSavedSpeed().then((_) {
-      _setupTts().then((_) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+    _loadSavedSpeed().then((_) async {
+      await _setupTts();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_youtubeController == null) {
+          _isPlaying = true;
           _speakCode(widget.codeTexts[0]);
           _startAutoSlider();
-        });
+        }
       });
     });
   }
@@ -73,7 +77,8 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
       _flutterTts.stop();
     } else if (playerState == PlayerState.paused ||
         playerState == PlayerState.ended) {
-      if (_autoSlideTimer == null || !_autoSlideTimer!.isActive) {
+      if (_isPlaying &&
+          (_autoSlideTimer == null || !_autoSlideTimer!.isActive)) {
         _startAutoSlider();
       }
     }
@@ -82,9 +87,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
   Future<void> _loadSavedSpeed() async {
     final prefs = await SharedPreferences.getInstance();
     final savedSpeed = prefs.getInt('selected_speed');
-    if (savedSpeed != null) {
-      _currentSpeedMultiplier = savedSpeed;
-    }
+    if (savedSpeed != null) _currentSpeedMultiplier = savedSpeed;
     setState(() {});
   }
 
@@ -102,19 +105,18 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
   void _speakCode(String code) async {
     await _flutterTts.stop();
-    final words = code.split(' ').map((word) {
-      if (word.length == 1) {
-        return word.toLowerCase();
-      }
-      return word;
-    }).toList();
+    final words = code
+        .split(' ')
+        .map((word) => word.length == 1 ? word.toLowerCase() : word)
+        .toList();
     await _flutterTts.speak(words.join(' '));
   }
 
   void _startAutoSlider() {
     _autoSlideTimer?.cancel();
-    double secondsPerSlide;
+    if (!_isPlaying) return;
 
+    double secondsPerSlide;
     switch (_currentSpeedMultiplier) {
       case 1:
         secondsPerSlide = 2.0;
@@ -132,7 +134,7 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
     _autoSlideTimer = Timer.periodic(
       Duration(milliseconds: (secondsPerSlide * 1000).toInt()),
       (timer) {
-        if (!mounted) return;
+        if (!mounted || !_isPlaying) return;
         if (_currentIndex < widget.imagePaths.length - 1) {
           _currentIndex++;
           _controller.animateToPage(
@@ -156,13 +158,27 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
       curve: Curves.easeInOut,
     );
     _speakCode(widget.codeTexts[0]);
-    Future.delayed(const Duration(milliseconds: 600), _startAutoSlider);
+    if (_isPlaying) {
+      Future.delayed(const Duration(milliseconds: 600), _startAutoSlider);
+    }
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      _isPlaying = !_isPlaying;
+    });
+    if (_isPlaying) {
+      _startAutoSlider();
+    } else {
+      _autoSlideTimer?.cancel();
+      _flutterTts.stop();
+    }
   }
 
   void _changeSpeed(int speedMultiplier) {
     setState(() => _currentSpeedMultiplier = speedMultiplier);
     _saveSpeed(speedMultiplier);
-    _startAutoSlider();
+    if (_isPlaying) _startAutoSlider();
   }
 
   @override
@@ -196,7 +212,6 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
   Widget _buildVideoPlayer() {
     if (_youtubeController == null) return const SizedBox.shrink();
-
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -367,13 +382,29 @@ class _SlidingImageViewerState extends State<SlidingImageViewer> {
 
           const SizedBox(height: 12),
 
-          IconButton(
-            icon: const Icon(
-              Icons.restart_alt,
-              size: 30,
-              color: Colors.greenAccent,
-            ),
-            onPressed: _restartSlider,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.restart_alt,
+                  size: 30,
+                  color: Colors.greenAccent,
+                ),
+                onPressed: _restartSlider,
+              ),
+              const SizedBox(width: 20),
+              IconButton(
+                icon: Icon(
+                  _isPlaying
+                      ? Icons.pause_circle_filled
+                      : Icons.play_circle_fill,
+                  size: 30,
+                  color: Colors.greenAccent,
+                ),
+                onPressed: _togglePlayPause,
+              ),
+            ],
           ),
 
           const SizedBox(height: 8),
