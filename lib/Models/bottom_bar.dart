@@ -173,6 +173,36 @@ class _BottomBarsState extends State<BottomBars> {
         child: Stack(
           children: [
             screens[_selectedIndex],
+
+            Positioned(
+              right: 16,
+              top: MediaQuery.of(context).size.height / 1.9 - 28,
+              child: GestureDetector(
+                onTap: () {
+                  print("Chat icon tapped!");
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent.withOpacity(0.9),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: Offset(2, 4),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(14),
+                  child: const Icon(
+                    Icons.chat_rounded,
+                    color: Colors.black,
+                    size: 28,
+                  ),
+                ),
+              ),
+            ),
+
             Positioned(
               left: 0,
               right: 0,
