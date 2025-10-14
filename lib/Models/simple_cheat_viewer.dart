@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class SimpleCheatViewer extends StatelessWidget {
+class SimpleCheatViewer extends StatefulWidget {
   final String? videourl;
   final String? desc;
   final String? code;
@@ -14,6 +14,48 @@ class SimpleCheatViewer extends StatelessWidget {
     required this.title,
     super.key,
   });
+
+  @override
+  State<SimpleCheatViewer> createState() => _SimpleCheatViewerState();
+}
+
+class _SimpleCheatViewerState extends State<SimpleCheatViewer> {
+  YoutubePlayerController? _youtubeController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.videourl != null && widget.videourl!.isNotEmpty) {
+      final videoId = YoutubePlayer.convertUrlToId(
+        'https://www.youtube.com/watch?v=bsKuFbSPXfg&t=37s',
+      );
+      if (videoId != null) {
+        _youtubeController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: true,
+            mute: false,
+            loop: false,
+            enableCaption: false,
+          ),
+        );
+
+        _youtubeController!.addListener(() {
+          if (_youtubeController!.value.playerState == PlayerState.ended) {
+            _youtubeController!.seekTo(Duration.zero);
+            _youtubeController!.play();
+          }
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _youtubeController?.dispose();
+    super.dispose();
+  }
 
   Widget buildDragHandle() {
     return Center(
@@ -31,24 +73,6 @@ class SimpleCheatViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    YoutubePlayerController? youtubeController;
-
-    if (videourl != null && videourl!.isNotEmpty) {
-      final videoId = YoutubePlayer.convertUrlToId(
-        'https://www.youtube.com/watch?v=bsKuFbSPXfg&t=37s',
-      );
-      if (videoId != null) {
-        youtubeController = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: const YoutubePlayerFlags(
-            autoPlay: false,
-            mute: false,
-            enableCaption: false,
-          ),
-        );
-      }
-    }
-
     final screenWidth = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
@@ -58,10 +82,10 @@ class SimpleCheatViewer extends StatelessWidget {
         children: [
           buildDragHandle(),
 
-          if (title.isNotEmpty) ...[
+          if (widget.title.isNotEmpty) ...[
             Center(
               child: Text(
-                title,
+                widget.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -73,7 +97,7 @@ class SimpleCheatViewer extends StatelessWidget {
             const SizedBox(height: 16),
           ],
 
-          if (youtubeController != null)
+          if (_youtubeController != null)
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Container(
@@ -81,7 +105,7 @@ class SimpleCheatViewer extends StatelessWidget {
                 height: screenWidth * 0.5,
                 color: Colors.black,
                 child: YoutubePlayer(
-                  controller: youtubeController,
+                  controller: _youtubeController!,
                   showVideoProgressIndicator: true,
                   progressIndicatorColor: Colors.greenAccent,
                   bottomActions: [
@@ -101,10 +125,10 @@ class SimpleCheatViewer extends StatelessWidget {
               ),
             ),
 
-          if (desc != null && desc!.isNotEmpty) ...[
+          if (widget.desc != null && widget.desc!.isNotEmpty) ...[
             const SizedBox(height: 16),
             Text(
-              desc!,
+              widget.desc!,
               textAlign: TextAlign.left,
               style: const TextStyle(
                 color: Colors.white70,
@@ -114,11 +138,11 @@ class SimpleCheatViewer extends StatelessWidget {
             ),
           ],
 
-          if (code != null && code!.isNotEmpty) ...[
+          if (widget.code != null && widget.code!.isNotEmpty) ...[
             const SizedBox(height: 20),
             Center(
               child: Text(
-                code!,
+                widget.code!,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
