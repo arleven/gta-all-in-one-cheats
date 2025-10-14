@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Presentation/Chat_Bot/chat_view.dart';
 import 'package:flutter/material.dart';
 
@@ -128,12 +129,15 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                     onPressed: () => Navigator.pop(context),
                   ),
                   const Expanded(
-                    child: Text(
-                      "Chat History",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    child: Center(
+                      child: DefaultTextStyle(
+                        child: Text("Chat History"),
+
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -157,16 +161,17 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                             color: Colors.grey.shade700,
                           ),
                           const SizedBox(height: 16),
-                          const Text(
-                            "No chat history yet",
+                          const DefaultTextStyle(
+                            child: Text("No chat history yet"),
+
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white70,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            "Your chat sessions will appear here",
+                          const DefaultTextStyle(
+                            child: Text("Your chat sessions will appear here"),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white54,
@@ -234,6 +239,27 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                                     style: const TextStyle(
                                       color: Colors.white38,
                                       fontSize: 12,
+                                    ),
+                                  ),
+                                  leading: Container(
+                                    height: 44,
+                                    width: 44,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryButton,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: AppColors.shadowBorder,
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.smart_toy_rounded,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                      onPressed: sessions.isEmpty
+                                          ? null
+                                          : _clearAll,
                                     ),
                                   ),
                                 ),
