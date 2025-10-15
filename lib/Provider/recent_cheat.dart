@@ -7,6 +7,7 @@ class RecentCheatsProvider extends ChangeNotifier {
   String _platform = 'xbox';
   String _game = 'sanandreas';
   List<CheatCode> _recentCheats = [];
+  List<Map<String, dynamic>> recentHiddenLocations = [];
 
   List<CheatCode> get recentCheats => _recentCheats;
   String get platform => _platform;
@@ -76,6 +77,22 @@ class RecentCheatsProvider extends ChangeNotifier {
     final encoded = jsonEncode(_recentCheats.map((c) => c.rawData).toList());
     await prefs.setString(key, encoded);
 
+    notifyListeners();
+  }
+
+  Future<void> loadRecentHiddenLocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    final game = prefs.getString('selectedGame') ?? 'sanandreas';
+    final key =
+        'recentHiddenLocations_${game.toLowerCase()}_${_platform.toLowerCase()}';
+    final stored = prefs.getString(key);
+    if (stored != null) {
+      recentHiddenLocations = List<Map<String, dynamic>>.from(
+        jsonDecode(stored),
+      );
+    } else {
+      recentHiddenLocations = [];
+    }
     notifyListeners();
   }
 }

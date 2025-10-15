@@ -390,6 +390,40 @@ class _PcState extends State<Pc> {
     );
   }
 
+  Future<void> saveRecentHiddenLocation(
+    BuildContext context,
+    HiddenLocation location,
+    String platform,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final game = prefs.getString('selectedGame') ?? 'sanandreas';
+    final key =
+        'recentHiddenLocations_${game.toLowerCase()}_${platform.toLowerCase()}';
+
+    List<Map<String, dynamic>> recents = [];
+
+    final stored = prefs.getString(key);
+    if (stored != null) {
+      recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
+    }
+
+    recents.removeWhere((c) => c['title'] == location.title);
+
+    recents.insert(0, {
+      'title': location.title,
+      'desc': location.desc,
+      'section': location.section,
+      'platform': platform,
+    });
+
+    if (recents.length > 15) recents = recents.sublist(0, 15);
+
+    await prefs.setString(key, jsonEncode(recents));
+
+    final provider = Provider.of<RecentCheatsProvider>(context, listen: false);
+    provider.loadRecentHiddenLocations();
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -685,7 +719,13 @@ class _PcState extends State<Pc> {
                                       ),
                                       onFavoriteToggle: (_) =>
                                           toggleFavorite(hidden.title),
-                                      onTap: () {},
+                                      onTap: () {
+                                        saveRecentHiddenLocation(
+                                          context,
+                                          hidden,
+                                          'pc',
+                                        );
+                                      },
                                     );
                                   }),
 

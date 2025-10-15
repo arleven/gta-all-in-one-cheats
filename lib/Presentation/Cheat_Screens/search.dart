@@ -1,3 +1,4 @@
+import 'package:all_gta/Models/hidden_loc_card.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
@@ -251,7 +252,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       const SizedBox(height: 16),
 
                       if (_searchQuery.isEmpty)
-                        (recentCheats.isEmpty)
+                        (recentCheats.isEmpty &&
+                                recentProvider.recentHiddenLocations.isEmpty)
                             ? SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.6,
@@ -269,58 +271,99 @@ class _SearchScreenState extends State<SearchScreen> {
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 12),
-                                    child: Text(
-                                      'Recently Viewed',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
+                                  if (recentCheats.isNotEmpty) ...[
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 12),
+                                      child: Text(
+                                        'Recent Cheat Codes',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  ...recentCheats.map((cheat) {
-                                    bool useImages =
-                                        widget.platform.toLowerCase() ==
-                                            'playstation' ||
-                                        widget.platform.toLowerCase() == 'xbox';
+                                    ...recentCheats.map((cheat) {
+                                      bool useImages =
+                                          widget.platform.toLowerCase() ==
+                                              'playstation' ||
+                                          widget.platform.toLowerCase() ==
+                                              'xbox';
+                                      String Function(String)? imageMapper;
+                                      if (widget.platform.toLowerCase() ==
+                                          'playstation') {
+                                        imageMapper = getPlaystationImagePath;
+                                      } else if (widget.platform
+                                              .toLowerCase() ==
+                                          'xbox') {
+                                        imageMapper = getXboxImagePath;
+                                      }
 
-                                    String Function(String)? imageMapper;
-                                    if (widget.platform.toLowerCase() ==
-                                        'playstation') {
-                                      imageMapper = getPlaystationImagePath;
-                                    } else if (widget.platform.toLowerCase() ==
-                                        'xbox') {
-                                      imageMapper = getXboxImagePath;
-                                    }
-
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(),
-                                      child: CheatCard(
-                                        title: cheat.title,
-                                        desc: cheat.description,
-                                        phoneNum: cheat.phoneNum,
-                                        buttons: cheat.codes
-                                            .split(',')
-                                            .map((b) => b.trim())
-                                            .toList(),
-                                        isFavorite: _favorites.contains(
-                                          cheat.title,
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 6,
                                         ),
-                                        onFavoriteToggle: (_) =>
-                                            _toggleFavorite(cheat.title),
+                                        child: CheatCard(
+                                          title: cheat.title,
+                                          desc: cheat.description,
+                                          phoneNum: cheat.phoneNum,
+                                          buttons: cheat.codes
+                                              .split(',')
+                                              .map((b) => b.trim())
+                                              .toList(),
+                                          isFavorite: _favorites.contains(
+                                            cheat.title,
+                                          ),
+                                          onFavoriteToggle: (_) =>
+                                              _toggleFavorite(cheat.title),
+                                          useImages: useImages,
+                                          imageMapper: imageMapper,
+                                          onTap: useImages
+                                              ? () =>
+                                                    _showBottomSheetWithImages(
+                                                      cheat,
+                                                    )
+                                              : null,
+                                        ),
+                                      );
+                                    }),
+                                    const SizedBox(height: 30),
+                                  ],
 
-                                        useImages: useImages,
-                                        imageMapper: imageMapper,
-                                        onTap: useImages
-                                            ? () => _showBottomSheetWithImages(
-                                                cheat,
-                                              )
-                                            : null,
+                                  if (recentProvider
+                                      .recentHiddenLocations
+                                      .isNotEmpty) ...[
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 12),
+                                      child: Text(
+                                        'Recent Hidden Locations',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    );
-                                  }),
+                                    ),
+                                    ...recentProvider.recentHiddenLocations.map(
+                                      (loc) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 6,
+                                          ),
+                                          child: HiddenLocationCard(
+                                            title: loc['title'],
+                                            desc: loc['desc'],
+                                            isFavorite: _favorites.contains(
+                                              loc['title'],
+                                            ),
+                                            onFavoriteToggle: (_) =>
+                                                _toggleFavorite(loc['title']),
+                                            onTap: () {},
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ],
                               )
                       else if (_filteredCheats.isEmpty)
