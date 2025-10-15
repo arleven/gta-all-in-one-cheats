@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
@@ -97,6 +98,7 @@ class _PlaystationState extends State<Playstation> {
     }
 
     CheatService.updateSelectedGame(currentGame);
+    HiddenLocationService.updateHiddenSelectedGame(currentGame);
     final recentProvider = context.read<RecentCheatsProvider>();
     await recentProvider.setGame(currentGame);
 
@@ -109,6 +111,7 @@ class _PlaystationState extends State<Playstation> {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
     CheatService.updateSelectedGame(savedGame);
+    HiddenLocationService.updateHiddenSelectedGame(savedGame);
   }
 
   Future<void> _loadReviewUnlockStatus() async {
@@ -337,6 +340,9 @@ class _PlaystationState extends State<Playstation> {
                   await gameProvider.setGame(_allowedGames[i]);
 
                   CheatService.updateSelectedGame(_allowedGames[i]);
+                  HiddenLocationService.updateHiddenSelectedGame(
+                    _allowedGames[i],
+                  );
 
                   final recentProvider = context.read<RecentCheatsProvider>();
                   await recentProvider.setGame(_allowedGames[i]);

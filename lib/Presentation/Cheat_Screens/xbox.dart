@@ -89,6 +89,7 @@ class _XboxScreenState extends State<XboxScreen> {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
     CheatService.updateSelectedGame(savedGame);
+    HiddenLocationService.updateHiddenSelectedGame(savedGame);
   }
 
   Future<void> _loadReviewUnlockStatus() async {
@@ -109,9 +110,10 @@ class _XboxScreenState extends State<XboxScreen> {
     setState(() => _isLoading = true);
 
     final fresh = await CheatService.fetchXboxCheats(useCacheFirst: false);
-    final hidden = await HiddenLocationService.fetchXboxHiddenLocations(
-      useCacheFirst: false,
-    );
+    final hidden = await HiddenLocationService.fetchXboxHiddenLocation();
+
+    print(fresh);
+    print(hidden);
 
     if (!mounted) return;
     setState(() {
@@ -121,7 +123,6 @@ class _XboxScreenState extends State<XboxScreen> {
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
       uniqueSections.sort();
-
       _allSections = uniqueSections;
 
       if (_allSections.isNotEmpty &&
@@ -251,6 +252,7 @@ class _XboxScreenState extends State<XboxScreen> {
     }
 
     CheatService.updateSelectedGame(currentGame);
+    HiddenLocationService.updateHiddenSelectedGame(currentGame);
     final recentProvider = context.read<RecentCheatsProvider>();
     await recentProvider.setGame(currentGame);
 
@@ -334,6 +336,9 @@ class _XboxScreenState extends State<XboxScreen> {
                   await gameProvider.setGame(_allowedGames[i]);
 
                   CheatService.updateSelectedGame(_allowedGames[i]);
+                  HiddenLocationService.updateHiddenSelectedGame(
+                    _allowedGames[i],
+                  );
 
                   final recentProvider = context.read<RecentCheatsProvider>();
                   await recentProvider.setGame(_allowedGames[i]);
@@ -421,6 +426,10 @@ class _XboxScreenState extends State<XboxScreen> {
 
       groupedCheats.putIfAbsent(cheat.section, () => []).add(cheat);
     }
+
+    final filteredHidden = _hiddenLocations
+        .where((loc) => loc.section == _selectedSection)
+        .toList();
 
     if (!_initDone) {
       return Scaffold(
@@ -692,92 +701,88 @@ class _XboxScreenState extends State<XboxScreen> {
                               ],
                             );
                           }),
-                          if (_hiddenLocations.isNotEmpty) ...[
-                            const SizedBox(height: 20),
+
+                          // --- Hidden locations section ---
+                          if (filteredHidden.isNotEmpty) ...[
+                            const SizedBox(height: 16),
                             Text(
-                              '🔎 Hidden Locations',
-                              style: const TextStyle(
+                              "Hidden Locations",
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
                             const SizedBox(height: 12),
-                            ..._hiddenLocations.map((location) {
-                              return GestureDetector(
-                                onTap: () {
-                                  // Open bottom sheet with video + desc
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (_) => FractionallySizedBox(
-                                      heightFactor: 0.75,
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(20),
-                                          ),
-                                        ),
-                                        child: SlidingImageViewer(
-                                          imagePaths: const [],
-                                          codeTexts: const [],
-                                          videourl: location.videoUrl,
-                                          desc: location.desc,
-                                          title: location.title,
+                            ...filteredHidden.map((hidden) {
+                              return Card(
+                                color: AppColors.notSelectedbg,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        hidden.title,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Card(
-                                  color: AppColors.notSelectedbg,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 6,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          location.title,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                          ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        hidden.desc,
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 13,
                                         ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          location.desc,
-                                          style: const TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 13,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      GestureDetector(
+                                        onTap: () {
+                                          // TODO: open video player or launch URL
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 8,
                                           ),
-                                        ),
-                                        if (location.videoUrl.isNotEmpty) ...[
-                                          const SizedBox(height: 10),
-                                          Text(
-                                            '▶ Watch Video',
-                                            style: const TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primaryButton,
+                                            borderRadius: BorderRadius.circular(
+                                              12,
                                             ),
                                           ),
-                                        ],
-                                      ],
-                                    ),
+                                          child: const Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.play_arrow,
+                                                color: Colors.black,
+                                              ),
+                                              SizedBox(width: 6),
+                                              Text(
+                                                'Watch Video',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
                             }),
+                            const SizedBox(height: 40),
                           ],
                         ],
                       ),

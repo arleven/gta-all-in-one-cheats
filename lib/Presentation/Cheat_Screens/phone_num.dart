@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:all_gta/Models/cheat_cards.dart';
@@ -48,9 +49,8 @@ class _PhoneNumState extends State<PhoneNum> {
   Future<void> _loadSelectedGame() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
-    CheatService.updateSelectedGame(
-      savedGame,
-    ); // <- tell CheatService which game
+    CheatService.updateSelectedGame(savedGame);
+    HiddenLocationService.updateHiddenSelectedGame(savedGame);
   }
 
   String _selectedLangCode = 'en';

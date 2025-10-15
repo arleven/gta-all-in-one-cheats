@@ -15,10 +15,10 @@ class HiddenLocation {
 
   factory HiddenLocation.fromJson(Map<String, dynamic> json) {
     return HiddenLocation(
-      section: json['section'] ?? '',
-      title: json['title'] ?? '',
-      videoUrl: json['videoUrl'] ?? '',
-      desc: json['desc'] ?? '',
+      section: json['section'] ?? json['Section'] ?? '',
+      title: json['title'] ?? json['Title'] ?? '',
+      videoUrl: json['videoUrl'] ?? json['videourl'] ?? '',
+      desc: json['desc'] ?? json['Desc'] ?? '',
       rawData: json,
     );
   }

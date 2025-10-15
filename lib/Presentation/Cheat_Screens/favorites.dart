@@ -1,6 +1,7 @@
 import 'package:all_gta/Models/cheat_cards.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +51,7 @@ class _FavoritesState extends State<Favorites> {
     final prefs = await SharedPreferences.getInstance();
     final savedGame = prefs.getString('selectedGame') ?? 'sanandreas';
     CheatService.updateSelectedGame(savedGame);
+    HiddenLocationService.updateHiddenSelectedGame(savedGame);
   }
 
   Future<void> _loadFavorites() async {

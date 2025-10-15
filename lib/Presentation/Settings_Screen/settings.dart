@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     });
     CheatService.updateSelectedGame(selectedGameKey);
+    HiddenLocationService.updateHiddenSelectedGame(selectedGameKey);
   }
 
   @override
@@ -230,6 +232,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   _saveGame(selected);
                   CheatService.updateSelectedGame(selected);
+                  HiddenLocationService.updateHiddenSelectedGame(selected);
 
                   final recentProvider = context.read<RecentCheatsProvider>();
                   await recentProvider.setGame(selected);

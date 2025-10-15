@@ -1,162 +1,115 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:all_gta/Networking/hidden_location_model.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class HiddenLocationService {
-  static List<HiddenLocation>? _cachedXboxLocations;
-  static List<HiddenLocation>? _cachedIphoneLocations;
-  static List<HiddenLocation>? _cachedPlaystationLocations;
-  static List<HiddenLocation>? _cachedPcLocations;
+  static List<HiddenLocation>? _cachedXboxCheats;
+  static List<HiddenLocation>? _cachedIphoneCheats;
+  static List<HiddenLocation>? _cachedPlaystationCheats;
+  static List<HiddenLocation>? _cachedPcCheats;
 
-  static String _selectedGame = 'vicecity';
+  static String _selectedGame = 'sanandreas';
 
-  static void updateSelectedGame(String gameKey) {
+  static void updateHiddenSelectedGame(String gameKey) {
     _selectedGame = gameKey;
-    _cachedXboxLocations = null;
-    _cachedIphoneLocations = null;
-    _cachedPlaystationLocations = null;
-    _cachedPcLocations = null;
+    // Optionally clear caches if needed
+    _cachedXboxCheats = null;
+    _cachedPlaystationCheats = null;
+    _cachedIphoneCheats = null;
+    _cachedPcCheats = null;
   }
 
   static String get _gameFolder {
     switch (_selectedGame) {
       case 'gtav':
         return 'gtav';
-      case 'sanandreas':
-        return 'sanandreas';
+      case 'vicecity':
+        return 'vicecity';
       case 'libertycity':
         return 'libertycity';
-      case 'vicecity':
+      case 'sanandreas':
       default:
-        return 'vicecity';
+        return 'sanandreas';
     }
   }
 
-  // ---------- XBOX ----------
-  static Future<List<HiddenLocation>> fetchXboxHiddenLocations({
+  static Future<List<HiddenLocation>> fetchXboxHiddenLocation({
     bool useCacheFirst = true,
   }) async {
-    if (useCacheFirst && _cachedXboxLocations != null) {
-      return _cachedXboxLocations!;
+    if (useCacheFirst && _cachedXboxCheats != null) {
+      return _cachedXboxCheats!;
     }
-
     try {
       final jsonString = await rootBundle.loadString(
-        'assets/data/$_gameFolder/hidden_locations/xbox.json',
+        'assets/data/hidden/$_gameFolder/xbox.json',
       );
       final List<dynamic> jsonList = json.decode(jsonString);
-      final locations = jsonList
-          .map((e) => HiddenLocation.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-      _cachedXboxLocations = locations;
-      return locations;
+      final cheats = jsonList.map((e) => HiddenLocation.fromJson(e)).toList();
+      _cachedXboxCheats = cheats;
+      return cheats;
     } catch (e) {
-      print('Error loading Xbox hidden locations: $e');
+      print('Error loading local JSON: $e');
       return [];
     }
   }
 
-  // ---------- iPHONE ----------
-  static Future<List<HiddenLocation>> fetchIphoneHiddenLocations({
+  static Future<List<HiddenLocation>> fetchIphoneHiddenLocation({
     bool useCacheFirst = true,
   }) async {
-    if (useCacheFirst && _cachedIphoneLocations != null) {
-      return _cachedIphoneLocations!;
+    if (useCacheFirst && _cachedIphoneCheats != null) {
+      return _cachedIphoneCheats!;
     }
-
     try {
       final jsonString = await rootBundle.loadString(
-        'assets/data/$_gameFolder/hidden_locations/iphone.json',
+        'assets/data/hidden/$_gameFolder/iphone.json',
       );
       final List<dynamic> jsonList = json.decode(jsonString);
-      final locations = jsonList
-          .map((e) => HiddenLocation.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-      _cachedIphoneLocations = locations;
-      return locations;
+      final cheats = jsonList.map((e) => HiddenLocation.fromJson(e)).toList();
+      _cachedIphoneCheats = cheats;
+      return cheats;
     } catch (e) {
-      print('Error loading iPhone hidden locations: $e');
+      print('Error loading local JSON: $e');
       return [];
     }
   }
 
-  // ---------- PLAYSTATION ----------
-  static Future<List<HiddenLocation>> fetchPlaystationHiddenLocations({
+  static Future<List<HiddenLocation>> fetchPlaystationHiddenLocation({
     bool useCacheFirst = true,
   }) async {
-    if (useCacheFirst && _cachedPlaystationLocations != null) {
-      return _cachedPlaystationLocations!;
+    if (useCacheFirst && _cachedPlaystationCheats != null) {
+      return _cachedPlaystationCheats!;
     }
-
     try {
       final jsonString = await rootBundle.loadString(
-        'assets/data/$_gameFolder/hidden_locations/playstation.json',
+        'assets/data/hidden/$_gameFolder/playstation.json',
       );
       final List<dynamic> jsonList = json.decode(jsonString);
-      final locations = jsonList
-          .map((e) => HiddenLocation.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-      _cachedPlaystationLocations = locations;
-      return locations;
+      final cheats = jsonList.map((e) => HiddenLocation.fromJson(e)).toList();
+      _cachedPlaystationCheats = cheats;
+      return cheats;
     } catch (e) {
-      print('Error loading PlayStation hidden locations: $e');
+      print('Error loading local JSON: $e');
       return [];
     }
   }
 
-  // ---------- PC ----------
-  static Future<List<HiddenLocation>> fetchPcHiddenLocations({
+  static Future<List<HiddenLocation>> fetchHiddenLocation({
     bool useCacheFirst = true,
   }) async {
-    if (useCacheFirst && _cachedPcLocations != null) {
-      return _cachedPcLocations!;
+    if (useCacheFirst && _cachedPcCheats != null) {
+      return _cachedPcCheats!;
     }
-
     try {
       final jsonString = await rootBundle.loadString(
-        'assets/data/$_gameFolder/hidden_locations/pc.json',
+        'assets/data/hidden/$_gameFolder/pc.json',
       );
       final List<dynamic> jsonList = json.decode(jsonString);
-      final locations = jsonList
-          .map((e) => HiddenLocation.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-      _cachedPcLocations = locations;
-      return locations;
+      final cheats = jsonList.map((e) => HiddenLocation.fromJson(e)).toList();
+      _cachedPcCheats = cheats;
+      return cheats;
     } catch (e) {
-      print('Error loading PC hidden locations: $e');
+      print('Error loading local JSON: $e');
       return [];
     }
-  }
-
-  // ---------- FILTER BY SECTION ----------
-  static Future<List<HiddenLocation>> fetchBySection(
-    String section, {
-    String platform = 'xbox',
-  }) async {
-    List<HiddenLocation> all;
-
-    switch (platform.toLowerCase()) {
-      case 'iphone':
-        all = await fetchIphoneHiddenLocations();
-        break;
-      case 'playstation':
-        all = await fetchPlaystationHiddenLocations();
-        break;
-      case 'pc':
-        all = await fetchPcHiddenLocations();
-        break;
-      case 'xbox':
-      default:
-        all = await fetchXboxHiddenLocations();
-        break;
-    }
-
-    return all
-        .where((e) => e.section.toLowerCase() == section.toLowerCase())
-        .toList();
   }
 }

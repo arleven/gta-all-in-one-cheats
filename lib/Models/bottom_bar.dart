@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/Presentation/Chat_Bot/chat_bot.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/favorites.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
@@ -69,6 +70,7 @@ class _BottomBarsState extends State<BottomBars> {
     }
 
     CheatService.updateSelectedGame(currentGame);
+    HiddenLocationService.updateHiddenSelectedGame(currentGame);
     final recentProvider = context.read<RecentCheatsProvider>();
     await recentProvider.setGame(currentGame);
 
@@ -141,6 +143,7 @@ class _BottomBarsState extends State<BottomBars> {
           final gameProvider = context.read<GameProvider>();
           await gameProvider.setGame(newGame);
           CheatService.updateSelectedGame(newGame);
+          HiddenLocationService.updateHiddenSelectedGame(newGame);
 
           final recentProvider = context.read<RecentCheatsProvider>();
           await recentProvider.setGame(newGame);
