@@ -137,6 +137,10 @@ flutter:
     - assets/data/gtav/
     - assets/data/libertycity/
     - assets/data/vicecity/
+    - assets/data/hidden/sanandreas/
+    - assets/data/hidden/gtav/
+    - assets/data/hidden/libertycity/
+    - assets/data/hidden/vicecity/
     - assets/ARConfig/ARConfig.plist
     - assets/images/platform_icon.png
     - assets/images/contact_icon.png

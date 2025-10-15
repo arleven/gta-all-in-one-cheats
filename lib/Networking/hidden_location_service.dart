@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:all_gta/Models/hidden_location_model.dart';
+import 'package:all_gta/Networking/hidden_location_model.dart';
 
 class HiddenLocationService {
   static List<HiddenLocation>? _cachedXboxLocations;

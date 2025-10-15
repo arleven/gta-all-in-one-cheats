@@ -13,6 +13,8 @@ import 'dart:convert';
 import 'package:all_gta/Provider/recent_cheat.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/game_provider.dart';
+import 'package:all_gta/Networking/hidden_location_model.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 
 class XboxScreen extends StatefulWidget {
   final String initialGame;
@@ -45,6 +47,7 @@ class _XboxScreenState extends State<XboxScreen> {
   List<String> _allowedGames = [];
   bool _initDone = false;
   String? _selectedPlatformKey;
+  List<HiddenLocation> _hiddenLocations = [];
 
   @override
   void initState() {
@@ -106,10 +109,14 @@ class _XboxScreenState extends State<XboxScreen> {
     setState(() => _isLoading = true);
 
     final fresh = await CheatService.fetchXboxCheats(useCacheFirst: false);
+    final hidden = await HiddenLocationService.fetchXboxHiddenLocations(
+      useCacheFirst: false,
+    );
 
     if (!mounted) return;
     setState(() {
       _allCheats = fresh;
+      _hiddenLocations = hidden;
       _isLoading = false;
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
@@ -685,6 +692,93 @@ class _XboxScreenState extends State<XboxScreen> {
                               ],
                             );
                           }),
+                          if (_hiddenLocations.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            Text(
+                              '🔎 Hidden Locations',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            ..._hiddenLocations.map((location) {
+                              return GestureDetector(
+                                onTap: () {
+                                  // Open bottom sheet with video + desc
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (_) => FractionallySizedBox(
+                                      heightFactor: 0.75,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20),
+                                          ),
+                                        ),
+                                        child: SlidingImageViewer(
+                                          imagePaths: const [],
+                                          codeTexts: const [],
+                                          videourl: location.videoUrl,
+                                          desc: location.desc,
+                                          title: location.title,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  color: AppColors.notSelectedbg,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 6,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          location.title,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          location.desc,
+                                          style: const TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        if (location.videoUrl.isNotEmpty) ...[
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            '▶ Watch Video',
+                                            style: const TextStyle(
+                                              color: Colors.greenAccent,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
                         ],
                       ),
               ),
