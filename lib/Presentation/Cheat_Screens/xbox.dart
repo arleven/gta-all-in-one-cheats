@@ -173,7 +173,7 @@ class _XboxScreenState extends State<XboxScreen> {
     await prefs.setStringList(_prefsKey, _favorites.toList());
   }
 
-  void toggleFavorite(String title) {
+  void toggleFavorite(String title) async {
     setState(() {
       if (_favorites.contains(title)) {
         _favorites.remove(title);
@@ -181,7 +181,8 @@ class _XboxScreenState extends State<XboxScreen> {
         _favorites.add(title);
       }
     });
-    _saveFavorites();
+    await _saveFavorites();
+    setState(() {});
   }
 
   String _selectedLangCode = 'en';

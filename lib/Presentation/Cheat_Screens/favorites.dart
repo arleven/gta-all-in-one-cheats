@@ -1,6 +1,8 @@
 import 'package:all_gta/Models/cheat_cards.dart';
+import 'package:all_gta/Models/hidden_loc_card.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
+import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,8 @@ class _FavoritesState extends State<Favorites> {
   bool _isLoading = true;
   String _selectedPlatform = 'xbox';
   String _selectedLangCode = 'en';
+  List<HiddenLocation> _hiddenLocations = [];
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +64,6 @@ class _FavoritesState extends State<Favorites> {
     final savedList = prefs.getStringList(prefsKey) ?? [];
 
     List<CheatCode> platformCheats = [];
-
     switch (_selectedPlatform) {
       case 'xbox':
         platformCheats = await CheatService.fetchXboxCheats(
@@ -86,9 +89,12 @@ class _FavoritesState extends State<Favorites> {
         );
     }
 
+    final hidden = await HiddenLocationService.fetchXboxHiddenLocation();
+
     setState(() {
       _favorites = savedList.toSet();
       _platformCheats = platformCheats;
+      _hiddenLocations = hidden;
       _isLoading = false;
     });
   }
@@ -173,6 +179,10 @@ class _FavoritesState extends State<Favorites> {
         .where((c) => _favorites.contains(c.title))
         .toList();
 
+    final favHidden = _hiddenLocations
+        .where((h) => _favorites.contains(h.title))
+        .toList();
+
     return SafeArea(
       child: Container(
         padding: EdgeInsets.only(bottom: 32),
@@ -187,9 +197,9 @@ class _FavoritesState extends State<Favorites> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
 
-            if (favCheats.isEmpty)
+            if (favCheats.isEmpty && favHidden.isEmpty)
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 child: Center(
@@ -200,19 +210,56 @@ class _FavoritesState extends State<Favorites> {
                   ),
                 ),
               )
-            else
-              ...favCheats.map((cheat) {
-                return CheatCard(
-                  title: _localized(cheat.title, cheat, 'title'),
-                  desc: _localized(cheat.description, cheat, 'description'),
-                  buttons: cheat.codes.split(',').map((b) => b.trim()).toList(),
-                  isFavorite: _favorites.contains(cheat.title),
-                  onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
-                  useImages: _shouldUseImages(),
-                  imageMapper: _getImageMapper(),
-                  onTap: _getOnTapAction(cheat),
-                );
-              }),
+            else ...[
+              if (favCheats.isNotEmpty) ...[
+                Text(
+                  "Cheat Codes",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ...favCheats.map(
+                  (cheat) => CheatCard(
+                    title: _localized(cheat.title, cheat, 'title'),
+                    desc: _localized(cheat.description, cheat, 'description'),
+                    buttons: cheat.codes
+                        .split(',')
+                        .map((b) => b.trim())
+                        .toList(),
+                    isFavorite: _favorites.contains(cheat.title),
+                    onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
+                    useImages: _shouldUseImages(),
+                    imageMapper: _getImageMapper(),
+                    onTap: _getOnTapAction(cheat),
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
+
+              if (favHidden.isNotEmpty) ...[
+                Text(
+                  "Hidden Locations",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ...favHidden.map(
+                  (hidden) => HiddenLocationCard(
+                    title: hidden.title,
+                    desc: hidden.desc,
+                    isFavorite: _favorites.contains(hidden.title),
+                    onFavoriteToggle: (_) => _toggleFavorite(hidden.title),
+                    onTap: () {},
+                  ),
+                ),
+              ],
+            ],
           ],
         ),
       ),
