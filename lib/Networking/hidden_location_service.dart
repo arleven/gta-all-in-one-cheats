@@ -93,7 +93,7 @@ class HiddenLocationService {
     }
   }
 
-  static Future<List<HiddenLocation>> fetchHiddenLocation({
+  static Future<List<HiddenLocation>> fetchPcHiddenLocation({
     bool useCacheFirst = true,
   }) async {
     if (useCacheFirst && _cachedPcCheats != null) {

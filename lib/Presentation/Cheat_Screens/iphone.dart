@@ -1,4 +1,6 @@
+import 'package:all_gta/Models/hidden_loc_card.dart';
 import 'package:all_gta/Models/theme_colors.dart';
+import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class _IphoneState extends State<Iphone> {
   List<String> _allowedGames = [];
   bool _initDone = false;
   String? _selectedPlatformKey;
+  List<HiddenLocation> _hiddenLocations = [];
 
   @override
   void initState() {
@@ -117,15 +120,16 @@ class _IphoneState extends State<Iphone> {
     setState(() => _isLoading = true);
 
     final fresh = await CheatService.fetchIphoneCheats(useCacheFirst: false);
+    final hidden = await HiddenLocationService.fetchIphoneHiddenLocation();
 
     if (!mounted) return;
     setState(() {
       _allCheats = fresh;
+      _hiddenLocations = hidden;
       _isLoading = false;
 
       final uniqueSections = fresh.map((e) => e.section).toSet().toList();
       uniqueSections.sort();
-
       _allSections = uniqueSections;
 
       if (_allSections.isNotEmpty &&
@@ -418,6 +422,10 @@ class _IphoneState extends State<Iphone> {
       groupedCheats.putIfAbsent(cheat.section, () => []).add(cheat);
     }
 
+    final filteredHidden = _hiddenLocations
+        .where((loc) => loc.section == _selectedSection)
+        .toList();
+
     if (!_initDone) {
       return Scaffold(
         backgroundColor: Colors.black,
@@ -665,7 +673,33 @@ class _IphoneState extends State<Iphone> {
                                     },
                                   );
                                 }),
-                                SizedBox(height: 40),
+                                // --- Hidden locations section ---
+                                if (filteredHidden.isNotEmpty) ...[
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    "Hidden Locations",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ...filteredHidden.map((hidden) {
+                                    return HiddenLocationCard(
+                                      title: hidden.title,
+                                      desc: hidden.desc,
+                                      isFavorite: _favorites.contains(
+                                        hidden.title,
+                                      ),
+                                      onFavoriteToggle: (_) =>
+                                          toggleFavorite(hidden.title),
+                                      onTap: () {},
+                                    );
+                                  }),
+
+                                  const SizedBox(height: 40),
+                                ],
                               ],
                             );
                           }),

@@ -60,7 +60,6 @@ class _XboxScreenState extends State<XboxScreen> {
     _loadSelectedGame();
     _loadReviewUnlockStatus();
     _bootstrap();
-    print(_initDone);
 
     //  _searchFocusNode.addListener(() {
     //   if (!_isMounted) return;
