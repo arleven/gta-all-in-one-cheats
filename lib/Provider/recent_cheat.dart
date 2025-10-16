@@ -22,12 +22,14 @@ class RecentCheatsProvider extends ChangeNotifier {
     _platform = prefs.getString('selectedPlatform') ?? 'xbox';
     _game = prefs.getString('selectedGame') ?? 'sanandreas';
     await loadRecentCheats();
+    await loadRecentHiddenLocations();
   }
 
   Future<void> setPlatform(String platform) async {
     if (_platform != platform) {
       _platform = platform;
       await loadRecentCheats();
+      await loadRecentHiddenLocations();
     }
   }
 
@@ -35,6 +37,7 @@ class RecentCheatsProvider extends ChangeNotifier {
     if (_game != game) {
       _game = game;
       await loadRecentCheats();
+      await loadRecentHiddenLocations();
     }
   }
 
@@ -62,6 +65,23 @@ class RecentCheatsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> loadRecentHiddenLocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key =
+        'recentHiddenLocations_${_game.toLowerCase()}_${_platform.toLowerCase()}';
+    final stored = prefs.getString(key);
+
+    if (stored != null) {
+      recentHiddenLocations = List<Map<String, dynamic>>.from(
+        jsonDecode(stored),
+      );
+    } else {
+      recentHiddenLocations = [];
+    }
+
+    notifyListeners();
+  }
+
   Future<void> addRecent(CheatCode cheat) async {
     final prefs = await SharedPreferences.getInstance();
     final key =
@@ -77,22 +97,6 @@ class RecentCheatsProvider extends ChangeNotifier {
     final encoded = jsonEncode(_recentCheats.map((c) => c.rawData).toList());
     await prefs.setString(key, encoded);
 
-    notifyListeners();
-  }
-
-  Future<void> loadRecentHiddenLocations() async {
-    final prefs = await SharedPreferences.getInstance();
-    final game = prefs.getString('selectedGame') ?? 'sanandreas';
-    final key =
-        'recentHiddenLocations_${game.toLowerCase()}_${_platform.toLowerCase()}';
-    final stored = prefs.getString(key);
-    if (stored != null) {
-      recentHiddenLocations = List<Map<String, dynamic>>.from(
-        jsonDecode(stored),
-      );
-    } else {
-      recentHiddenLocations = [];
-    }
     notifyListeners();
   }
 }

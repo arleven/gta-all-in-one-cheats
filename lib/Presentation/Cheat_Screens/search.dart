@@ -80,6 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
         listen: false,
       );
       recentProvider.setPlatform(widget.platform);
+      recentProvider.loadRecentHiddenLocations();
       _loadCheats();
     }
   }
