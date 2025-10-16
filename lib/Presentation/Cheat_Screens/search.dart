@@ -1,4 +1,6 @@
 import 'package:all_gta/Models/hidden_loc_card.dart';
+import 'package:all_gta/Models/simple_cheat_viewer.dart';
+import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
@@ -130,34 +132,84 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void _showBottomSheetWithImages(CheatCode cheat) {
-    final codes = cheat.codes.split(',').map((c) => c.trim()).toList();
-
-    String Function(String) imageMapper =
-        widget.platform.toLowerCase() == 'xbox'
-        ? getXboxImagePath
-        : getPlaystationImagePath;
-
-    final imagePaths = codes.map(imageMapper).toList();
+  _showBottomSheetWithImages(CheatCode cheat) async {
+    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
+    final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
     final codeTexts = codes;
-
-    Provider.of<RecentCheatsProvider>(context, listen: false).addRecent(cheat);
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.5,
-        child: SlidingImageViewer(
-          imagePaths: imagePaths,
-          codeTexts: codeTexts,
-          videourl: cheat.youtube,
-          desc: cheat.description,
-          title: cheat.title,
+        heightFactor: 0.75,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SlidingImageViewer(
+            imagePaths: imagePaths,
+            codeTexts: codeTexts,
+            videourl: cheat.youtube,
+            desc: cheat.description,
+            title: cheat.title,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SimpleCheatViewer(
+            videourl: hidden.videoUrl,
+            desc: hidden.desc,
+            title: hidden.title,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showBottomSheetSimple(CheatCode cheat) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.black,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: SimpleCheatViewer(
+                title: cheat.title,
+                videourl: cheat.youtube,
+                desc: cheat.description,
+                code: cheat.codes,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -319,12 +371,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                               _toggleFavorite(cheat.title),
                                           useImages: useImages,
                                           imageMapper: imageMapper,
-                                          onTap: useImages
-                                              ? () =>
-                                                    _showBottomSheetWithImages(
-                                                      cheat,
-                                                    )
-                                              : null,
+                                          onTap: () {
+                                            if (widget.platform == 'iphone' ||
+                                                widget.platform == 'pc') {
+                                              _showBottomSheetSimple(cheat);
+                                            } else {
+                                              _showBottomSheetWithImages(cheat);
+                                            }
+                                          },
                                         ),
                                       );
                                     }),
@@ -359,7 +413,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                             ),
                                             onFavoriteToggle: (_) =>
                                                 _toggleFavorite(loc['title']),
-                                            onTap: () {},
+                                            onTap: () {
+                                              _showHiddenLocationBottomSheet(
+                                                HiddenLocation(
+                                                  title: loc['title'] ?? '',
+                                                  desc: loc['desc'] ?? '',
+                                                  videoUrl:
+                                                      loc['videoUrl'] ?? '',
+                                                  section: loc['section'],
+                                                  rawData: loc,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         );
                                       },
@@ -417,9 +482,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
                                 useImages: useImages,
                                 imageMapper: imageMapper,
-                                onTap: useImages
-                                    ? () => _showBottomSheetWithImages(cheat)
-                                    : null,
+                                onTap: () {
+                                  if (widget.platform == 'iphone' ||
+                                      widget.platform == 'pc') {
+                                    _showBottomSheetSimple(cheat);
+                                  } else {
+                                    _showBottomSheetWithImages(cheat);
+                                  }
+                                },
                               ),
                             );
                           }),

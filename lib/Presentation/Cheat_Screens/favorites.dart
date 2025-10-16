@@ -1,5 +1,6 @@
 import 'package:all_gta/Models/cheat_cards.dart';
 import 'package:all_gta/Models/hidden_loc_card.dart';
+import 'package:all_gta/Models/simple_cheat_viewer.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
 import 'package:all_gta/Networking/cheat_service.dart';
 import 'package:all_gta/Networking/hidden_location_model.dart';
@@ -64,37 +65,47 @@ class _FavoritesState extends State<Favorites> {
     final savedList = prefs.getStringList(prefsKey) ?? [];
 
     List<CheatCode> platformCheats = [];
+    List<HiddenLocation> hiddenLocations = [];
+
     switch (_selectedPlatform) {
       case 'xbox':
         platformCheats = await CheatService.fetchXboxCheats(
           useCacheFirst: true,
         );
+        hiddenLocations = await HiddenLocationService.fetchXboxHiddenLocation();
         break;
       case 'playstation':
         platformCheats = await CheatService.fetchPlaystationCheats(
           useCacheFirst: true,
         );
+        hiddenLocations =
+            await HiddenLocationService.fetchPlaystationHiddenLocation();
         break;
       case 'pc':
         platformCheats = await CheatService.fetchPcCheats(useCacheFirst: true);
+        hiddenLocations = await HiddenLocationService.fetchPcHiddenLocation();
         break;
       case 'iphone':
         platformCheats = await CheatService.fetchIphoneCheats(
           useCacheFirst: true,
         );
+        hiddenLocations =
+            await HiddenLocationService.fetchIphoneHiddenLocation();
         break;
-      default:
-        platformCheats = await CheatService.fetchXboxCheats(
-          useCacheFirst: true,
-        );
     }
 
-    final hidden = await HiddenLocationService.fetchXboxHiddenLocation();
+    final favoriteCheats = platformCheats
+        .where((c) => savedList.contains(c.title))
+        .toList();
+
+    final favoriteHidden = hiddenLocations
+        .where((h) => savedList.contains(h.title))
+        .toList();
 
     setState(() {
       _favorites = savedList.toSet();
-      _platformCheats = platformCheats;
-      _hiddenLocations = hidden;
+      _platformCheats = favoriteCheats;
+      _hiddenLocations = favoriteHidden;
       _isLoading = false;
     });
   }
@@ -131,30 +142,87 @@ class _FavoritesState extends State<Favorites> {
     }
   }
 
-  VoidCallback? _getOnTapAction(CheatCode cheat) {
-    if (!_shouldUseImages()) return null;
+  _showBottomSheetWithImages(CheatCode cheat) async {
+    final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
+    final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
+    final codeTexts = codes;
 
-    return () {
-      final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
-      final imagePaths = codes.map((code) => _getImageMapper()!(code)).toList();
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.black87,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        builder: (_) => FractionallySizedBox(
-          heightFactor: 0.5,
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.75,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
           child: SlidingImageViewer(
             imagePaths: imagePaths,
-            codeTexts: codes,
-            title: cheat.title,
+            codeTexts: codeTexts,
             videourl: cheat.youtube,
+            desc: cheat.description,
+            title: cheat.title,
           ),
         ),
-      );
-    };
+      ),
+    );
+  }
+
+  _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SimpleCheatViewer(
+            videourl: hidden.videoUrl,
+            desc: hidden.desc,
+            title: hidden.title,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showBottomSheetSimple(CheatCode cheat) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.black,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: SimpleCheatViewer(
+                title: cheat.title,
+                videourl: cheat.youtube,
+                desc: cheat.description,
+                code: cheat.codes,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   String _localized(String fallback, CheatCode cheat, String fieldPrefix) {
@@ -233,7 +301,14 @@ class _FavoritesState extends State<Favorites> {
                     onFavoriteToggle: (_) => _toggleFavorite(cheat.title),
                     useImages: _shouldUseImages(),
                     imageMapper: _getImageMapper(),
-                    onTap: _getOnTapAction(cheat),
+                    onTap: () {
+                      if (_selectedPlatform == 'iphone' ||
+                          _selectedPlatform == 'pc') {
+                        _showBottomSheetSimple(cheat);
+                      } else {
+                        _showBottomSheetWithImages(cheat);
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -255,7 +330,7 @@ class _FavoritesState extends State<Favorites> {
                     desc: hidden.desc,
                     isFavorite: _favorites.contains(hidden.title),
                     onFavoriteToggle: (_) => _toggleFavorite(hidden.title),
-                    onTap: () {},
+                    onTap: () => _showHiddenLocationBottomSheet(hidden),
                   ),
                 ),
               ],
