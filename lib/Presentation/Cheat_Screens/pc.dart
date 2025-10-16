@@ -390,6 +390,31 @@ class _PcState extends State<Pc> {
     );
   }
 
+  _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SimpleCheatViewer(
+            videourl: hidden.videoUrl,
+            desc: hidden.desc,
+            title: hidden.title,
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> saveRecentHiddenLocation(
     BuildContext context,
     HiddenLocation location,
@@ -725,6 +750,7 @@ class _PcState extends State<Pc> {
                                           hidden,
                                           'pc',
                                         );
+                                        _showHiddenLocationBottomSheet(hidden);
                                       },
                                     );
                                   }),

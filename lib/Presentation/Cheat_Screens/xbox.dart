@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/hidden_loc_card.dart';
+import 'package:all_gta/Models/simple_cheat_viewer.dart';
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:flutter/material.dart';
@@ -219,6 +220,31 @@ class _XboxScreenState extends State<XboxScreen> {
             videourl: cheat.youtube,
             desc: cheat.description,
             title: cheat.title,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SimpleCheatViewer(
+            videourl: hidden.videoUrl,
+            desc: hidden.desc,
+            title: hidden.title,
           ),
         ),
       ),
@@ -759,6 +785,7 @@ class _XboxScreenState extends State<XboxScreen> {
                                     hidden,
                                     'xbox',
                                   );
+                                  _showHiddenLocationBottomSheet(hidden);
                                 },
                               );
                             }),

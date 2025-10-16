@@ -1,4 +1,5 @@
 import 'package:all_gta/Models/hidden_loc_card.dart';
+import 'package:all_gta/Models/simple_cheat_viewer.dart';
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:all_gta/Networking/hidden_location_service.dart';
@@ -446,6 +447,31 @@ class _PlaystationState extends State<Playstation> {
     );
   }
 
+  _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.60,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SimpleCheatViewer(
+            videourl: hidden.videoUrl,
+            desc: hidden.desc,
+            title: hidden.title,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -771,6 +797,7 @@ class _PlaystationState extends State<Playstation> {
                                           hidden,
                                           'playstation',
                                         );
+                                        _showHiddenLocationBottomSheet(hidden);
                                       },
                                     );
                                   }),
