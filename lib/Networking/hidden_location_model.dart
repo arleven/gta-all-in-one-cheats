@@ -17,7 +17,14 @@ class HiddenLocation {
     return HiddenLocation(
       section: json['section'] ?? json['Section'] ?? '',
       title: json['title'] ?? json['Title'] ?? '',
-      videoUrl: json['videoUrl'] ?? json['videourl'] ?? '',
+
+      videoUrl:
+          json['videoUrl'] ??
+          json['VideoUrl'] ??
+          json['videoURL'] ??
+          json['Youtube'] ??
+          json['youtube'] ??
+          '',
       desc: json['desc'] ?? json['Desc'] ?? '',
       rawData: json,
     );

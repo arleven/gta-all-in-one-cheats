@@ -143,6 +143,10 @@ class _FavoritesState extends State<Favorites> {
   }
 
   _showBottomSheetWithImages(CheatCode cheat) async {
+    debugPrint('🧩 Opening bottom sheet for: ${cheat.title}');
+    debugPrint('🎬 Video URL: ${cheat.youtube}');
+    debugPrint('📝 Description: ${cheat.description}');
+    debugPrint('💾 Code: ${cheat.codes}');
     final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
     final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
     final codeTexts = codes;
@@ -174,6 +178,10 @@ class _FavoritesState extends State<Favorites> {
   }
 
   _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    debugPrint('🧩 Opening bottom sheet for: ${hidden.title}');
+    debugPrint('🎬 Video URL: ${hidden.videoUrl}');
+    debugPrint('📝 Description: ${hidden.desc}');
+    debugPrint('💾 Code: ${hidden.section}');
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

@@ -198,7 +198,6 @@ class _XboxScreenState extends State<XboxScreen> {
   _showBottomSheetWithImages(CheatCode cheat) async {
     final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
     final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
-    final codeTexts = codes;
 
     showModalBottomSheet(
       context: context,
@@ -216,8 +215,8 @@ class _XboxScreenState extends State<XboxScreen> {
           ),
           child: SlidingImageViewer(
             imagePaths: imagePaths,
-            codeTexts: codeTexts,
-            videourl: cheat.youtube,
+            codeTexts: codes,
+            videourl: cheat.youtube ?? '',
             desc: cheat.description,
             title: cheat.title,
           ),
@@ -302,12 +301,14 @@ class _XboxScreenState extends State<XboxScreen> {
     }
 
     recents.removeWhere((c) => c['title'] == cheat.title);
+
     recents.insert(0, {
       'title': cheat.title,
       'description': cheat.description,
       'codes': cheat.codes,
       'section': cheat.section,
       'platform': platform,
+      'youtube': cheat.youtube ?? '',
     });
 
     if (recents.length > 15) recents = recents.sublist(0, 15);
@@ -445,11 +446,12 @@ class _XboxScreenState extends State<XboxScreen> {
       recents = List<Map<String, dynamic>>.from(jsonDecode(stored));
     }
 
-    recents.removeWhere((c) => c['title'] == location.title);
+    recents.removeWhere((c) => c['section'] == location.title);
 
     recents.insert(0, {
       'title': location.title,
       'desc': location.desc,
+      'videourl': location.videoUrl,
       'section': location.section,
       'platform': platform,
     });
@@ -780,12 +782,13 @@ class _XboxScreenState extends State<XboxScreen> {
                                 onFavoriteToggle: (_) =>
                                     toggleFavorite(hidden.title),
                                 onTap: () {
-                                  saveRecentHiddenLocation(
-                                    context,
-                                    hidden,
-                                    'xbox',
-                                  );
+                                  print(hidden.videoUrl);
                                   _showHiddenLocationBottomSheet(hidden);
+
+                                  Provider.of<RecentCheatsProvider>(
+                                    context,
+                                    listen: false,
+                                  ).addRecentHiddenLocation(hidden);
                                 },
                               );
                             }),

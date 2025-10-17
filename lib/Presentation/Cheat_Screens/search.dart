@@ -92,20 +92,21 @@ class _SearchScreenState extends State<SearchScreen> {
     List<CheatCode> cheats = [];
     switch (widget.platform.toLowerCase()) {
       case 'xbox':
-        cheats = await CheatService.fetchXboxCheats();
+        cheats = await CheatService.fetchXboxCheats(useCacheFirst: true);
+
         break;
       case 'playstation':
-        cheats = await CheatService.fetchPlaystationCheats();
+        cheats = await CheatService.fetchPlaystationCheats(useCacheFirst: true);
         break;
       case 'iphone':
-        cheats = await CheatService.fetchIphoneCheats();
+        cheats = await CheatService.fetchIphoneCheats(useCacheFirst: true);
         break;
       case 'pc':
-        cheats = await CheatService.fetchPcCheats();
+        cheats = await CheatService.fetchPcCheats(useCacheFirst: true);
         break;
       case 'phone':
       case 'phonenumbers':
-        cheats = await CheatService.fetchPhoneNumCheats();
+        cheats = await CheatService.fetchPhoneNumCheats(useCacheFirst: true);
         break;
     }
     setState(() {
@@ -133,6 +134,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   _showBottomSheetWithImages(CheatCode cheat) async {
+    debugPrint('🧩 Opening bottom sheet for: ${cheat.title}');
+    debugPrint('🎬 Video URL: ${cheat.youtube}');
+    debugPrint('📝 Description: ${cheat.description}');
+    debugPrint('💾 Code: ${cheat.codes}');
     final codes = cheat.codes.split(',').map((code) => code.trim()).toList();
     final imagePaths = codes.map((code) => getXboxImagePath(code)).toList();
     final codeTexts = codes;
@@ -154,7 +159,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: SlidingImageViewer(
             imagePaths: imagePaths,
             codeTexts: codeTexts,
-            videourl: cheat.youtube,
+            videourl: 'https://www.youtube.com/watch?v=ks_0L3kHwn8',
             desc: cheat.description,
             title: cheat.title,
           ),
@@ -164,6 +169,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   _showHiddenLocationBottomSheet(HiddenLocation hidden) {
+    debugPrint('🧩 Opening bottom sheet for: ${hidden.title}');
+    debugPrint('🎬 Video URL: ${hidden.videoUrl}');
+    debugPrint('📝 Description: ${hidden.desc}');
+    debugPrint('💾 Code: ${hidden.section}');
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -178,8 +187,9 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Colors.black,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
+
           child: SimpleCheatViewer(
-            videourl: hidden.videoUrl,
+            videourl: 'https://www.youtube.com/watch?v=ks_0L3kHwn8',
             desc: hidden.desc,
             title: hidden.title,
           ),
@@ -204,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Expanded(
               child: SimpleCheatViewer(
                 title: cheat.title,
-                videourl: cheat.youtube,
+                videourl: 'https://www.youtube.com/watch?v=ks_0L3kHwn8',
                 desc: cheat.description,
                 code: cheat.codes,
               ),
@@ -408,18 +418,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                           child: HiddenLocationCard(
                                             title: loc['title'],
                                             desc: loc['desc'],
+
                                             isFavorite: _favorites.contains(
                                               loc['title'],
                                             ),
                                             onFavoriteToggle: (_) =>
                                                 _toggleFavorite(loc['title']),
                                             onTap: () {
+                                              print(loc['title'] ?? '');
+                                              print(loc['desc'] ?? '');
+                                              print(loc['videourl'] ?? '');
+                                              print(loc['section']);
+                                              print(loc);
                                               _showHiddenLocationBottomSheet(
                                                 HiddenLocation(
                                                   title: loc['title'] ?? '',
                                                   desc: loc['desc'] ?? '',
                                                   videoUrl:
-                                                      loc['videoUrl'] ?? '',
+                                                      loc['videourl'] ?? '',
                                                   section: loc['section'],
                                                   rawData: loc,
                                                 ),

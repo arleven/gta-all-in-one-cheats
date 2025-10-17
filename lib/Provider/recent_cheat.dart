@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
@@ -54,6 +55,7 @@ class RecentCheatsProvider extends ChangeNotifier {
           title: data['title'] ?? '',
           description: data['description'] ?? '',
           codes: data['codes'] ?? '',
+          youtube: data['youtube'] ?? '',
           section: data['section'] ?? '',
           rawData: data,
         );
@@ -95,6 +97,34 @@ class RecentCheatsProvider extends ChangeNotifier {
     }
 
     final encoded = jsonEncode(_recentCheats.map((c) => c.rawData).toList());
+    await prefs.setString(key, encoded);
+
+    notifyListeners();
+  }
+
+  Future<void> addRecentHiddenLocation(HiddenLocation hidden) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key =
+        'recentHiddenLocations_${_game.toLowerCase()}_${_platform.toLowerCase()}';
+
+    // Remove duplicates by title
+    recentHiddenLocations.removeWhere((loc) => loc['title'] == hidden.title);
+
+    // Insert at the top
+    recentHiddenLocations.insert(0, {
+      'title': hidden.title,
+      'desc': hidden.desc,
+      'videoUrl': hidden.videoUrl,
+      'section': hidden.section,
+    });
+
+    // Keep max 10 items
+    if (recentHiddenLocations.length > 10) {
+      recentHiddenLocations = recentHiddenLocations.sublist(0, 10);
+    }
+
+    // Save back to SharedPreferences
+    final encoded = jsonEncode(recentHiddenLocations);
     await prefs.setString(key, encoded);
 
     notifyListeners();
