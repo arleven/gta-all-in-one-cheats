@@ -1,6 +1,7 @@
 import 'package:all_gta/Models/hidden_loc_card.dart';
 import 'package:all_gta/Models/simple_cheat_viewer.dart';
 import 'package:all_gta/Networking/hidden_location_model.dart';
+import 'package:all_gta/Networking/hidden_location_service.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/Networking/cheat_codes_model.dart';
@@ -34,6 +35,8 @@ class _SearchScreenState extends State<SearchScreen> {
   static const String _prefsKeyPrefix = 'favoriteCheats_';
   final List<String> _lockedSections = ['Weapons', 'Vehicle'];
   bool _hasReviewedUnlocked = false;
+  List<HiddenLocation> _allHiddenLocations = [];
+  List<HiddenLocation> _filteredHiddenLocations = [];
 
   @override
   void initState() {
@@ -102,28 +105,32 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<void> _loadCheats() async {
     setState(() => _isLoading = true);
     List<CheatCode> cheats = [];
+    List<HiddenLocation> hidden = [];
+
     switch (widget.platform.toLowerCase()) {
       case 'xbox':
         cheats = await CheatService.fetchXboxCheats(useCacheFirst: true);
-
+        hidden = await HiddenLocationService.fetchXboxHiddenLocation();
         break;
       case 'playstation':
         cheats = await CheatService.fetchPlaystationCheats(useCacheFirst: true);
+        hidden = await HiddenLocationService.fetchPlaystationHiddenLocation();
         break;
       case 'iphone':
         cheats = await CheatService.fetchIphoneCheats(useCacheFirst: true);
+        hidden = await HiddenLocationService.fetchIphoneHiddenLocation();
         break;
       case 'pc':
         cheats = await CheatService.fetchPcCheats(useCacheFirst: true);
-        break;
-      case 'phone':
-      case 'phonenumbers':
-        cheats = await CheatService.fetchPhoneNumCheats(useCacheFirst: true);
+        hidden = await HiddenLocationService.fetchPcHiddenLocation();
         break;
     }
+
     setState(() {
       _allCheats = cheats;
+      _allHiddenLocations = hidden;
       _filteredCheats = [];
+      _filteredHiddenLocations = [];
       _isLoading = false;
     });
   }
@@ -134,12 +141,19 @@ class _SearchScreenState extends State<SearchScreen> {
       _searchQuery = query;
       if (query.isEmpty) {
         _filteredCheats = [];
+        _filteredHiddenLocations = [];
       } else {
         _filteredCheats = _allCheats.where((cheat) {
           return cheat.title.toLowerCase().contains(lowerQuery) ||
               cheat.description.toLowerCase().contains(lowerQuery) ||
               cheat.codes.toLowerCase().contains(lowerQuery) ||
               cheat.section.toLowerCase().contains(lowerQuery);
+        }).toList();
+
+        _filteredHiddenLocations = _allHiddenLocations.where((hidden) {
+          return hidden.title.toLowerCase().contains(lowerQuery) ||
+              hidden.desc.toLowerCase().contains(lowerQuery) ||
+              hidden.section.toLowerCase().contains(lowerQuery);
         }).toList();
       }
     });
@@ -543,7 +557,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ],
                                 ],
                               )
-                      else if (_filteredCheats.isEmpty)
+                      else if (_filteredCheats.isEmpty &&
+                          _filteredHiddenLocations.isEmpty)
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.6,
                           child: Center(
@@ -559,129 +574,251 @@ class _SearchScreenState extends State<SearchScreen> {
                         )
                       else
                         Column(
-                          children: List.generate(_filteredCheats.length, (
-                            index,
-                          ) {
-                            final cheat = _filteredCheats[index];
-                            bool useImages =
-                                widget.platform.toLowerCase() ==
-                                    'playstation' ||
-                                widget.platform.toLowerCase() == 'xbox';
-
-                            String Function(String)? imageMapper;
-                            if (widget.platform.toLowerCase() ==
-                                'playstation') {
-                              imageMapper = getPlaystationImagePath;
-                            } else if (widget.platform.toLowerCase() ==
-                                'xbox') {
-                              imageMapper = getXboxImagePath;
-                            }
-
-                            final isLocked =
-                                _lockedSections.contains(cheat.section) &&
-                                !_hasReviewedUnlocked;
-
-                            if (isLocked) {
-                              return Card(
-                                color: AppColors.notSelectedbg,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 12,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (_filteredCheats.isNotEmpty) ...[
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  'Cheat Codes',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        cheat.title,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
+                                ),
+                              ),
+                              ..._filteredCheats.map((cheat) {
+                                bool useImages =
+                                    widget.platform.toLowerCase() ==
+                                        'playstation' ||
+                                    widget.platform.toLowerCase() == 'xbox';
+
+                                String Function(String)? imageMapper;
+                                if (widget.platform.toLowerCase() ==
+                                    'playstation') {
+                                  imageMapper = getPlaystationImagePath;
+                                } else if (widget.platform.toLowerCase() ==
+                                    'xbox') {
+                                  imageMapper = getXboxImagePath;
+                                }
+
+                                final isLocked =
+                                    _lockedSections.contains(cheat.section) &&
+                                    !_hasReviewedUnlocked;
+
+                                if (isLocked) {
+                                  return Card(
+                                    color: AppColors.notSelectedbg,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
                                       ),
-                                      const SizedBox(height: 12),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const ReviewToUnlcock(),
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cheat.title,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
                                             ),
-                                            decoration: BoxDecoration(
-                                              color: const Color.fromRGBO(
-                                                31,
-                                                69,
-                                                50,
-                                                1,
-                                              ),
-                                              border: Border.all(
-                                                width: 1.8,
-                                                color: const Color.fromRGBO(
-                                                  31,
-                                                  164,
-                                                  106,
-                                                  1,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const ReviewToUnlcock(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    69,
+                                                    50,
+                                                    1,
+                                                  ),
+                                                  border: Border.all(
+                                                    width: 1.8,
+                                                    color: const Color.fromRGBO(
+                                                      31,
+                                                      164,
+                                                      106,
+                                                      1,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child: Text(
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.unlock,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
+                                                child: Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.unlock,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
+                                  );
+                                } else {
+                                  return CheatCard(
+                                    title: cheat.title,
+                                    desc: cheat.description,
+                                    phoneNum: cheat.phoneNum,
+                                    buttons: cheat.codes
+                                        .split(',')
+                                        .map((b) => b.trim())
+                                        .toList(),
+                                    isFavorite: _favorites.contains(
+                                      cheat.title,
+                                    ),
+                                    onFavoriteToggle: (_) =>
+                                        _toggleFavorite(cheat.title),
+                                    useImages: useImages,
+                                    imageMapper: imageMapper,
+                                    onTap: () {
+                                      if (widget.platform == 'iphone' ||
+                                          widget.platform == 'pc') {
+                                        _showBottomSheetSimple(cheat);
+                                      } else {
+                                        _showBottomSheetWithImages(cheat);
+                                      }
+                                    },
+                                  );
+                                }
+                              }),
+                              const SizedBox(height: 20),
+                            ],
+
+                            if (_filteredHiddenLocations.isNotEmpty) ...[
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  'Hidden Locations',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              );
-                            } else {
-                              return CheatCard(
-                                title: cheat.title,
-                                desc: cheat.description,
-                                phoneNum: cheat.phoneNum,
-                                buttons: cheat.codes
-                                    .split(',')
-                                    .map((b) => b.trim())
-                                    .toList(),
-                                isFavorite: _favorites.contains(cheat.title),
-                                onFavoriteToggle: (_) =>
-                                    _toggleFavorite(cheat.title),
-                                useImages: useImages,
-                                imageMapper: imageMapper,
-                                onTap: () {
-                                  if (widget.platform == 'iphone' ||
-                                      widget.platform == 'pc') {
-                                    _showBottomSheetSimple(cheat);
-                                  } else {
-                                    _showBottomSheetWithImages(cheat);
-                                  }
-                                },
-                              );
-                            }
-                          }),
+                              ),
+                              ..._filteredHiddenLocations.map((hidden) {
+                                final isLocked =
+                                    _lockedSections.contains(hidden.section) &&
+                                    !_hasReviewedUnlocked;
+
+                                if (isLocked) {
+                                  return Card(
+                                    color: AppColors.notSelectedbg,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            hidden.title,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const ReviewToUnlcock(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    69,
+                                                    50,
+                                                    1,
+                                                  ),
+                                                  border: Border.all(
+                                                    width: 1.8,
+                                                    color: const Color.fromRGBO(
+                                                      31,
+                                                      164,
+                                                      106,
+                                                      1,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.unlock,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return HiddenLocationCard(
+                                  title: hidden.title,
+                                  desc: hidden.desc,
+                                  isFavorite: _favorites.contains(hidden.title),
+                                  onFavoriteToggle: (_) =>
+                                      _toggleFavorite(hidden.title),
+                                  onTap: () =>
+                                      _showHiddenLocationBottomSheet(hidden),
+                                );
+                              }),
+                            ],
+                          ],
                         ),
 
                       const SizedBox(height: 32),

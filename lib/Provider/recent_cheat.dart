@@ -9,6 +9,7 @@ class RecentCheatsProvider extends ChangeNotifier {
   String _game = 'sanandreas';
   List<CheatCode> _recentCheats = [];
   List<Map<String, dynamic>> recentHiddenLocations = [];
+  List<Map<String, dynamic>> allHiddenLocations = [];
 
   List<CheatCode> get recentCheats => _recentCheats;
   String get platform => _platform;
@@ -111,10 +112,8 @@ class RecentCheatsProvider extends ChangeNotifier {
     final key =
         'recentHiddenLocations_${_game.toLowerCase()}_${_platform.toLowerCase()}';
 
-    // Remove duplicates by title
     recentHiddenLocations.removeWhere((loc) => loc['title'] == hidden.title);
 
-    // Insert at the top
     recentHiddenLocations.insert(0, {
       'title': hidden.title,
       'desc': hidden.desc,
@@ -122,15 +121,24 @@ class RecentCheatsProvider extends ChangeNotifier {
       'section': hidden.section,
     });
 
-    // Keep max 10 items
     if (recentHiddenLocations.length > 10) {
       recentHiddenLocations = recentHiddenLocations.sublist(0, 10);
     }
 
-    // Save back to SharedPreferences
     final encoded = jsonEncode(recentHiddenLocations);
     await prefs.setString(key, encoded);
 
     notifyListeners();
+  }
+
+  Future<void> loadAllHiddenLocations() async {
+    // ✅ new method to load all hidden cheats
+    // Example: read from local storage, DB, or API
+    // Replace with your actual logic
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString('allHiddenLocations');
+    if (data != null) {
+      allHiddenLocations = List<Map<String, dynamic>>.from(jsonDecode(data));
+    }
   }
 }
