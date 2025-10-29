@@ -1,14 +1,14 @@
 class HiddenLocation {
   final String section;
   final String title;
-  final String videoUrl;
+  final String videourl;
   final String desc;
   final Map<String, dynamic> rawData;
 
   HiddenLocation({
     required this.section,
     required this.title,
-    required this.videoUrl,
+    required this.videourl,
     required this.desc,
     required this.rawData,
   });
@@ -17,14 +17,7 @@ class HiddenLocation {
     return HiddenLocation(
       section: json['section'] ?? json['Section'] ?? '',
       title: json['title'] ?? json['Title'] ?? '',
-
-      videoUrl:
-          json['videoUrl'] ??
-          json['VideoUrl'] ??
-          json['videoURL'] ??
-          json['Youtube'] ??
-          json['youtube'] ??
-          '',
+      videourl: json['videourl'] ?? json['videourl'] ?? '',
       desc: json['desc'] ?? json['Desc'] ?? '',
       rawData: json,
     );
@@ -33,7 +26,7 @@ class HiddenLocation {
   Map<String, dynamic> toJson() => {
     'section': section,
     'title': title,
-    'videoUrl': videoUrl,
+    'videourl': videourl,
     'desc': desc,
   };
 }

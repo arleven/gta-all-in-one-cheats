@@ -179,7 +179,7 @@ class _FavoritesState extends State<Favorites> {
 
   _showHiddenLocationBottomSheet(HiddenLocation hidden) {
     debugPrint('🧩 Opening bottom sheet for: ${hidden.title}');
-    debugPrint('🎬 Video URL: ${hidden.videoUrl}');
+    debugPrint('🎬 Video URL: ${hidden.videourl}');
     debugPrint('📝 Description: ${hidden.desc}');
     debugPrint('💾 Code: ${hidden.section}');
     showModalBottomSheet(
@@ -197,7 +197,7 @@ class _FavoritesState extends State<Favorites> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: SimpleCheatViewer(
-            videourl: hidden.videoUrl,
+            videourl: hidden.videourl,
             desc: hidden.desc,
             title: hidden.title,
           ),

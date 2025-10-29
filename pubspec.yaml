@@ -41,7 +41,7 @@ dependencies:
   package_info_plus: ^9.0.0
   country_codes: ^3.3.0
   flutter_native_timezone: ^2.0.0
-  appsflyer_sdk: ^6.17.1
+  appsflyer_sdk: ^6.17.7
   plist_parser: ^0.2.5
   firebase_core: ^4.0.0
   firebase_analytics: ^12.0.0

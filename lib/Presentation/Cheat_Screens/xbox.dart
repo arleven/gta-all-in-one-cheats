@@ -241,7 +241,7 @@ class _XboxScreenState extends State<XboxScreen> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: SimpleCheatViewer(
-            videourl: hidden.videoUrl,
+            videourl: hidden.videourl,
             desc: hidden.desc,
             title: hidden.title,
           ),
@@ -355,18 +355,22 @@ class _XboxScreenState extends State<XboxScreen> {
                 borderRadius: BorderRadius.circular(12),
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('selectedGame', _allowedGames[i]);
+                  final selectedGame = _allowedGames[i];
+
+                  await prefs.setString('selectedGame', selectedGame);
+
+                  if (selectedGame == 'libertycity') {
+                    await prefs.setString('selectedPlatform', 'playstation');
+                    print('⚙️ Platform switched automatically to PlayStation');
+                  }
 
                   final gameProvider = context.read<GameProvider>();
-                  await gameProvider.setGame(_allowedGames[i]);
-
-                  CheatService.updateSelectedGame(_allowedGames[i]);
-                  HiddenLocationService.updateHiddenSelectedGame(
-                    _allowedGames[i],
-                  );
+                  await gameProvider.setGame(selectedGame);
+                  CheatService.updateSelectedGame(selectedGame);
+                  HiddenLocationService.updateHiddenSelectedGame(selectedGame);
 
                   final recentProvider = context.read<RecentCheatsProvider>();
-                  await recentProvider.setGame(_allowedGames[i]);
+                  await recentProvider.setGame(selectedGame);
 
                   setState(() {});
                   Navigator.pop(context);
@@ -451,7 +455,7 @@ class _XboxScreenState extends State<XboxScreen> {
     recents.insert(0, {
       'title': location.title,
       'desc': location.desc,
-      'videourl': location.videoUrl,
+      'videourl': location.videourl,
       'section': location.section,
       'platform': platform,
     });
@@ -757,7 +761,8 @@ class _XboxScreenState extends State<XboxScreen> {
                                     },
                                   );
                                 }),
-                                SizedBox(height: 40),
+                                if (filteredHidden.isEmpty)
+                                  SizedBox(height: 40),
                               ],
                             );
                           }),
@@ -782,7 +787,7 @@ class _XboxScreenState extends State<XboxScreen> {
                                 onFavoriteToggle: (_) =>
                                     toggleFavorite(hidden.title),
                                 onTap: () {
-                                  print(hidden.videoUrl);
+                                  print(hidden.videourl);
                                   _showHiddenLocationBottomSheet(hidden);
 
                                   Provider.of<RecentCheatsProvider>(

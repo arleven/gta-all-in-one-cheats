@@ -7,13 +7,10 @@ import 'package:all_gta/Presentation/Cheat_Screens/iphone.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/pc.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/playstation.dart';
 import 'package:all_gta/Presentation/Cheat_Screens/search.dart';
-
 import 'package:all_gta/Presentation/Cheat_Screens/xbox.dart';
 import 'package:all_gta/Provider/recent_cheat.dart';
 import 'package:all_gta/l10n/app_localizations.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:all_gta/Presentation/Settings_Screen/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:all_gta/Provider/game_provider.dart';
@@ -43,6 +40,31 @@ class _BottomBarsState extends State<BottomBars> {
   void initState() {
     super.initState();
     _bootstrap();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkPlatformChange();
+    _watchForPlatformChange();
+  }
+
+  Future<void> _checkPlatformChange() async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentPlatform = prefs.getString('selectedPlatform');
+
+    if (currentPlatform != null && currentPlatform != _selectedPlatformKey) {
+      setState(() {
+        _selectedPlatformKey = currentPlatform;
+      });
+
+      final recentProvider = context.read<RecentCheatsProvider>();
+      await recentProvider.setPlatform(currentPlatform);
+
+      debugPrint(
+        'Platform auto-refreshed in BottomBars: $_selectedPlatformKey',
+      );
+    }
   }
 
   Future<void> _bootstrap() async {
@@ -79,28 +101,44 @@ class _BottomBarsState extends State<BottomBars> {
     });
   }
 
+  Future<void> _watchForPlatformChange() async {
+    final prefs = await SharedPreferences.getInstance();
+    final platform = prefs.getString('selectedPlatform');
+
+    if (platform != null && platform != _selectedPlatformKey) {
+      setState(() {
+        _selectedPlatformKey = platform;
+      });
+
+      final recentProvider = context.read<RecentCheatsProvider>();
+      await recentProvider.setPlatform(platform);
+
+      debugPrint('🌀 Platform auto-refreshed in BottomBars → $platform');
+    }
+  }
+
   Widget _getPlatformScreen() {
     switch (_selectedPlatformKey) {
       case 'playstation':
         return Playstation(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialGame,
+          initialPlatform: _selectedPlatformKey!,
         );
       case 'pc':
         return Pc(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialGame,
+          initialPlatform: _selectedPlatformKey!,
         );
       case 'iphone':
         return Iphone(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialGame,
+          initialPlatform: _selectedPlatformKey!,
         );
       case 'xbox':
       default:
         return XboxScreen(
           initialGame: widget.initialGame,
-          initialPlatform: widget.initialGame,
+          initialPlatform: _selectedPlatformKey!,
         );
     }
   }
@@ -116,9 +154,10 @@ class _BottomBarsState extends State<BottomBars> {
 
     final screens = [
       KeyedSubtree(
-        key: ValueKey(_selectedPlatformKey),
+        key: ValueKey('home_$_selectedPlatformKey'),
         child: _getPlatformScreen(),
       ),
+
       KeyedSubtree(
         key: ValueKey('search_$_selectedPlatformKey'),
         child: SearchScreen(
@@ -147,6 +186,15 @@ class _BottomBarsState extends State<BottomBars> {
 
           final recentProvider = context.read<RecentCheatsProvider>();
           await recentProvider.setGame(newGame);
+
+          String? currentPlatform = prefs.getString('selectedPlatform');
+
+          if (newGame == 'libertycity' && currentPlatform != 'playstation') {
+            await prefs.setString('selectedPlatform', 'playstation');
+            setState(() => _selectedPlatformKey = 'playstation');
+
+            await recentProvider.setPlatform('playstation');
+          }
 
           setState(() {});
         },

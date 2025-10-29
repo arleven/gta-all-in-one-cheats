@@ -237,9 +237,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   final recentProvider = context.read<RecentCheatsProvider>();
                   await recentProvider.setGame(selected);
 
+                  // 👇 Call the parent callback last, after the platform is fixed
                   widget.onGameChanged?.call(selected);
+
                   Navigator.pop(context);
                 },
+
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(

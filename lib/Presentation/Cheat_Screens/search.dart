@@ -170,7 +170,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   _showHiddenLocationBottomSheet(HiddenLocation hidden) {
     debugPrint('🧩 Opening bottom sheet for: ${hidden.title}');
-    debugPrint('🎬 Video URL: ${hidden.videoUrl}');
+    debugPrint('🎬 Video URL: ${hidden.videourl}');
     debugPrint('📝 Description: ${hidden.desc}');
     debugPrint('💾 Code: ${hidden.section}');
     showModalBottomSheet(
@@ -434,7 +434,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 HiddenLocation(
                                                   title: loc['title'] ?? '',
                                                   desc: loc['desc'] ?? '',
-                                                  videoUrl:
+                                                  videourl:
                                                       loc['videourl'] ?? '',
                                                   section: loc['section'],
                                                   rawData: loc,

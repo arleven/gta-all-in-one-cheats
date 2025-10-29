@@ -27,16 +27,20 @@ class RecentCheatsProvider extends ChangeNotifier {
   }
 
   Future<void> setPlatform(String platform) async {
+    final prefs = await SharedPreferences.getInstance();
     if (_platform != platform) {
       _platform = platform;
+      await prefs.setString('selectedPlatform', platform);
       await loadRecentCheats();
       await loadRecentHiddenLocations();
     }
   }
 
   Future<void> setGame(String game) async {
+    final prefs = await SharedPreferences.getInstance();
     if (_game != game) {
       _game = game;
+      await prefs.setString('selectedGame', game);
       await loadRecentCheats();
       await loadRecentHiddenLocations();
     }
@@ -114,7 +118,7 @@ class RecentCheatsProvider extends ChangeNotifier {
     recentHiddenLocations.insert(0, {
       'title': hidden.title,
       'desc': hidden.desc,
-      'videoUrl': hidden.videoUrl,
+      'videoUrl': hidden.videourl,
       'section': hidden.section,
     });
 

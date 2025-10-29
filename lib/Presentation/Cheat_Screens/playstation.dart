@@ -463,7 +463,7 @@ class _PlaystationState extends State<Playstation> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: SimpleCheatViewer(
-            videourl: hidden.videoUrl,
+            videourl: hidden.videourl,
             desc: hidden.desc,
             title: hidden.title,
           ),
@@ -770,6 +770,8 @@ class _PlaystationState extends State<Playstation> {
                                     },
                                   );
                                 }),
+                                if (filteredHidden.isEmpty)
+                                  const SizedBox(height: 40),
                                 // --- Hidden locations section ---
                                 if (filteredHidden.isNotEmpty) ...[
                                   const SizedBox(height: 16),
