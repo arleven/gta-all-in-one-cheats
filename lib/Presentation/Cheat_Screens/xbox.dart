@@ -780,6 +780,89 @@ class _XboxScreenState extends State<XboxScreen> {
                             ),
                             const SizedBox(height: 12),
                             ...filteredHidden.map((hidden) {
+                              final isLocked =
+                                  _lockedSections.contains(hidden.section) &&
+                                  !_hasReviewedUnlocked;
+
+                              if (isLocked) {
+                                return Card(
+                                  color: AppColors.notSelectedbg,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          hidden.title,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const ReviewToUnlcock(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 8,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: const Color.fromRGBO(
+                                                  31,
+                                                  69,
+                                                  50,
+                                                  1,
+                                                ),
+                                                border: Border.all(
+                                                  width: 1.8,
+                                                  color: const Color.fromRGBO(
+                                                    31,
+                                                    164,
+                                                    106,
+                                                    1,
+                                                  ),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Text(
+                                                AppLocalizations.of(
+                                                  context,
+                                                )!.unlock,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+
                               return HiddenLocationCard(
                                 title: hidden.title,
                                 desc: hidden.desc,

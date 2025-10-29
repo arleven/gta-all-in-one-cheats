@@ -2,6 +2,7 @@ import 'package:all_gta/Models/hidden_loc_card.dart';
 import 'package:all_gta/Models/theme_colors.dart';
 import 'package:all_gta/Networking/hidden_location_model.dart';
 import 'package:all_gta/Networking/hidden_location_service.dart';
+import 'package:all_gta/Presentation/Cheat_Screens/rate_unlock.dart';
 import 'package:all_gta/Presentation/Onboardings/review_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARReview_Manager/ARReview_Manager.dart';
@@ -751,6 +752,98 @@ class _IphoneState extends State<Iphone> {
                                   ),
                                   const SizedBox(height: 12),
                                   ...filteredHidden.map((hidden) {
+                                    final isLocked =
+                                        _lockedSections.contains(
+                                          hidden.section,
+                                        ) &&
+                                        !_hasReviewedUnlocked;
+
+                                    if (isLocked) {
+                                      return Card(
+                                        color: AppColors.notSelectedbg,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                            horizontal: 12,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                hidden.title,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 12),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            const ReviewToUnlcock(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 8,
+                                                        ),
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                            31,
+                                                            69,
+                                                            50,
+                                                            1,
+                                                          ),
+                                                      border: Border.all(
+                                                        width: 1.8,
+                                                        color:
+                                                            const Color.fromRGBO(
+                                                              31,
+                                                              164,
+                                                              106,
+                                                              1,
+                                                            ),
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                    child: Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.unlock,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+
                                     return HiddenLocationCard(
                                       title: hidden.title,
                                       desc: hidden.desc,
@@ -760,12 +853,13 @@ class _IphoneState extends State<Iphone> {
                                       onFavoriteToggle: (_) =>
                                           toggleFavorite(hidden.title),
                                       onTap: () {
-                                        saveRecentHiddenLocation(
-                                          context,
-                                          hidden,
-                                          'iphone',
-                                        );
+                                        print(hidden.videourl);
                                         _showHiddenLocationBottomSheet(hidden);
+
+                                        Provider.of<RecentCheatsProvider>(
+                                          context,
+                                          listen: false,
+                                        ).addRecentHiddenLocation(hidden);
                                       },
                                     );
                                   }),
