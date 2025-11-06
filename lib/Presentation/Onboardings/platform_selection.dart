@@ -14,6 +14,7 @@ class PlatformSelectionScreen extends StatefulWidget {
 }
 
 class _PlatformSelectionScreenState extends State<PlatformSelectionScreen> {
+  //MARK:- Methods
   int currentIndex = 0;
 
   final List<Map<String, String>> platforms = [
@@ -45,6 +46,7 @@ class _PlatformSelectionScreenState extends State<PlatformSelectionScreen> {
     );
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(

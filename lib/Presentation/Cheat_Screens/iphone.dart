@@ -31,6 +31,7 @@ class Iphone extends StatefulWidget {
 }
 
 class _IphoneState extends State<Iphone> {
+  //MARK:- Variables
   List<CheatCode> _allCheats = [];
   bool _isLoading = true;
   Set<String> _favorites = {};
@@ -49,6 +50,9 @@ class _IphoneState extends State<Iphone> {
   bool _initDone = false;
   String? _selectedPlatformKey;
   List<HiddenLocation> _hiddenLocations = [];
+  String _selectedLangCode = 'en';
+
+  //MARK:- Methods
 
   @override
   void initState() {
@@ -88,8 +92,6 @@ class _IphoneState extends State<Iphone> {
       _hasReviewedUnlocked = prefs.getBool(_reviewUnlockKey) ?? false;
     });
   }
-
-  String _selectedLangCode = 'en';
 
   Future<void> _loadSelectedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -329,6 +331,7 @@ class _IphoneState extends State<Iphone> {
     );
   }
 
+  //MARK: Widgets
   Widget buildDragHandle() {
     return Center(
       child: Container(
@@ -463,6 +466,7 @@ class _IphoneState extends State<Iphone> {
     provider.loadRecentHiddenLocations();
   }
 
+  //MARK: Widgets
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {

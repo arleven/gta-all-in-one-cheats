@@ -13,6 +13,7 @@ class HiddenCheatsScreen extends StatefulWidget {
 }
 
 class _HiddenCheatsScreenState extends State<HiddenCheatsScreen> {
+  //MARK:- Variables
   late VideoPlayerController _controller;
 
   @override
@@ -55,6 +56,8 @@ class _HiddenCheatsScreenState extends State<HiddenCheatsScreen> {
     _controller.dispose();
     super.dispose();
   }
+
+  //MARK:- Build Method
 
   @override
   Widget build(BuildContext context) {

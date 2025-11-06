@@ -14,6 +14,7 @@ class ChooseAdventureScreen extends StatefulWidget {
 
 class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
   final String _imagePath = 'assets/images/invincible.png';
+  final Set<int> _selectedIndexes = {};
 
   final List<Map<String, String>> _games = [
     {'title': 'San Andreas', 'desc': 'Classic streets, endless memories'},
@@ -21,8 +22,6 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
     {'title': 'Vice City', 'desc': 'Neon nights, 80s vibes forever'},
     {'title': 'Liberty City', 'desc': 'Concrete jungle, survive the grind'},
   ];
-
-  final Set<int> _selectedIndexes = {};
 
   void openWebView(BuildContext context, String url) {
     Navigator.of(context).push(
@@ -45,6 +44,8 @@ class _ChooseAdventureScreenState extends State<ChooseAdventureScreen> {
       ),
     );
   }
+
+  //MARK: Build Methods
 
   @override
   Widget build(BuildContext context) {

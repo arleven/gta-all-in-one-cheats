@@ -21,15 +21,17 @@ class ChatBot extends StatefulWidget {
 }
 
 class _ChatBotState extends State<ChatBot> {
+  //MARK:- Variables
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _messages = [];
-
   late OpenAI openAI;
   String? _userId;
   bool _isSendEnabled = false;
   String? _sessionId;
   bool _isNewSession = true;
+
+  //MARK:- Methods
 
   @override
   void initState() {
@@ -199,6 +201,7 @@ class _ChatBotState extends State<ChatBot> {
     super.dispose();
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 600;

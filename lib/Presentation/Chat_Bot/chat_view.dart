@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:all_gta/Models/theme_colors.dart';
 
 class ChatViewScreen extends StatelessWidget {
+  //MARK:- Variables
   final List<Map<String, String>> messages;
 
   const ChatViewScreen({super.key, required this.messages});
+
+  //MARK:- Methods
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +81,7 @@ class ChatViewScreen extends StatelessWidget {
     );
   }
 
+  //MARK:- Widgets
   Widget _buildMessageBubble(Map<String, String> msg, bool isUser, int index) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),

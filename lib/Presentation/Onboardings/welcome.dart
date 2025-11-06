@@ -12,6 +12,7 @@ class GtaWelcomeScreen extends StatefulWidget {
 }
 
 class _GtaWelcomeScreenState extends State<GtaWelcomeScreen> {
+  //MARK:- Methods
   void openWebView(BuildContext context, String url) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -34,6 +35,7 @@ class _GtaWelcomeScreenState extends State<GtaWelcomeScreen> {
     );
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(

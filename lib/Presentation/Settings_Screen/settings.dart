@@ -26,6 +26,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   String _version = '';
   String _selectedLangCode = 'en';
+  final GlobalKey _trailingKey = GlobalKey();
+  String selectedPlatformKey = 'xbox';
+  String selectedGameKey = 'sanandreas';
 
   List<String> get platformKeys {
     if (selectedGameKey == 'libertycity') {
@@ -41,16 +44,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     'iphone': AppLocalizations.of(context)!.iphone,
   };
 
-  String selectedPlatformKey = 'xbox';
-
   final Map<String, List<String>> gamePlatforms = {
     'sanandreas': ['playstation', 'xbox', 'pc', 'iphone'],
     'vicecity': ['playstation', 'xbox', 'pc', 'iphone'],
     'gtav': ['playstation', 'xbox', 'pc', 'iphone'],
     'libertycity': ['playstation'],
   };
-
-  final GlobalKey _trailingKey = GlobalKey();
 
   final List<String> gameKeys = [
     'gtav',
@@ -65,8 +64,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     'vicecity': 'Vice City',
     'libertycity': 'Liberty City',
   };
-
-  String selectedGameKey = 'sanandreas';
 
   //MARK: Custom Methods
 
@@ -671,6 +668,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  //MARK: Widgets
   Future<void> _updateSelectedLanguage(String langCode) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('selectedLang', langCode);

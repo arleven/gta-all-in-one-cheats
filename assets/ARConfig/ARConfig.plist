@@ -5,7 +5,7 @@
 	<key>Common</key>
 	<dict>
 		<key>AppName</key>
-		<string>ALL GTA Cheats</string>
+		<string>CheatPad</string>
 		<key>AppId</key>
 		<string>6748644645</string>
 		<key>AppId_Backup</key>
@@ -15,9 +15,9 @@
 		<key>AppWebsite</key>
 		<string>x</string>
 		<key>PrivacyPolicy</key>
-		<string>https://arleven.com/projects/ALL%20GTA%20Cheats/privacy</string>
+		<string>https://arleven.com/projects/CheatPad/privacy</string>
 		<key>Terms</key>
-		<string>https://arleven.com/projects/ALL%20GTA%20Cheats/tnc</string>
+		<string>https://arleven.com/projects/ACheatPad/tnc</string>
 		<key>ShareMessage</key>
 		<string>x</string>
 		<key>InstagramAccount</key>
@@ -62,7 +62,7 @@
 	<key>Support</key>
 	<dict>
 		<key>SupportAppName</key>
-		<string>San Andreas</string>
+		<string>CheatPad</string>
 		<key>email</key>
 		<string>info@arleven.com</string>
 		<key>support_topics</key>

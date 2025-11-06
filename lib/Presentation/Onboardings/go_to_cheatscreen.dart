@@ -13,6 +13,7 @@ class GoToCheatsScreen extends StatefulWidget {
 }
 
 class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
+  //MARK:- Varibles
   late VideoPlayerController _controller;
 
   @override
@@ -29,6 +30,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
           });
   }
 
+  //MARK:- Methods
   void openWebView(BuildContext context, String url) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -57,6 +59,7 @@ class _GoToCheatsScreenState extends State<GoToCheatsScreen> {
     super.dispose();
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(

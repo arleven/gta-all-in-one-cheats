@@ -13,7 +13,10 @@ class ChatHistorySheet extends StatefulWidget {
 }
 
 class _ChatHistorySheetState extends State<ChatHistorySheet> {
+  //MARK:- Variables
   List<ChatSession> sessions = [];
+
+  //MARK:- Methods
 
   @override
   void initState() {
@@ -109,6 +112,7 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
     }
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -275,6 +279,7 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
   }
 }
 
+//MARK:- Chat Session class
 class ChatSession {
   final String id;
   final List<Map<String, String>> messages;
@@ -319,6 +324,7 @@ class ChatSession {
   }
 }
 
+//MARK:- ChatStorage Class
 class ChatStorage {
   static const String key = "chat_sessions";
 

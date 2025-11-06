@@ -12,6 +12,7 @@ class ReviewOnboard extends StatefulWidget {
 }
 
 class _ReviewOnboardState extends State<ReviewOnboard> {
+  //MARK:- Methods
   int selectedStars = 5;
 
   Future<void> _showReviewAndNavigate(BuildContext context) async {
@@ -45,6 +46,7 @@ class _ReviewOnboardState extends State<ReviewOnboard> {
     }
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,6 +220,8 @@ class _ReviewOnboardState extends State<ReviewOnboard> {
       ),
     );
   }
+
+  //MARK:- Build Methods
 
   Widget _buildReviewCard({required String username, required String review}) {
     return Container(

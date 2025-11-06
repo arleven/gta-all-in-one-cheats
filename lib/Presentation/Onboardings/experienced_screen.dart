@@ -14,6 +14,8 @@ class GtaExperienceScreen extends StatefulWidget {
 class _GtaExperienceScreenState extends State<GtaExperienceScreen> {
   String selected = 'No';
 
+  //MARK:- Methods
+
   void openWebView(BuildContext context, String url) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -36,6 +38,7 @@ class _GtaExperienceScreenState extends State<GtaExperienceScreen> {
     );
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,6 +182,7 @@ class _GtaExperienceScreenState extends State<GtaExperienceScreen> {
     );
   }
 
+  //MARK:- Widgets
   Widget buildOption(String label) {
     bool isSelected = selected == label;
     return GestureDetector(

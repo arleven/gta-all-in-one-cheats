@@ -19,12 +19,15 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
+  //MARK:- Variables
   Set<String> _favorites = {};
   List<CheatCode> _platformCheats = [];
   bool _isLoading = true;
   String _selectedPlatform = 'xbox';
   String _selectedLangCode = 'en';
   List<HiddenLocation> _hiddenLocations = [];
+
+  //MARK:- Methods
 
   @override
   void initState() {
@@ -243,6 +246,7 @@ class _FavoritesState extends State<Favorites> {
     return fallback;
   }
 
+  //MARK:- Build Method
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {

@@ -12,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  //MARK:- Method
   @override
   void initState() {
     super.initState();
@@ -50,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

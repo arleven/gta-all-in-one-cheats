@@ -12,6 +12,7 @@ class SelectCategory extends StatefulWidget {
 }
 
 class _SelectCategoryState extends State<SelectCategory> {
+  //MARK:- Methods
   final List<Map<String, dynamic>> categories = [
     {
       'image': 'assets/images/fun_onb.png',
@@ -57,6 +58,7 @@ class _SelectCategoryState extends State<SelectCategory> {
     );
   }
 
+  //MARK:- Build Methods
   @override
   Widget build(BuildContext context) {
     return Scaffold(

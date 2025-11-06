@@ -13,6 +13,7 @@ class ExperienceSelectionScreen extends StatefulWidget {
 }
 
 class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> {
+  //MARK:- Methods
   int selectedIndex = 0;
 
   final List<String> imagePaths = [
@@ -43,6 +44,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> {
     );
   }
 
+  //MARK:- Build Method
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,4 @@
+import 'package:all_gta/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:all_gta/ARAppKit/ARAnalytics/User_Defaults.dart';
 import 'package:all_gta/ARAppKit/ARProduct_manager/ar_product_manager.dart';
@@ -100,9 +101,8 @@ class ARReviewManager with WidgetsBindingObserver {
   }
 
   static void showFeedbackRequestAlert(BuildContext context) {
-    final String title = "Thanks for letting us know!";
-    final String message =
-        "Would you mind sending us feedback to help us improve? 😊";
+    final String title = AppLocalizations.of(context)!.feedbackTitle;
+    final String message = AppLocalizations.of(context)!.feedbackMessage;
 
     if (Platform.isIOS) {
       // iOS style dialog
@@ -126,8 +126,8 @@ class ARReviewManager with WidgetsBindingObserver {
                     "Feedback Rating",
                   );
                 },
-                child: const Text(
-                  "Send Feedback",
+                child: Text(
+                  AppLocalizations.of(context)!.sendFeedback,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -137,8 +137,8 @@ class ARReviewManager with WidgetsBindingObserver {
               CupertinoDialogAction(
                 onPressed: () => Navigator.of(context).pop(),
                 isDestructiveAction: true,
-                child: const Text(
-                  "Close",
+                child: Text(
+                  AppLocalizations.of(context)!.close,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -169,7 +169,7 @@ class ARReviewManager with WidgetsBindingObserver {
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Close"),
+                child: Text(AppLocalizations.of(context)!.close),
               ),
             ],
           );
@@ -399,7 +399,7 @@ class ARReviewManager with WidgetsBindingObserver {
   void showWrittenReviewRequestAlertOn(BuildContext? context) {
     if (context == null) return;
 
-    final String title = "A small favor 🙏";
+    final String title = AppLocalizations.of(context)!.reviewTitle;
     final String message = writtenRequestMessage();
 
     if (Platform.isIOS) {
@@ -419,8 +419,8 @@ class ARReviewManager with WidgetsBindingObserver {
                   Navigator.of(dialogContext).pop();
                   openAppStoreForWrittenReview();
                 },
-                child: const Text(
-                  "Sure, I'll review ☺️",
+                child: Text(
+                  AppLocalizations.of(context)!.reviewAccept,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -430,8 +430,8 @@ class ARReviewManager with WidgetsBindingObserver {
               CupertinoDialogAction(
                 onPressed: () => Navigator.of(dialogContext).pop(),
                 isDestructiveAction: true,
-                child: const Text(
-                  "No, sorry",
+                child: Text(
+                  AppLocalizations.of(context)!.reviewDecline,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -456,11 +456,11 @@ class ARReviewManager with WidgetsBindingObserver {
                   Navigator.of(dialogContext).pop();
                   openAppStoreForWrittenReview();
                 },
-                child: const Text("Sure, I'll review ☺️"),
+                child: Text(AppLocalizations.of(context)!.reviewAccept),
               ),
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(),
-                child: const Text("No, sorry"),
+                child: Text(AppLocalizations.of(context)!.reviewDecline),
               ),
             ],
           );
@@ -496,7 +496,7 @@ class ARReviewManager with WidgetsBindingObserver {
     );
 
     const String? title = null;
-    const String message = "Are you liking this app so far?";
+    String message = AppLocalizations.of(context)!.howWeDoingMessage;
 
     if (Platform.isIOS) {
       // iOS style dialog
@@ -505,7 +505,7 @@ class ARReviewManager with WidgetsBindingObserver {
         builder: (BuildContext ctx) {
           return CupertinoAlertDialog(
             title: title != null ? Text(title) : null,
-            content: const Padding(
+            content: Padding(
               padding: EdgeInsets.only(top: 8.0),
               child: Text(
                 message,
@@ -523,8 +523,8 @@ class ARReviewManager with WidgetsBindingObserver {
                   ARReviewManager.shared.setUserEngagedState = true;
                   Navigator.of(ctx).pop();
                 },
-                child: const Text(
-                  "Yes, it's great",
+                child: Text(
+                  AppLocalizations.of(context)!.yesGreat,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -548,8 +548,8 @@ class ARReviewManager with WidgetsBindingObserver {
                 },
 
                 isDestructiveAction: true,
-                child: const Text(
-                  "No, it could be better",
+                child: Text(
+                  AppLocalizations.of(context)!.noCouldBeBetter,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -567,7 +567,7 @@ class ARReviewManager with WidgetsBindingObserver {
         builder: (BuildContext ctx) {
           return AlertDialog(
             title: title != null ? Text(title) : null,
-            content: const Text(message),
+            content: Text(message),
             actions: [
               TextButton(
                 onPressed: () {
@@ -579,7 +579,7 @@ class ARReviewManager with WidgetsBindingObserver {
                   ARReviewManager.shared.setUserEngagedState = true;
                   Navigator.of(ctx).pop();
                 },
-                child: const Text("Yes, it's great"),
+                child: Text(AppLocalizations.of(context)!.yesGreat),
               ),
               TextButton(
                 onPressed: () {
@@ -597,7 +597,7 @@ class ARReviewManager with WidgetsBindingObserver {
                   });
                 },
 
-                child: const Text("No, it could be better"),
+                child: Text(AppLocalizations.of(context)!.noCouldBeBetter),
               ),
             ],
           );
@@ -636,7 +636,7 @@ class ARReviewManager with WidgetsBindingObserver {
       params: {},
     );
 
-    const String message = "Are you liking this app so far?";
+    String message = AppLocalizations.of(context)!.howWeDoingMessage;
 
     if (Platform.isIOS) {
       // iOS style dialog
@@ -645,7 +645,7 @@ class ARReviewManager with WidgetsBindingObserver {
         builder: (BuildContext ctx) {
           return CupertinoAlertDialog(
             title: null,
-            content: const Padding(
+            content: Padding(
               padding: EdgeInsets.only(top: 8.0),
               child: Text(
                 message,
@@ -663,8 +663,8 @@ class ARReviewManager with WidgetsBindingObserver {
                   setUserEngagedState = true;
                   Navigator.of(ctx).pop();
                 },
-                child: const Text(
-                  "Yes, it's great",
+                child: Text(
+                  AppLocalizations.of(context)!.yesGreat,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -688,8 +688,8 @@ class ARReviewManager with WidgetsBindingObserver {
                 },
 
                 isDestructiveAction: true,
-                child: const Text(
-                  "No, it could be better",
+                child: Text(
+                  AppLocalizations.of(context)!.noCouldBeBetter,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -707,7 +707,7 @@ class ARReviewManager with WidgetsBindingObserver {
         builder: (BuildContext ctx) {
           return AlertDialog(
             title: null,
-            content: const Text(message),
+            content: Text(message),
             actions: [
               TextButton(
                 onPressed: () {
@@ -719,7 +719,7 @@ class ARReviewManager with WidgetsBindingObserver {
                   setUserEngagedState = true;
                   Navigator.of(ctx).pop();
                 },
-                child: const Text("Yes, it's great"),
+                child: Text(AppLocalizations.of(context)!.yesGreat),
               ),
               TextButton(
                 onPressed: () {
@@ -737,7 +737,7 @@ class ARReviewManager with WidgetsBindingObserver {
                   });
                 },
 
-                child: const Text("No, it could be better"),
+                child: Text(AppLocalizations.of(context)!.noCouldBeBetter),
               ),
             ],
           );
